@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Game1.Core;
+using mono.Core;
 
 namespace mono
 {
@@ -13,8 +13,9 @@ namespace mono
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        World world;
+        
         Player player;
+        Atlas atlas;
 
 
         public Game1()
@@ -32,8 +33,8 @@ namespace mono
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            world = new World();
-            player = new Player(8, 13, 13);
+            atlas = new Atlas();
+            player = new Player(atlas, new Vector2(100, 100));
             base.Initialize();
 
         }
@@ -46,10 +47,11 @@ namespace mono
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //world.texture = Content.Load<Texture2D>("test");
-            //world.position = new Vector2(0, 0);
-            player.texture = Content.Load<Texture2D>("pacman");
-            player.position = new Vector2(100, 100);
+
+            atlas.SetTexture(Content.Load<Texture2D>("pacman"), 1, 8);
+
+            player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
+            player.AddAnimation(State.Walking, new[] { 6, 7 }, true);
         }
 
         /// <summary>
@@ -72,7 +74,7 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
-            player.UpdateFrame(gameTime);
+            player.Update(gameTime);
             base.Update(gameTime);
 
         }
@@ -86,8 +88,7 @@ namespace mono
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            world.Draw(spriteBatch);
-            player.DrawAnimation(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

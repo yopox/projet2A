@@ -1,44 +1,56 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Xna.Framework.Input;
 
-namespace Game1.Core
+
+namespace mono.Core
 {
-    class Player : GameObject
+    public enum State
     {
-        public Player(int totalAnimationFrame, int frameWidth, int frameHeigth) : base(totalAnimationFrame, frameWidth, frameHeigth)
+        Idle,
+        Jumping,
+        Falling,
+        Walking
+    }
+
+    class Player : Actor
+    {
+        public Facing facing { get; set; } = Facing.Right;
+        public State state { get; set; } = State.Idle;
+        public bool canJump => state == State.Idle || state == State.Walking;
+        Dictionary<State, Animation> animations = new Dictionary<State, Animation>();
+
+        public Player(Atlas atlas, Vector2 position) : base(atlas, position)
         {
-            direction = Direction.RIGHT;
-            frameIndex = FramesIndex.RIGHT_1;
+
         }
 
-        public void Move(KeyboardState state)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            if (state.IsKeyDown(Keys.Z))
+            animations[state].Draw(spriteBatch, position);
+        }
+
+        public void AddAnimation(State state, int[] frames, bool isLooping)
+        {
+            animations.Add(state, new Animation(state, atlas, frames, isLooping));
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            animations[state].UpdateFrame(gameTime);
+        }
+
+        public void Move(KeyboardState kbState)
+        {
+            if (kbState.IsKeyDown(Keys.Z))
             {
-                direction = Direction.TOP;
+                state = State.Walking;
                 position.Y--;
-            }
-
-            if (state.IsKeyDown(Keys.Q))
-            {
-                direction = Direction.LEFT;
-                position.X--;
-            }
-
-            if (state.IsKeyDown(Keys.S))
-            {
-                direction = Direction.BOTTOM;
-                position.Y++;
-            }
-
-            if (state.IsKeyDown(Keys.D))
-            {
-                direction = Direction.RIGHT;
-                position.X++;
             }
         }
     }

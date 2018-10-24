@@ -2,6 +2,10 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Game1.Core;
+using System.Diagnostics;
+using System.IO;
+using System.Text;
+using mono.core;
 
 namespace mono
 {
@@ -15,6 +19,7 @@ namespace mono
         SpriteBatch spriteBatch;
         World world;
         Player player;
+        Tilemap map;
 
 
         public Game1()
@@ -31,9 +36,10 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+
             world = new World();
             player = new Player(8, 13, 13);
+
             base.Initialize();
 
         }
@@ -44,12 +50,19 @@ namespace mono
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
+            // Utile pour dessiner des textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //world.texture = Content.Load<Texture2D>("test");
-            //world.position = new Vector2(0, 0);
+
+            // Chargement du joueur
             player.texture = Content.Load<Texture2D>("pacman");
             player.position = new Vector2(100, 100);
+
+            // Chargement de la map
+            // TODO: Déplacer le chargement des maps dans [core.Tilemap]
+            StreamReader stream = File.OpenText("Content/maps/tilemap.json");
+            string content = stream.ReadToEnd();
+            stream.Close();
+            map = new Tilemap("Map de test", content);
         }
 
         /// <summary>

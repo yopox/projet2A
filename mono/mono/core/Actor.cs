@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace mono.Core
+namespace mono.core
 
 {
 
@@ -17,13 +17,15 @@ namespace mono.Core
     }
 
 
-    class Actor
+
+    //Création de la classe parente de nos entitées : ennemies et héros.
+    //On doit ici fournir un atlas de sprite, ainsi qu'une position.
+    public class Actor
     {
         public Atlas atlas;
         public Facing facing;
         public Vector2 position;
-        public float time;
-        public float frameTime = 0.1f;
+        public Vector2 speed = new Vector2(0,0);
 
         public Actor(Atlas atlas, Vector2 position)
         {

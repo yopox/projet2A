@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 
-namespace mono.Core
+namespace mono.core
 {
     public class Atlas
     {
@@ -19,7 +19,7 @@ namespace mono.Core
                 return _texture;
             }
         }
-
+        
         public void SetTexture(Texture2D texture, int rows, int columns)
         {
             _texture = texture;

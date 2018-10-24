@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace mono.Core
+namespace mono.core
 {
     class Animation
     {
@@ -18,8 +18,9 @@ namespace mono.Core
         private int _currentFrame;
         private bool _isReversed = false;
         private float _time;
-        public float frameTime = 0.1f;
 
+
+        //On fournit l'état que représente l'animation, l'atlas sur lequel trouver les sprites, et l'ordre d'apparition des sprites (le même que sur l'atlas)
         public Animation(State state, Atlas atlas, int[] frames, bool isLooping)
         {
             this.atlas = atlas;
@@ -29,7 +30,7 @@ namespace mono.Core
             _currentFrame = 0;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 position)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Facing facing)
         {
             //On calcule la position de la prochaine frame à afficher
             int row = (int)((float)frames[_currentFrame] / (float)atlas.Columns);
@@ -37,12 +38,21 @@ namespace mono.Core
 
             Rectangle sourceRectange = new Rectangle(atlas.Width * column, atlas.Heigth * row, atlas.Width, atlas.Heigth);
             Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White);
 
-            
+            //On flip les sprites suivant la direction à laquelle le joueur fait face
+            if(facing == Facing.Left)
+            {
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+            }
+            else
+            {
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White);
+            }
+
+
         }
 
-        public void UpdateFrame(GameTime gameTime)
+        public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
         {
             _time += (float)gameTime.ElapsedGameTime.TotalSeconds; //calcul le temps depuis le dernier appel de update
             if(_time >= frameTime)
@@ -73,10 +83,10 @@ namespace mono.Core
         }
 
 
-        //Reset the current frame and reverse the array frame if necessary
+        //Reset l'animation
         public void Reset()
         {
-            _currentFrame = frames[0];
+            _currentFrame = 0;
             if (_isReversed)
             {
                 Array.Reverse(frames);

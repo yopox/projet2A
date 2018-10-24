@@ -42,6 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="core\AnimatedAtlas.cs" />
+    <Compile Include="core\GameObject.cs" />
+    <Compile Include="core\Player.cs" />
+    <Compile Include="core\World.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -42,10 +42,10 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="core\AnimatedAtlas.cs" />
-    <Compile Include="core\GameObject.cs" />
+    <Compile Include="core\Animation.cs" />
     <Compile Include="core\Player.cs" />
-    <Compile Include="core\World.cs" />
+    <Compile Include="core\Atlas.cs" />
+    <Compile Include="core\Actor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,9 +63,6 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="LevelPipelineExtension">
-      <HintPath>..\LPE\LevelPipelineExtension\bin\Release\LevelPipelineExtension.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />

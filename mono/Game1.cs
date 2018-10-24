@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Game1.Core;
-using System.Diagnostics;
 using System.IO;
-using System.Text;
 using mono.core;
 
 namespace mono
@@ -17,9 +14,10 @@ namespace mono
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        World world;
+        
         Player player;
         Tilemap map;
+        Atlas atlas;
 
 
         public Game1()
@@ -36,10 +34,9 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
-
-            world = new World();
-            player = new Player(8, 13, 13);
-
+            // TODO: Add your initialization logic here
+            atlas = new Atlas();
+            player = new Player(atlas, new Vector2(100, 100));
             base.Initialize();
 
         }
@@ -53,16 +50,16 @@ namespace mono
             // Utile pour dessiner des textures
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Chargement du joueur
-            player.texture = Content.Load<Texture2D>("pacman");
-            player.position = new Vector2(100, 100);
-
             // Chargement de la map
             // TODO: Déplacer le chargement des maps dans [core.Tilemap]
             StreamReader stream = File.OpenText("Content/maps/tilemap.json");
             string content = stream.ReadToEnd();
             stream.Close();
             map = new Tilemap("Map de test", content);
+
+            atlas.SetTexture(Content.Load<Texture2D>("pacman"), 1, 8);
+            player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
+            player.AddAnimation(State.Walking, new[] { 6, 7 }, true);
         }
 
         /// <summary>
@@ -85,7 +82,7 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
-            player.UpdateFrame(gameTime);
+            player.Update(gameTime);
             base.Update(gameTime);
 
         }
@@ -99,8 +96,7 @@ namespace mono
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            world.Draw(spriteBatch);
-            player.DrawAnimation(spriteBatch);
+            player.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

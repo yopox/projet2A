@@ -66,6 +66,10 @@ namespace mono
             stream.Close();
             map = new Tilemap("Map de test", content);
 
+            // On récupère les tiles de terrain
+            int[][] tiles = map.GetTiles("terrain");
+
+            // TODO: Afficher les tiles
             atlas.SetTexture(Content.Load<Texture2D>("pacman"), 13, 13, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
             player.AddAnimation(State.Walking, new[] { 6, 7 }, true);

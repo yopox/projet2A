@@ -67,6 +67,14 @@ namespace mono.core
             _columns = (_texture.Width - 2 * _border) / (_width + _padding);
         }
 
+        public Rectangle GetTexture(int indexElement)
+        {
+            int row = (int)((float)indexElement / (float)this.Columns);
+            int column = indexElement % this.Columns;
+
+            return new Rectangle(_width * column, _heigth * row, _width, _heigth);
+        }
+
     }
 }
 

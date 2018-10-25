@@ -18,6 +18,7 @@ namespace mono
         Player player;
         Tilemap map;
         Atlas atlas;
+        RenderTarget2D renderTarget;
 
 
         public Game1()
@@ -37,6 +38,14 @@ namespace mono
             // TODO: Add your initialization logic here
             atlas = new Atlas();
             player = new Player(atlas, new Vector2(100, 100));
+            renderTarget = new RenderTarget2D(
+                GraphicsDevice,
+                GraphicsDevice.PresentationParameters.BackBufferWidth,
+                GraphicsDevice.PresentationParameters.BackBufferHeight,
+                false,
+                GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+
             base.Initialize();
 
         }
@@ -96,6 +105,7 @@ namespace mono
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+            //player.Renderer(graphics, renderTarget, spriteBatch);
             player.Draw(spriteBatch);
             spriteBatch.End();
 

@@ -33,20 +33,21 @@ namespace mono.core
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Facing facing)
         {
             //On calcule la position de la prochaine frame à afficher
-            int row = (int)((float)frames[_currentFrame] / (float)atlas.Columns);
-            int column = frames[_currentFrame] % atlas.Columns;
+            //int row = (int)((float)frames[_currentFrame] / (float)atlas.Columns);
+            //int column = frames[_currentFrame] % atlas.Columns;
 
-            Rectangle sourceRectange = new Rectangle(atlas.Width * column, atlas.Heigth * row, atlas.Width, atlas.Heigth);
+            Rectangle sourceRectangle = atlas.GetTexture(frames[_currentFrame]);
+            //Rectangle sourceRectange = new Rectangle(atlas.Width * column, atlas.Heigth * row, atlas.Width, atlas.Heigth);
             Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
 
             //On flip les sprites suivant la direction à laquelle le joueur fait face
             if(facing == Facing.Left)
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White);
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White);
             }
 
 
@@ -91,6 +92,13 @@ namespace mono.core
             {
                 Array.Reverse(frames);
             }
+        }
+
+        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch, Vector2 position, Facing facing)
+        {
+            graphicsDevice.SetRenderTarget(renderTarget);
+            this.Draw(spriteBatch, position, facing);
+            graphicsDevice.SetRenderTarget(null);
         }
     }
 }

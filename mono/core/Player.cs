@@ -72,5 +72,10 @@ namespace mono.core
 
 
         }
+
+        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch)
+        {
+            animations[state].Renderer(graphicsDevice, renderTarget, spriteBatch, position, facing);
+        }
     }
 }

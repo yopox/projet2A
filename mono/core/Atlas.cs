@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework;
 
 namespace mono.core
 {
+    /// <summary>
+    /// Représentation d'une spritesheet
+    /// </summary>
     public class Atlas
     {
         private Texture2D _texture;
@@ -19,9 +22,6 @@ namespace mono.core
                 return _texture;
             }
         }
-        
-
-
 
         private int _rows;
         private int _columns;
@@ -55,6 +55,15 @@ namespace mono.core
             _columns = (_texture.Width - 2 * _border) / (_width + _padding);
         }
 
+
+        /// <summary>
+        /// Attribue une texture et ses caractéristiques à l'atlas
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="heigth"></param>
+        /// <param name="padding">padding entre les sprites</param>
+        /// <param name="border">Offset à gauche et en haut de la texture</param>
         public void SetTexture(Texture2D texture, int width, int heigth, int padding, int border)
         {
             _texture = texture;
@@ -65,6 +74,20 @@ namespace mono.core
 
             _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
             _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+        }
+
+
+        /// <summary>
+        /// Calcul la position du rectangle correspondant à un sprite
+        /// </summary>
+        /// <param name="indexElement">Index d'un sprite</param>
+        /// <returns></returns>
+        public Rectangle GetSourceRectangle(int indexElement)
+        {
+            int row = (int)((float)indexElement / (float)this.Columns);
+            int column = indexElement % this.Columns;
+
+            return new Rectangle(_width * column, _heigth * row, _width, _heigth);
         }
 
     }

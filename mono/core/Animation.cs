@@ -10,17 +10,23 @@ namespace mono.core
 {
     class Animation
     {
-        public Atlas atlas;
-        public int[] frames;
-        public bool isLooping = true;
-        public State state;
+
+        public Atlas atlas;//Spritesheet d'un actor
+        public int[] frames;//Frames de l'animation
+        public bool isLooping = true;//Répétition de l'animation
+        public State state;//Etat que représente l'animation
 
         private int _currentFrame;
-        private bool _isReversed = false;
-        private float _time;
+        private bool _isReversed = false;//frames inversé
+        private float _time;//Durée d'affichage d'un sprite
 
-
-        //On fournit l'état que représente l'animation, l'atlas sur lequel trouver les sprites, et l'ordre d'apparition des sprites (le même que sur l'atlas)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state">Etat de l'acteur</param>
+        /// <param name="atlas">Spritesheet d'un actor</param>
+        /// <param name="frames">Frames de l'animation</param>
+        /// <param name="isLooping">Booléen représentant la condition de répétition de l'animation</param>
         public Animation(State state, Atlas atlas, int[] frames, bool isLooping)
         {
             this.atlas = atlas;
@@ -30,34 +36,43 @@ namespace mono.core
             _currentFrame = 0;
         }
 
+
+        /// <summary>
+        /// Dessine un sprite
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="position">position de l'acteur</param>
+        /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
         public void Draw(SpriteBatch spriteBatch, Vector2 position, Facing facing)
         {
-            //On calcule la position de la prochaine frame à afficher
-            int row = (int)((float)frames[_currentFrame] / (float)atlas.Columns);
-            int column = frames[_currentFrame] % atlas.Columns;
 
-            Rectangle sourceRectange = new Rectangle(atlas.Width * column, atlas.Heigth * row, atlas.Width, atlas.Heigth);
+            Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
             Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
 
             //On flip les sprites suivant la direction à laquelle le joueur fait face
             if(facing == Facing.Left)
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectange, Color.White);
+            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White);
             }
 
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="gameTime">Temps de rafraichissement du jeu</param>
+        /// <param name="frameTime">Temps d'affichage minimal d'un sprite</param>
         public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
         {
             _time += (float)gameTime.ElapsedGameTime.TotalSeconds; //calcul le temps depuis le dernier appel de update
             if(_time >= frameTime)
             {
-                this.Next();
+                this.Next();//Appel du prochain sprite à afficher
                 _time = 0f;
             }
 
@@ -65,7 +80,9 @@ namespace mono.core
         }
         
 
-        //Change l'index _currentFrame si nécessaire
+        /// <summary>
+        /// Calcul de la prochaine frame à afficher
+        /// </summary>
         public void Next()
         {
             int lastIndex = frames.Length - 1;
@@ -83,7 +100,9 @@ namespace mono.core
         }
 
 
-        //Reset l'animation
+        /// <summary>
+        /// Reset de l'animation
+        /// </summary>
         public void Reset()
         {
             _currentFrame = 0;
@@ -91,6 +110,14 @@ namespace mono.core
             {
                 Array.Reverse(frames);
             }
+        }
+
+
+        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch, Vector2 position, Facing facing)
+        {
+            graphicsDevice.SetRenderTarget(renderTarget);
+            this.Draw(spriteBatch, position, facing);
+            graphicsDevice.SetRenderTarget(null);
         }
     }
 }

@@ -31,21 +31,41 @@ namespace mono.core
 
         }
 
+        /// <summary>
+        /// Dessine un actor
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch)
         {
             animations[state].Draw(spriteBatch, position, facing);
         }
 
+
+        /// <summary>
+        /// Rajoute une animation au player
+        /// </summary>
+        /// <param name="state">Etat de l'animation</param>
+        /// <param name="frames">Nombre de frames de l'animation</param>
+        /// <param name="isLooping">condition de répétition de l'animation</param>
         public void AddAnimation(State state, int[] frames, bool isLooping)
         {
             animations.Add(state, new Animation(state, atlas, frames, isLooping));
         }
 
+        /// <summary>
+        /// Update la frame de l'animation
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             animations[state].UpdateFrame(gameTime);
         }
 
+
+        /// <summary>
+        /// Mapping des touches
+        /// </summary>
+        /// <param name="kbState">Etat du clavier</param>
         public void Move(KeyboardState kbState)
         {
             //if(kbState.GetPressedKeys().Length == 0)
@@ -71,6 +91,11 @@ namespace mono.core
             }
 
 
+        }
+
+        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch)
+        {
+            animations[state].Renderer(graphicsDevice, renderTarget, spriteBatch, position, facing);
         }
     }
 }

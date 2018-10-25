@@ -9,21 +9,19 @@ using Microsoft.Xna.Framework.Graphics;
 namespace mono.core
 
 {
-
     public enum Facing
     {
         Left,
         Right
     }
 
-
-
-    //Création de la classe parente de nos entitées : ennemies et héros.
-    //On doit ici fournir un atlas de sprite, ainsi qu'une position.
+    /// <summary>
+    /// Classe parent de tous les acteurs
+    /// </summary>
     public class Actor
     {
-        public Atlas atlas;
-        public Facing facing;
+        public Atlas atlas;//Spritesheet de l'acteur
+        public Facing facing;//Direction à laquelle l'acteur fait face
         public Vector2 position;
         public Vector2 speed = new Vector2(0,0);
 

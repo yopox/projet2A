@@ -19,43 +19,53 @@ namespace mono.core
                 return _texture;
             }
         }
-
-        public void SetTexture(Texture2D texture, int rows, int columns)
-        {
-            _texture = texture;
-            _width = _texture.Width / columns;
-            _heigth = _texture.Height / rows;
-            Columns = columns;
-            Rows = rows;
-        }
+        
 
 
-        public int Rows { get; set; }
-        public int Columns { get; set; }
-        private int totalFrames;
+
+        private int _rows;
+        private int _columns;
+        private int _padding;
+        private int _border;
+
         private int _width;
         private int _heigth;
 
-
         public int Width { get => _width;}
         public int Heigth { get => _heigth; }
+        public int Rows { get => _rows; set => _rows = value; }
+        public int Columns { get => _columns; set => _columns = value; }
+        public int Padding { get => _padding; set => _padding = value; }
+        public int Border { get => _border; set => _border = value; }
 
         public Atlas()
         {
 
         }
 
-        public Atlas(Texture2D texture, int rows, int columns)
+        public Atlas(Texture2D texture, int width, int heigth, int padding, int border)
         {
-            Rows = rows;
-            Columns = columns;
-            totalFrames = rows * columns;
             _texture = texture;
+            _width = width;
+            _heigth = heigth;
+            _padding = padding;
+            _border = border;
 
-            _width = _texture.Width / Columns;
-            _heigth = _texture.Height / Rows;
+            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
+            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
         }
 
+        public void SetTexture(Texture2D texture, int width, int heigth, int padding, int border)
+        {
+            _texture = texture;
+            _width = width;
+            _heigth = heigth;
+            _padding = padding;
+            _border = border;
+
+            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
+            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+        }
 
     }
 }

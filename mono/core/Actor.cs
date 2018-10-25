@@ -17,13 +17,15 @@ namespace mono.core
     }
 
 
-    class Actor
+
+    //Création de la classe parente de nos entitées : ennemies et héros.
+    //On doit ici fournir un atlas de sprite, ainsi qu'une position.
+    public class Actor
     {
         public Atlas atlas;
         public Facing facing;
         public Vector2 position;
-        public float time;
-        public float frameTime = 0.1f;
+        public Vector2 speed = new Vector2(0,0);
 
         public Actor(Atlas atlas, Vector2 position)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace mono.core
         /// <param name="state">Etat de l'acteur</param>
         /// <param name="atlas">Spritesheet d'un actor</param>
         /// <param name="frames">Frames de l'animation</param>
-        /// <param name="isLooping">Booléen représentant la condition de répétition de l'animation</param>
+        /// <param name="isLooping">condition de répétition de l'animation</param>
         public Animation(State state, Atlas atlas, int[] frames, bool isLooping)
         {
             this.atlas = atlas;
@@ -52,11 +53,13 @@ namespace mono.core
             //On flip les sprites suivant la direction à laquelle le joueur fait face
             if(facing == Facing.Left)
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+                //spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.FlipHorizontally, 0f);
+
             }
             else
             {
-            spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White);
+            spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
             }
 
 
@@ -70,13 +73,11 @@ namespace mono.core
         public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
         {
             _time += (float)gameTime.ElapsedGameTime.TotalSeconds; //calcul le temps depuis le dernier appel de update
-            if(_time >= frameTime)
+            if(_time > frameTime)
             {
                 this.Next();//Appel du prochain sprite à afficher
                 _time = 0f;
             }
-
-
         }
         
 
@@ -90,7 +91,7 @@ namespace mono.core
             {
                 _currentFrame++;
             }
-            if (isLooping && _currentFrame == frames.Length - 1)
+            else if (isLooping && _currentFrame == frames.Length - 1)
             {
                 Array.Reverse(frames);
                 _isReversed = !_isReversed;

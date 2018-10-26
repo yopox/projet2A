@@ -95,7 +95,7 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
-            player.Update(gameTime);
+            player.Update(gameTime, 0.1f);
             base.Update(gameTime);
 
         }

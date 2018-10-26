@@ -15,20 +15,65 @@ namespace mono.core
         Right
     }
 
+    public enum State
+    {
+        Idle,
+        Jumping,
+        Falling,
+        Walking
+    }
+
     /// <summary>
     /// Classe parent de tous les acteurs
     /// </summary>
     public class Actor
     {
         public Atlas atlas;//Spritesheet de l'acteur
+        public State state { get; set; } = State.Idle;
+        internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
+
         public Facing facing;//Direction à laquelle l'acteur fait face
         public Vector2 position;
         public Vector2 speed = new Vector2(0,0);
+
+        private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();
+
 
         public Actor(Atlas atlas, Vector2 position)
         {
             this.atlas = atlas;
             this.position = position;
+        }
+
+
+        /// <summary>
+        /// Update la frame de l'animation
+        /// </summary>
+        /// <param name="gameTime"></param>
+        /// <param name="frameTime">durée d'une frame</param>
+        public void Update(GameTime gameTime, float frameTime = 0.1f)
+        {
+            Animations[state].UpdateFrame(gameTime, frameTime);
+        }
+
+        /// <summary>
+        /// Rajoute une animation au player
+        /// </summary>
+        /// <param name="state">Etat de l'animation</param>
+        /// <param name="frames">Nombre de frames de l'animation</param>
+        /// <param name="isLooping">condition de répétition de l'animation</param>
+        public void AddAnimation(State state, int[] frames, bool isLooping)
+        {
+            Animations.Add(state, new Animation(state, atlas, frames, isLooping));
+        }
+
+        /// <summary>
+        /// Dessine un actor
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            Animations[state].Draw(spriteBatch, position, facing);
         }
 
     }

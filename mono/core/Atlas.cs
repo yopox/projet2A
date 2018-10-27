@@ -27,7 +27,6 @@ namespace mono.core
         private int _columns;
         private int _padding;
         private int _border;
-
         private int _width;
         private int _heigth;
 
@@ -54,7 +53,6 @@ namespace mono.core
             _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
             _columns = (_texture.Width - 2 * _border) / (_width + _padding);
         }
-
 
         /// <summary>
         /// Attribue une texture et ses caractéristiques à l'atlas

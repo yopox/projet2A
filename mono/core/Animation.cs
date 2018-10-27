@@ -12,14 +12,14 @@ namespace mono.core
     class Animation
     {
 
-        public Atlas atlas;//Spritesheet d'un actor
-        public int[] frames;//Frames de l'animation
-        public bool isLooping = true;//Répétition de l'animation
-        public State state;//Etat que représente l'animation
+        public Atlas atlas; //Spritesheet d'un actor
+        public int[] frames; //Frames de l'animation
+        public bool isLooping = true; //Répétition de l'animation
+        public State state; //Etat que représente l'animation
 
         private int _currentFrame;
-        private bool _isReversed = false;//frames inversé
-        private float _time;//Durée d'affichage d'un sprite
+        private bool _isReversed = false; //frames inversé
+        private float _time; //Durée d'affichage d'un sprite
 
         /// <summary>
         /// 

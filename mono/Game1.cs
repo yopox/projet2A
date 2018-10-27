@@ -16,9 +16,11 @@ namespace mono
         SpriteBatch spriteBatch;
         
         Player player;
-        Tilemap map;
         Atlas atlas;
         RenderTarget2D renderTarget;
+
+        Tilemap map;
+        Atlas tileset;
 
 
         public Game1()
@@ -37,6 +39,7 @@ namespace mono
         {
             // TODO: Add your initialization logic here
             atlas = new Atlas();
+            tileset = new Atlas();
             player = new Player(atlas, new Vector2(100, 100));
             renderTarget = new RenderTarget2D(
                 GraphicsDevice,
@@ -68,8 +71,8 @@ namespace mono
 
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
+            tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
 
-            // TODO: Afficher les tiles
             atlas.SetTexture(Content.Load<Texture2D>("pacman"), 13, 13, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
             player.AddAnimation(State.Walking, new[] { 6, 7 }, true);
@@ -108,9 +111,10 @@ namespace mono
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
             //player.Renderer(graphics, renderTarget, spriteBatch);
             player.Draw(spriteBatch);
+            map.Draw(spriteBatch, tileset);
             spriteBatch.End();
 
             base.Draw(gameTime);

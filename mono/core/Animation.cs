@@ -51,7 +51,7 @@ namespace mono.core
             Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
 
             //On flip les sprites suivant la direction à laquelle le joueur fait face
-            if(facing == Facing.Left)
+            if (facing == Facing.Left)
             {
                 //spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.FlipHorizontally, 0f);
@@ -59,7 +59,7 @@ namespace mono.core
             }
             else
             {
-            spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
             }
 
 
@@ -73,13 +73,13 @@ namespace mono.core
         public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
         {
             _time += (float)gameTime.ElapsedGameTime.TotalSeconds; //calcul le temps depuis le dernier appel de update
-            if(_time > frameTime)
+            if (_time > frameTime)
             {
                 this.Next();//Appel du prochain sprite à afficher
                 _time = 0f;
             }
         }
-        
+
 
         /// <summary>
         /// Calcul de la prochaine frame à afficher
@@ -87,7 +87,7 @@ namespace mono.core
         public void Next()
         {
             int lastIndex = frames.Length - 1;
-            if(_currentFrame != lastIndex)
+            if (_currentFrame != lastIndex)
             {
                 _currentFrame++;
             }
@@ -97,7 +97,7 @@ namespace mono.core
                 _isReversed = !_isReversed;
                 _currentFrame = 0;
             }
-            
+
         }
 
 

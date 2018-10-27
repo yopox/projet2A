@@ -87,7 +87,7 @@ namespace mono.core
             int row = (int)((float)indexElement / (float)this.Columns);
             int column = indexElement % this.Columns;
 
-            return new Rectangle(_width * column, _heigth * row, _width, _heigth);
+            return new Rectangle(_border + (_width + _padding) * column, _border + (_heigth + _padding) * row, _width, _heigth);
         }
 
     }

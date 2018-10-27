@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json.Linq;
 
 namespace mono.core
@@ -72,6 +74,7 @@ namespace mono.core
         /// <summary>
         /// Permet de récupérer les tiles correspondant à la couche de nom <param>layerName</param>.
         /// </summary>
+        /// <param name="layerName">Nom du calque</param>
         public int[][] GetTiles(string layerName)
         {
             foreach (Layer layer in layers)
@@ -83,6 +86,27 @@ namespace mono.core
             }
 
             return new int[height][];
+        }
+
+        /// <summary>
+        /// Dessine la tilemap.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        /// <param name="atlas">Atlas du tileset.</param>
+        public void Draw(SpriteBatch spriteBatch, Atlas atlas)
+        {
+            var terrain = GetTiles("terrain");
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width; j++)
+                {
+                    if (terrain[i][j] > 0)
+                    spriteBatch.Draw(atlas.Texture, new Vector2(j * 32, i * 32),
+                                     atlas.GetSourceRectangle(terrain[i][j] - 1),
+                                     Color.White, 0f, new Vector2(0, 0), 2f,
+                                     SpriteEffects.None, 0f);
+                }
+            }
         }
 
     }

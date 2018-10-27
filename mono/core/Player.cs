@@ -37,21 +37,25 @@ namespace mono.core
                 _newFacing = Facing.Right;
                 _newState = State.Walking;
 
-                position.X ++;
+                speed.X += 30;
             }
             else if(kbState.IsKeyDown(Keys.Q))
             {
                 //Animations[state].Reset();
                 _newFacing = Facing.Left;
                 _newState = State.Walking;
-                position.X--;
+                speed.X -= 30;
             }
-            else if (speed.X == 0 && speed.Y == 0)
+            else if (Vector2.Distance(speed, new Vector2(0,0)) < 2)
             {
-                //Animations[state].Reset();
-                _newState = State.Idle;
+                speed = new Vector2(0, 0);
+                state = State.Idle;
             }
 
+            if (kbState.IsKeyDown(Keys.Z))
+            {
+                speed.Y -= 30;
+            }
 
             //Reset de l'ancienne animation si on change d'état ou de direction
             if(_newState != state || _newFacing != facing)
@@ -60,6 +64,10 @@ namespace mono.core
                 state = _newState;
                 facing = _newFacing;
             }
+
+            speed.X *= 0.7f;
+
+            Debug.Print(speed.ToString());
 
 
         }

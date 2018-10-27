@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 using mono.core;
+using mono.PhysicsEngine;
 
 namespace mono
 {
@@ -21,6 +22,8 @@ namespace mono
 
         Tilemap map;
         Atlas tileset;
+
+        Physics physics;
 
 
         public Game1()
@@ -48,6 +51,9 @@ namespace mono
                 false,
                 GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
+
+            physics = new Physics(new Vector2(0, 3));
+            physics.addActor(player);
 
             base.Initialize();
 
@@ -98,6 +104,7 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
+            physics.Update(gameTime);
             player.Update(gameTime, 0.1f);
             base.Update(gameTime);
 

@@ -17,10 +17,11 @@ namespace mono
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
+        Texture2D texture;
         
         Player player;
         Atlas atlas;
-        Texture2D texture;
 
         Tilemap map;
         Atlas tileset;
@@ -33,9 +34,9 @@ namespace mono
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Rendering.Init(ref graphics);
-            Rendering.setResolution(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
-            Rendering.setVirtualResolution(100, 1000);
+            Rendering.Init(ref graphics, 982, 452);
+            Rendering.setResolution(1800, 1000);
+            Rendering.setVirtualResolution(100, 452);
         }
 
         /// <summary>
@@ -75,11 +76,10 @@ namespace mono
             stream.Close();
             map = new Tilemap("Map de test", content);
 
+            texture = Content.Load<Texture2D>("Graphics/tileset");
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
-
-            texture = Content.Load<Texture2D>("Graphics/tileset");
 
             atlas.SetTexture(Content.Load<Texture2D>("pacman"), 13, 13, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
@@ -122,9 +122,9 @@ namespace mono
             Rendering.BeginDraw();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
-            //spriteBatch.Begin();
             player.Draw(spriteBatch);
             map.Draw(spriteBatch, tileset);
+            //spriteBatch.Draw(texture, Vector2.Zero);
             spriteBatch.End();
 
             base.Draw(gameTime);

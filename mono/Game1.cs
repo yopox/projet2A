@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
+using mono.RenderEngine;
+using System.Diagnostics;
 
 namespace mono
 {
@@ -18,7 +20,7 @@ namespace mono
         
         Player player;
         Atlas atlas;
-        RenderTarget2D renderTarget;
+        Texture2D texture;
 
         Tilemap map;
         Atlas tileset;
@@ -26,10 +28,14 @@ namespace mono
         Physics physics;
 
 
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Rendering.Init(ref graphics);
+            Rendering.setResolution(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Rendering.setVirtualResolution(100, 1000);
         }
 
         /// <summary>
@@ -40,19 +46,13 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            
+
             atlas = new Atlas();
             tileset = new Atlas();
-            player = new Player(atlas, new Vector2(100, 100));
-            renderTarget = new RenderTarget2D(
-                GraphicsDevice,
-                GraphicsDevice.PresentationParameters.BackBufferWidth,
-                GraphicsDevice.PresentationParameters.BackBufferHeight,
-                false,
-                GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
+            player = new Player(atlas, new Vector2(300, 100));
 
-            physics = new Physics(new Vector2(0, 3));
+            physics = new Physics(new Vector2(0, 1000));
             physics.addActor(player);
 
             base.Initialize();
@@ -78,6 +78,8 @@ namespace mono
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
+
+            texture = Content.Load<Texture2D>("Graphics/tileset");
 
             atlas.SetTexture(Content.Load<Texture2D>("pacman"), 13, 13, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
@@ -116,10 +118,11 @@ namespace mono
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
+            Rendering.BeginDraw();
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null);
-            //player.Renderer(graphics, renderTarget, spriteBatch);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
+            //spriteBatch.Begin();
             player.Draw(spriteBatch);
             map.Draw(spriteBatch, tileset);
             spriteBatch.End();

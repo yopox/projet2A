@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace mono.PhysicsEngine
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Actor actor in _actors)
             {
-                actor.acceleration += gravity;
+                actor.acceleration = gravity - 15 * actor.speed;
                 actor.speed += deltaT * actor.acceleration;
                 actor.position += deltaT * actor.speed;
             }

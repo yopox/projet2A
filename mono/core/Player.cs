@@ -26,7 +26,7 @@ namespace mono.core
         private Facing _newFacing;
 
         /// <summary>
-        /// Mapping des touches
+        /// Mapping des touches et de leurs effets
         /// </summary>
         /// <param name="kbState">Etat du clavier</param>
         public void Move(KeyboardState kbState)
@@ -46,9 +46,9 @@ namespace mono.core
                 _newState = State.Walking;
                 speed.X -= 30;
             }
-            else if (Vector2.Distance(speed, new Vector2(0,0)) < 2)
+            else if (Math.Abs(speed.X) < 2)
             {
-                speed = new Vector2(0, 0);
+                speed.X = 0;
                 state = State.Idle;
             }
 
@@ -65,10 +65,7 @@ namespace mono.core
                 facing = _newFacing;
             }
 
-            speed.X *= 0.7f;
-
-            Debug.Print(speed.ToString());
-
+            //speed.X *= 0.7f;
 
         }
 

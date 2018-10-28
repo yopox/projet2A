@@ -18,7 +18,6 @@ namespace mono
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Texture2D texture;
         
         Player player;
         Atlas atlas;
@@ -35,8 +34,8 @@ namespace mono
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics, 982, 452);
-            Rendering.setResolution(1800, 1000);
-            Rendering.setVirtualResolution(100, 452);
+            Rendering.setResolution(1280, 720);
+            Rendering.setVirtualResolution(1000, 500);
         }
 
         /// <summary>
@@ -53,7 +52,7 @@ namespace mono
             tileset = new Atlas();
             player = new Player(atlas, new Vector2(300, 100));
 
-            physics = new Physics(new Vector2(0, 1000));
+            physics = new Physics(new Vector2(0, 0));
             physics.addActor(player);
 
             base.Initialize();
@@ -76,7 +75,6 @@ namespace mono
             stream.Close();
             map = new Tilemap("Map de test", content);
 
-            texture = Content.Load<Texture2D>("Graphics/tileset");
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
@@ -106,8 +104,10 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
-            physics.Update(gameTime);
             player.Update(gameTime, 0.1f);
+
+            physics.Update(gameTime);
+
             base.Update(gameTime);
 
         }
@@ -124,7 +124,6 @@ namespace mono
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
             player.Draw(spriteBatch);
             map.Draw(spriteBatch, tileset);
-            //spriteBatch.Draw(texture, Vector2.Zero);
             spriteBatch.End();
 
             base.Draw(gameTime);

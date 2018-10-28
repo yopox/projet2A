@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-
+using System.Diagnostics;
 
 namespace mono.core
 {
@@ -33,9 +33,9 @@ namespace mono.core
         public int Width { get => _width;}
         public int Heigth { get => _heigth; }
         public int Rows { get => _rows; set => _rows = value; }
-        public int Columns { get => _columns; set => _columns = value; }
-        public int Padding { get => _padding; set => _padding = value; }
-        public int Border { get => _border; set => _border = value; }
+        public int Columns { get => _columns;}
+        public int Padding { get => _padding;}
+        public int Border { get => _border;}
 
         public Atlas()
         {

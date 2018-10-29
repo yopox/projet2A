@@ -19,7 +19,7 @@ namespace mono
         SpriteBatch spriteBatch;
 
         Texture2D texture;
-        
+
         Player player;
         Atlas atlas;
 
@@ -27,16 +27,15 @@ namespace mono
         Atlas tileset;
 
         Physics physics;
-
-
+        Camera camera;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Rendering.Init(ref graphics, 982, 452);
-            Rendering.setResolution(1800, 1000);
-            Rendering.setVirtualResolution(100, 452);
+            Rendering.Init(ref graphics, 640, 360);
+            Rendering.setResolution(640, 360);
+            Rendering.setVirtualResolution(640, 360);
         }
 
         /// <summary>
@@ -47,17 +46,18 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
-            
-
             atlas = new Atlas();
             tileset = new Atlas();
-            player = new Player(atlas, new Vector2(300, 100));
+            // TODO: Lire la position initiale de la tilemap
+            var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
+            player = new Player(atlas, initialPos);
 
-            physics = new Physics(new Vector2(0, 1000));
+            physics = new Physics(new Vector2(0, 0));
             physics.addActor(player);
 
-            base.Initialize();
+            camera = new Camera();
 
+            base.Initialize();
         }
 
         /// <summary>
@@ -81,9 +81,9 @@ namespace mono
             int[][] tiles = map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
 
-            atlas.SetTexture(Content.Load<Texture2D>("pacman"), 13, 13, 0, 0);
-            player.AddAnimation(State.Idle, new[] { 0, 1 }, true);
-            player.AddAnimation(State.Walking, new[] { 6, 7 }, true);
+            atlas.SetTexture(Content.Load<Texture2D>("Graphics/mario"), 16, 30, 0, 0);
+            player.AddAnimation(State.Idle, new[] { 0 }, false);
+            player.AddAnimation(State.Walking, new[] { 0, 1, 2 }, true);
         }
 
         /// <summary>
@@ -108,8 +108,8 @@ namespace mono
             player.Move(Keyboard.GetState());
             physics.Update(gameTime);
             player.Update(gameTime, 0.1f);
+            camera.Update(player);
             base.Update(gameTime);
-
         }
 
         /// <summary>
@@ -122,9 +122,8 @@ namespace mono
             Rendering.BeginDraw();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
-            player.Draw(spriteBatch);
-            map.Draw(spriteBatch, tileset);
-            //spriteBatch.Draw(texture, Vector2.Zero);
+            player.Draw(spriteBatch, camera);
+            map.Draw(spriteBatch, tileset, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

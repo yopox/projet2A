@@ -93,17 +93,21 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="atlas">Atlas du tileset.</param>
-        public void Draw(SpriteBatch spriteBatch, Atlas atlas)
+        public void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
         {
             var terrain = GetTiles("terrain");
-            for (int i = 0; i < height; i++)
+            int leftTile = (int)camera._center.X / 16;
+            int topTile = (int)camera._center.Y / 16;
+
+
+            for (int i = topTile - 10; i < topTile + 10; i++)
             {
-                for (int j = 0; j < width; j++)
+                for (int j = leftTile - 25; j < leftTile + 25; j++)
                 {
-                    if (terrain[i][j] > 0)
-                    spriteBatch.Draw(atlas.Texture, new Vector2(j * 32, i * 32),
+                    if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 16, i * 16) - camera._center,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
-                                     Color.White, 0f, new Vector2(0, 0), 2f,
+                                     Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
                 }
             }

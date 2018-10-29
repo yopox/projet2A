@@ -1,14 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
 
 namespace mono.core
 {
-    class Camera
+    public class Camera
     {
-        public Actor[] actors;
+
+        public Vector2 _center = new Vector2(0, 0);
+
+        /// <summary>
+        /// Change la position de la caméra selon la position du joueur.
+        /// </summary>
+        /// <param name="player">Player.</param>
+        public void Update(Player player)
+        {
+            _center.X = player.position.X;
+            _center.Y = player.position.Y;
+        }
 
     }
 }

@@ -76,7 +76,7 @@ namespace mono.core
         /// <param name="camera"></param>
         public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            var displayPos = Util.center + (position - camera._center);
+            var displayPos = Util.center + (position - camera.center);
             Animations[state].Draw(spriteBatch, displayPos, facing);
         }
 

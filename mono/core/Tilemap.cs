@@ -47,8 +47,12 @@ namespace mono.core
     /// </summary>
     public class Tilemap
     {
-        readonly int height = 0;
-        readonly int width = 0;
+        readonly int height;
+        readonly int width;
+
+        int xTileRange = Util.width / Util.tileSize / 2 + 1;
+        int yTileRange = Util.height / Util.tileSize / 2 + 2;
+
         List<Layer> layers = new List<Layer>();
 
         public Tilemap(string name, string json)
@@ -96,16 +100,16 @@ namespace mono.core
         public void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
         {
             var terrain = GetTiles("terrain");
-            int leftTile = (int)camera._center.X / 16;
-            int topTile = (int)camera._center.Y / 16;
+            int centerTileX = (int)camera.center.X / 16;
+            int centerTileY = (int)camera.center.Y / 16;
 
 
-            for (int i = topTile - 10; i < topTile + 10; i++)
+            for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
             {
-                for (int j = leftTile - 25; j < leftTile + 25; j++)
+                for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 16, i * 16) - camera._center,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 16, i * 16) - camera.center,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);

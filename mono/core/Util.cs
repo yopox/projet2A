@@ -7,6 +7,7 @@ namespace mono.core
     {
         static public int width = 640;
         static public int height = 360;
+        static public int tileSize = 16;
         static public Vector2 center = new Vector2(width / 2, height / 2);
     }
 }

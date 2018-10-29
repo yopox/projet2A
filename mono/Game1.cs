@@ -118,8 +118,8 @@ namespace mono
             Rendering.BeginDraw();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
-            player.Draw(spriteBatch, camera);
             map.Draw(spriteBatch, tileset, camera);
+            player.Draw(spriteBatch, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

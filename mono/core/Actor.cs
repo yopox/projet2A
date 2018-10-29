@@ -32,9 +32,9 @@ namespace mono.core
         public State state { get; set; } = State.Idle;
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
 
-        public Facing facing;//Direction à laquelle l'acteur fait face
+        public Facing facing = Facing.Right;//Direction à laquelle l'acteur fait face
         public Vector2 position;
-        public Vector2 speed = new Vector2(0,0);
+        public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
 
         private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();

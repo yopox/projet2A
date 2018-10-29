@@ -17,9 +17,6 @@ namespace mono
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        Texture2D texture;
-
         Player player;
         Atlas atlas;
 
@@ -76,7 +73,6 @@ namespace mono
             stream.Close();
             map = new Tilemap("Map de test", content);
 
-            texture = Content.Load<Texture2D>("Graphics/tileset");
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
@@ -106,9 +102,9 @@ namespace mono
                 Exit();
 
             player.Move(Keyboard.GetState());
-            physics.Update(gameTime);
             player.Update(gameTime, 0.1f);
             camera.Update(player);
+            physics.Update(gameTime);
             base.Update(gameTime);
         }
 

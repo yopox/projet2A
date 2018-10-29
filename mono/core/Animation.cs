@@ -112,13 +112,5 @@ namespace mono.core
                 Array.Reverse(frames);
             }
         }
-
-
-        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch, Vector2 position, Facing facing)
-        {
-            graphicsDevice.SetRenderTarget(renderTarget);
-            this.Draw(spriteBatch, position, facing);
-            graphicsDevice.SetRenderTarget(null);
-        }
     }
 }

@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace mono.core
 {
-    
+
 
     public class Player : Actor
     {
         public bool canJump => state == State.Idle || state == State.Walking;
-       
+
         public Player(Atlas atlas, Vector2 position) : base(atlas, position)
         {
             facing = Facing.Right;
@@ -39,17 +39,17 @@ namespace mono.core
 
                 speed.X += 30;
             }
-            else if(kbState.IsKeyDown(Keys.Q))
+            else if (kbState.IsKeyDown(Keys.Q))
             {
                 //Animations[state].Reset();
                 _newFacing = Facing.Left;
                 _newState = State.Walking;
                 speed.X -= 30;
             }
-            else if (Math.Abs(speed.X) < 2)
+            else if (Math.Abs(speed.X) < 50)
             {
                 speed.X = 0;
-                state = State.Idle;
+                _newState = State.Idle;
             }
 
             if (kbState.IsKeyDown(Keys.Z))
@@ -58,20 +58,12 @@ namespace mono.core
             }
 
             //Reset de l'ancienne animation si on change d'état ou de direction
-            if(_newState != state || _newFacing != facing)
+            if (_newState != state || _newFacing != facing)
             {
                 Animations[state].Reset();
                 state = _newState;
                 facing = _newFacing;
             }
-
-            //speed.X *= 0.7f;
-
-        }
-
-        public void Renderer(GraphicsDevice graphicsDevice, RenderTarget2D renderTarget, SpriteBatch spriteBatch)
-        {
-            Animations[state].Renderer(graphicsDevice, renderTarget, spriteBatch, position, facing);
         }
     }
 }

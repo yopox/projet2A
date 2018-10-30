@@ -54,6 +54,8 @@
     <Compile Include="core\Tilemap.cs" />
     <Compile Include="RenderEngine\Rendering.cs" />
     <Compile Include="core\Util.cs" />
+    <Compile Include="core\MapObject.cs" />
+    <Compile Include="core\Warp.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

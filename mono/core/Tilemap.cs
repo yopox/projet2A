@@ -47,6 +47,9 @@ namespace mono.core
     /// </summary>
     public class Tilemap
     {
+
+        public static int[] warpGids = new int[] { 761 };
+
         readonly int height;
         readonly int width;
 
@@ -54,6 +57,8 @@ namespace mono.core
         int yTileRange = Util.height / Util.tileSize / 2 + 2;
 
         List<Layer> layers = new List<Layer>();
+        List<MapObject> objects = new List<MapObject>();
+        List<Warp> warps = new List<Warp>();
 
         public Tilemap(string name, string json)
         {
@@ -65,14 +70,44 @@ namespace mono.core
             width = map.width;
 
             // Couches
-            // TODO: Supporter les object layers
             foreach (dynamic layer in map.layers)
             {
                 if (layer.type == "tilelayer")
                 {
                     layers.Add(new Layer(layer, width, height));
                 }
+                else if (layer.type == "objectgroup")
+                {
+                    foreach(dynamic obj in layer.objects)
+                    {
+                        int x = obj.x;
+                        int y = obj.y;
+                        int id = obj.gid;
+                        if (warpGids.Contains(id))
+                        {
+                            string type = obj.type;
+                            Debug.Print(type);
+                            warps.Add(new Warp(id, new Vector2(x, y), type));
+                        }
+                        else
+                        {
+                            objects.Add(new MapObject(id, new Vector2(x, y)));
+                        }
+                    }
+                }
             }
+        }
+
+        internal Vector2 GetStartingPosition()
+        {
+            foreach (Warp warp in warps)
+            {
+                if (warp.type == "starting")
+                {
+                    return warp.position - new Vector2(0, 30);
+                }
+            }
+            return new Vector2(0, 0);
         }
 
         /// <summary>
@@ -103,6 +138,29 @@ namespace mono.core
             int centerTileX = (int)camera.center.X / 16;
             int centerTileY = (int)camera.center.Y / 16;
 
+            for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
+            {
+                for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
+                {
+                    if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 16, i * 16) - camera.center,
+                                     atlas.GetSourceRectangle(terrain[i][j] - 1),
+                                     Color.White, 0f, new Vector2(0, 0), 1f,
+                                     SpriteEffects.None, 0f);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Dessine la tilemap.
+        /// </summary>
+        /// <param name="spriteBatch">Sprite batch.</param>
+        /// <param name="atlas">Atlas du tileset.</param>
+        public void DrawDecor(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        {
+            var terrain = GetTiles("decor");
+            int centerTileX = (int)camera.center.X / 16;
+            int centerTileY = (int)camera.center.Y / 16;
 
             for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
             {
@@ -113,6 +171,22 @@ namespace mono.core
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
+                }
+            }
+        }
+
+        public void DrawObjects(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        {
+            int centerTileX = (int)camera.center.X / 16;
+            int centerTileY = (int)camera.center.Y / 16;
+
+            foreach (MapObject mobj in objects)
+            {
+                // Condition sur la position de l'objet
+                if (Math.Abs(mobj.position.X - camera.center.X) < xTileRange * 16 &&
+                    Math.Abs(mobj.position.Y - camera.center.Y) < yTileRange * 16)
+                {
+                    mobj.Draw(spriteBatch, atlas, camera);
                 }
             }
         }

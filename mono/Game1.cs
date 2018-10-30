@@ -72,6 +72,7 @@ namespace mono
             string content = stream.ReadToEnd();
             stream.Close();
             map = new Tilemap("Map de test", content);
+            player.position = map.GetStartingPosition();
 
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
@@ -118,8 +119,10 @@ namespace mono
             Rendering.BeginDraw();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
-            map.Draw(spriteBatch, tileset, camera);
+            map.DrawDecor(spriteBatch, tileset, camera);
             player.Draw(spriteBatch, camera);
+            map.Draw(spriteBatch, tileset, camera);
+            map.DrawObjects(spriteBatch, tileset, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

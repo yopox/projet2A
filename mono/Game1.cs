@@ -118,12 +118,17 @@ namespace mono
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+            Texture2D texture = new Texture2D(GraphicsDevice, 10, 10);
             GraphicsDevice.Clear(Color.Black);
-            Rendering.BeginDraw();
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
+            Rendering.BeginDraw(spriteBatch);
             player.Draw(spriteBatch);
             map.Draw(spriteBatch, tileset);
+
+            
+
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

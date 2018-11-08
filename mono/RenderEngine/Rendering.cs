@@ -13,14 +13,16 @@ namespace mono.RenderEngine
     {
         static private GraphicsDeviceManager _graphicsDeviceManager;
 
-        private static int _width; //Largeur réelle de notre fenetre
-        private static int _height; // Hauteur réelle de notre fenetre
-        private static int _virtualWidth; //Largeur de la fenetre de dessin
-        private static int _virtualHeight; //Hauteur de notre fenetre de dessin
-        private static int _realWidth; //largeur réelle de la fenetre d'affichage
-        private static int _realHeight; //Hauteur réelle de la fenetre d'affichage
-        private static bool _dirtyMatrix = true; //Représente l'état de notre matrice de dessin
-        private static Matrix _scaleMatrix; //Matrice de l'échelle du dessin
+        static int _width; //Largeur réelle de notre fenetre
+        static int _height; // Hauteur réelle de notre fenetre
+        static int _virtualWidth; //Largeur de la fenetre de dessin
+        static int _virtualHeight; //Hauteur de notre fenetre de dessin
+        static int _realWidth; //largeur réelle de la fenetre d'affichage
+        static int _realHeight; //Hauteur réelle de la fenetre d'affichage
+        static bool _dirtyMatrix = true; //Représente l'état de notre matrice de dessin
+        static Matrix _scaleMatrix; //Matrice de l'échelle du dessin
+
+        static Texture2D _textureOverflow;
 
 
         public static void Init(ref GraphicsDeviceManager graphicsDeviceManager, int width, int heigth)
@@ -147,14 +149,62 @@ namespace mono.RenderEngine
         /// <summary>
         /// Dessine dans le bon viewport
         /// </summary>
-        public static void BeginDraw()
+        public static void BeginDraw(SpriteBatch spriteBatch)
         {
             FullViewport();
-            _graphicsDeviceManager.GraphicsDevice.Clear(Color.Black);
-            
+            Vector2[] position = new Vector2[2];
+            position = Rendering.getPositionOverflow();
+            spriteBatch.Draw(Rendering.getTextureOverflow(), position[0], Color.Black);
+            spriteBatch.Draw(Rendering.getTextureOverflow(), position[1], Color.Black);
 
             RealViewport();
             _graphicsDeviceManager.GraphicsDevice.Clear(Color.CornflowerBlue);
         }
+
+        public static Texture2D getTextureOverflow()
+        {
+            if(_textureOverflow == null)
+            {
+                if (_width == _realWidth)
+                {
+                    int width = _width;
+                    int height = _height / 2 - _realHeight / 2;
+                    Color[] data = new Color[width * height];
+                    for (int i = 0; i < data.Length; ++i)
+                        data[i] = Color.White;
+                    _textureOverflow = new Texture2D(_graphicsDeviceManager.GraphicsDevice, width, height);
+                    _textureOverflow.SetData(data);
+                    return _textureOverflow;
+                }
+                else
+                {
+                    int height = _height;
+                    int width = _width / 2 - _realWidth / 2;
+                    Color[] data = new Color[width * height];
+                    for (int i = 0; i < data.Length; ++i)
+                        data[i] = Color.White;
+                    _textureOverflow = new Texture2D(_graphicsDeviceManager.GraphicsDevice, width, height);
+                    _textureOverflow.SetData(data);
+                    return _textureOverflow;
+                }
+            }
+            else
+            {
+                return _textureOverflow;
+            }
+        }
+
+        public static Vector2[] getPositionOverflow()
+        {
+            if(_width == _realWidth)
+            {
+                return new[] { new Vector2(0, 0), new Vector2(0, _height / 2 + _realHeight / 2) };
+            }
+            else
+            {
+                return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
+            }
+        }
+        
     }
 }

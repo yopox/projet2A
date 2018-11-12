@@ -33,7 +33,7 @@ namespace mono.RenderEngine
             _dirtyMatrix = true;
 
             ApplyResolution();
-            
+
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace mono.RenderEngine
             int height = _graphicsDeviceManager.PreferredBackBufferHeight;
             int width = (int)(height * aspectRatio);
 
-            if(width > _graphicsDeviceManager.PreferredBackBufferWidth)
+            if (width > _graphicsDeviceManager.PreferredBackBufferWidth)
             {
                 width = _graphicsDeviceManager.PreferredBackBufferWidth;
                 height = (int)(width / aspectRatio);

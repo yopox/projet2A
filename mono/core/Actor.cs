@@ -34,7 +34,7 @@ namespace mono.core
 
         public Facing facing = Facing.Right;//Direction à laquelle l'acteur fait face
         public Vector2 position;
-        public Vector2 speed = new Vector2(0,0);
+        public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
 
         private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();
@@ -65,6 +65,7 @@ namespace mono.core
         /// <param name="isLooping">condition de répétition de l'animation</param>
         public void AddAnimation(State state, int[] frames, bool isLooping)
         {
+            // TODO: Durée d'une frame de l'animation
             Animations.Add(state, new Animation(state, atlas, frames, isLooping));
         }
 
@@ -72,9 +73,11 @@ namespace mono.core
         /// Dessine un actor
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public void Draw(SpriteBatch spriteBatch)
+        /// <param name="camera"></param>
+        public void Draw(SpriteBatch spriteBatch, Camera camera)
         {
-            Animations[state].Draw(spriteBatch, position, facing);
+            var displayPos = Util.center + (position - camera.center);
+            Animations[state].Draw(spriteBatch, displayPos, facing);
         }
 
     }

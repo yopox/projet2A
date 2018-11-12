@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace mono.core
 {
-    
+
 
     public class Player : Actor
     {
         public bool canJump => state == State.Idle || state == State.Walking;
-       
+
         public Player(Atlas atlas, Vector2 position) : base(atlas, position)
         {
             facing = Facing.Right;
@@ -39,7 +39,7 @@ namespace mono.core
 
                 speed.X += 30;
             }
-            else if(kbState.IsKeyDown(Keys.Q))
+            else if (kbState.IsKeyDown(Keys.Q))
             {
                 //Animations[state].Reset();
                 _newFacing = Facing.Left;
@@ -58,7 +58,7 @@ namespace mono.core
             }
 
             //Reset de l'ancienne animation si on change d'état ou de direction
-            if(_newState != state || _newFacing != facing)
+            if (_newState != state || _newFacing != facing)
             {
                 Animations[state].Reset();
                 state = _newState;

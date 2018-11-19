@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mono.PhysicsEngine;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -33,18 +34,17 @@ namespace mono.core
         {
             if (kbState.IsKeyDown(Keys.D))
             {
-                //Animations[state].Reset();
                 _newFacing = Facing.Right;
                 _newState = State.Walking;
 
-                speed.X += 30;
+                forces.X = 1500;
             }
             else if (kbState.IsKeyDown(Keys.Q))
             {
-                //Animations[state].Reset();
                 _newFacing = Facing.Left;
                 _newState = State.Walking;
-                speed.X -= 30;
+
+                forces.X = -1500;
             }
             else if (Math.Abs(speed.X) < 50)
             {
@@ -54,7 +54,7 @@ namespace mono.core
 
             if (kbState.IsKeyDown(Keys.Z))
             {
-                speed.Y -= 30;
+                forces.Y = -5000;
             }
 
             //Reset de l'ancienne animation si on change d'état ou de direction

@@ -24,14 +24,16 @@ namespace mono.PhysicsEngine
             _actors.Add(actor);
         }
 
+
         public void Update(GameTime gameTime)
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Actor actor in _actors)
             {
-                actor.acceleration = gravity - 15 * actor.speed;
+                actor.acceleration = gravity - 15 * actor.speed + actor.forces;
                 actor.speed += deltaT * actor.acceleration;
                 actor.position += deltaT * actor.speed;
+                actor.forces = Vector2.Zero;
             }
 
 

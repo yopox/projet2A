@@ -76,7 +76,7 @@ namespace mono
 
             // On récupère les tiles de terrain
             int[][] tiles = map.GetTiles("terrain");
-            tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 16, 16, 2, 2);
+            tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
 
             atlas.SetTexture(Content.Load<Texture2D>("Graphics/mario"), 16, 30, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0 }, false);

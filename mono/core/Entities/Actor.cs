@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mono.core.PhysicsEngine;
 
 namespace mono.core
 
@@ -32,7 +33,7 @@ namespace mono.core
         {
             this.atlas = atlas;
             this.position = position;
-
+            this.size = size;
         }
 
         /// <summary>
@@ -40,10 +41,13 @@ namespace mono.core
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="frameTime">durée d'une frame</param>
-        public void UpdateFrame(GameState gstate, GameTime gameTime)
+        public void Update(GameState gstate, GameTime gameTime)
         {
             Animations[state].UpdateFrame(gameTime, gstate.frameTime);
-            size = Animations[state].getSize();
+            foreach (var Rect in getHitBoxes())
+            {
+
+            }
 
             if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
             {
@@ -91,9 +95,9 @@ namespace mono.core
             return Util.center + (position - camera.center);
         }
 
-        public Rectangle[] getHitBoxes()
+        public Rect[] getHitBoxes()
         {
-            return new Rectangle[] { new Rectangle(0, 0, (int)size.X, (int)size.Y) };
+            return new Rect[] { new Rect(0, 0, (int)size.X, (int)size.Y) };
         }
     }
 }

@@ -15,18 +15,18 @@ namespace mono.core.PhysicsEngine
 
     public class Rect : Polygon
     {
-        private readonly int x;
-        private readonly int y;
-        private readonly int width;
-        private readonly int height;
+        public readonly int X;
+        public readonly int Y;
+        public readonly int Width;
+        public readonly int Height;
 
         public Rect(int x, int y, int w, int h)
         {
             type = PolygonType.Rectangle;
-            this.x = x;
-            this.y = y;
-            width = w;
-            height = h;
+            this.X = x;
+            this.Y = y;
+            Width = w;
+            Height = h;
         }
 
         public bool CollidesWithRectangle(Rect r)

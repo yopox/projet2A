@@ -8,17 +8,30 @@ namespace mono.core.PhysicsEngine
 {
     static class CollisionSolver
     {
-        public static void ActorTerrain(Actor actor, Face face)
+        public static void ActorTerrain(Actor actor, Polygon polygon)
         {
-            switch (face)
+            switch (polygon.type)
             {
-                case Face.Left:
+                case PolygonType.Rectangle:
+                    Rect rectangle = (Rect)polygon;
+                    if (actor.position.Y > rectangle.Y && actor.position.Y < rectangle.Y + rectangle.Height)
+                    {
+                        if (actor.position.X < rectangle.X)
+                        {
+                            actor.position.X = rectangle.X - 1 - actor.size.X;
+                        }
+                        else
+                        {
+                            actor.position.X = rectangle.X + rectangle.Width + 1;
+                        }
+                        actor.forces.X = -actor.acceleration.X;
+                    }
+                    else
+                    {
+                        actor.forces.Y = -actor.acceleration.Y;
+                    }
                     break;
-                case Face.Right:
-                    break;
-                case Face.Up:
-                    break;
-                case Face.Down:
+                case PolygonType.Triangle:
                     break;
                 default:
                     break;

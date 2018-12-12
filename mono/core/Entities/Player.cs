@@ -11,7 +11,7 @@ namespace mono.core
     {
         public bool CanJump => state == State.Idle || state == State.Walking;
 
-        public Player(Atlas atlas, Vector2 position, Vector2 size) : base(atlas, position, size)
+        public Player(Atlas atlas, Vector2 size) : base(atlas, Vector2.Zero, size)
         {
             facing = Face.Right;
         }
@@ -23,7 +23,7 @@ namespace mono.core
         /// Mapping des touches et de leurs effets
         /// </summary>
         /// <param name="kbState">Etat du clavier</param>
-        public void Update(GameState gstate, GameTime gameTime)
+        public new void Update(GameState gstate, GameTime gameTime)
         {
             if (gstate.ksn.IsKeyDown(Keys.D))
             {
@@ -68,7 +68,7 @@ namespace mono.core
                 facing = _newFacing;
             }
 
-            UpdateFrame(gstate, gameTime);
+            base.Update(gstate, gameTime);
         }
     }
 }

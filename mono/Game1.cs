@@ -5,10 +5,17 @@ using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
-using System.Diagnostics;
 
 namespace mono
 {
+
+    public struct GameState
+    {
+        public KeyboardState kso;
+        public KeyboardState ksn;
+        public GameTime gameTime;
+        public Tilemap map;
+    }
 
     /// <summary>
     /// This is the main type for your game.
@@ -20,7 +27,7 @@ namespace mono
         Player player;
         Atlas atlas;
 
-        Tilemap map;
+        GameState state;
         Atlas tileset;
 
         Physics physics;
@@ -45,7 +52,6 @@ namespace mono
         {
             atlas = new Atlas();
             tileset = new Atlas();
-            // TODO: Lire la position initiale de la tilemap
             var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
             player = new Player(atlas, initialPos);
 
@@ -71,11 +77,11 @@ namespace mono
             StreamReader stream = File.OpenText("Content/maps/tilemap.json");
             string content = stream.ReadToEnd();
             stream.Close();
-            map = new Tilemap("Map de test", content);
-            player.position = map.GetStartingPosition();
+            state.map = new Tilemap("Map de test", content);
+            player.position = state.map.GetStartingPosition();
 
             // On récupère les tiles de terrain
-            int[][] tiles = map.GetTiles("terrain");
+            int[][] tiles = state.map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
 
             atlas.SetTexture(Content.Load<Texture2D>("Graphics/mario"), 16, 30, 0, 0);
@@ -102,11 +108,15 @@ namespace mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            state.ksn = Keyboard.GetState();
+
             player.Move(Keyboard.GetState());
             player.Update(gameTime, 0.1f);
             camera.Update(player);
             physics.Update(gameTime);
             base.Update(gameTime);
+
+            state.kso = state.ksn;
         }
 
         /// <summary>
@@ -120,10 +130,10 @@ namespace mono
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
-            map.DrawDecor(spriteBatch, tileset, camera);
+            state.map.DrawDecor(spriteBatch, tileset, camera);
             player.Draw(spriteBatch, camera);
-            map.Draw(spriteBatch, tileset, camera);
-            map.DrawObjects(spriteBatch, tileset, camera);
+            state.map.Draw(spriteBatch, tileset, camera);
+            state.map.DrawObjects(spriteBatch, tileset, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

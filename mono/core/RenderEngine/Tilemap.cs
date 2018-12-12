@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 namespace mono.core
 {
 
-    // TODO: NE PAS HARDCODE LA TAILLE DES TILES
     /// <summary>
     /// Représente une couche de la tilemap.
     /// </summary>
@@ -34,14 +33,6 @@ namespace mono.core
                 }
             }
         }
-
-        public void PrintMap(int width, int height)
-        {
-            for (int i = 0; i < height; i++)
-            {
-                Debug.Print(string.Join(" ", tiles[i]) + "\n");
-            }
-        }
     }
 
     /// <summary>
@@ -55,8 +46,8 @@ namespace mono.core
         readonly int height;
         readonly int width;
 
-        int xTileRange = Util.width / Util.tileSize / 2 + 1;
-        int yTileRange = Util.height / Util.tileSize / 2 + 2;
+        readonly int xTileRange = Util.width / Util.tileSize / 2 + 1;
+        readonly int yTileRange = Util.height / Util.tileSize / 2 + 2;
 
         List<Layer> layers = new List<Layer>();
         List<MapObject> objects = new List<MapObject>();
@@ -80,7 +71,7 @@ namespace mono.core
                 }
                 else if (layer.type == "objectgroup")
                 {
-                    foreach(dynamic obj in layer.objects)
+                    foreach (dynamic obj in layer.objects)
                     {
                         int x = obj.x;
                         int y = obj.y;
@@ -100,13 +91,16 @@ namespace mono.core
             }
         }
 
+        /// <summary>
+        /// Renvoie la position de départ du joueur.
+        /// </summary>
         internal Vector2 GetStartingPosition()
         {
             foreach (Warp warp in warps)
             {
                 if (warp.type == "starting")
                 {
-                    return warp.position - new Vector2(0, 30);
+                    return warp.position - new Vector2(0, Util.playerHeight);
                 }
             }
             return new Vector2(0, 0);
@@ -127,6 +121,39 @@ namespace mono.core
             }
 
             return new int[height][];
+        }
+
+        /// <summary>
+        /// Permet de récupérer les tiles de terrain autour d'un point.
+        /// </summary>
+        /// <returns>The terrain.</returns>
+        /// <param name="position">La position centrale.</param>
+        /// <param name="radius">Nombre de tiles à récupérer de chaque côté.</param>
+        public int[,] GetTiles(Vector2 position, int radius)
+        {
+            int w = 2 * radius + 1;
+            int[,] tiles = new int[w, w];
+            int[][] terrain = GetTiles(Util.solidLayerName);
+
+            int x = (int)Math.Floor(position.X / Util.tileSize);
+            int y = (int)Math.Floor(position.Y / Util.tileSize);
+
+            for (int i = 0; i < w; i++)
+            {
+                for (int j = 0; j < w; j++)
+                {
+                    if (x >= 0 && y >= 0 && x < width && y < height)
+                    {
+                        tiles[i, j] = terrain[y + i - radius][x + j - radius];
+                    }
+                    else
+                    {
+                        tiles[i, j] = -2;
+                    }
+                }
+            }
+
+            return tiles;
         }
 
         /// <summary>

@@ -30,12 +30,12 @@ namespace mono.core
         private int _width;
         private int _heigth;
 
-        public int Width { get => _width;}
+        public int Width { get => _width; }
         public int Heigth { get => _heigth; }
-        public int Rows { get => _rows;}
-        public int Columns { get => _columns;}
-        public int Padding { get => _padding;}
-        public int Border { get => _border;}
+        public int Rows { get => _rows; }
+        public int Columns { get => _columns; }
+        public int Padding { get => _padding; }
+        public int Border { get => _border; }
 
         public Atlas()
         {

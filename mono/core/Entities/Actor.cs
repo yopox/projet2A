@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,11 +24,11 @@ namespace mono.core
     /// </summary>
     public class Actor
     {
-        public Atlas atlas;//Spritesheet de l'acteur
+        public Atlas atlas; // Spritesheet de l'acteur
         public State state { get; set; } = State.Idle;
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
 
-        public Facing facing = Facing.Right;//Direction à laquelle l'acteur fait face
+        public Facing facing = Facing.Right; // Direction à laquelle l'acteur fait face
         public Vector2 position;
         public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
@@ -46,7 +42,6 @@ namespace mono.core
             this.atlas = atlas;
             this.position = position;
         }
-
 
         /// <summary>
         /// Update la frame de l'animation

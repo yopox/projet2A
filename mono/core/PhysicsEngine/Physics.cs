@@ -11,7 +11,7 @@ namespace mono.PhysicsEngine
 {
     class Physics
     {
-        private List<Actor> _actors= new List<Actor>();
+        private List<Actor> _actors = new List<Actor>();
         public Vector2 gravity;
 
         public Physics(Vector2 gravity)

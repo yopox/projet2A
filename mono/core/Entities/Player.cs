@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using mono.core.PhysicsEngine;
 using System;
 
 
@@ -48,7 +47,7 @@ namespace mono.core
 
             if (gstate.ksn.IsKeyDown(Keys.Z))
             {
-                forces.Y = -5000;
+                forces.Y = -1500;
             }
 
             if (gstate.ksn.IsKeyDown(Keys.S))

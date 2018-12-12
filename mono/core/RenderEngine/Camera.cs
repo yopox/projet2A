@@ -6,7 +6,7 @@ namespace mono.core
     {
 
         public Vector2 center = new Vector2(0, 0);
-        public Vector2 offset = new Vector2(8, -48);
+        public Vector2 offset = new Vector2(-Util.playerWidth / 2, Util.playerHeight / 2);
 
         // (2*wBox, 2*hBox) est la dimension de la boîte de mouvement libre
         static readonly int _wBox = 16;

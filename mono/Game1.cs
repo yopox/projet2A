@@ -52,8 +52,7 @@ namespace mono
         {
             atlas = new Atlas();
             tileset = new Atlas();
-            var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
-            player = new Player(atlas, new Vector2(16, 30));
+            player = new Player(atlas, new Vector2(64, 128));
 
             //Physics.Gravity = new Vector2(0, 1000);
             Physics.addActor(player);
@@ -85,9 +84,9 @@ namespace mono
             int[][] tiles = state.map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
 
-            atlas.SetTexture(Content.Load<Texture2D>("Graphics/mario"), 16, 30, 0, 0);
+            atlas.SetTexture(Content.Load<Texture2D>("Graphics/hero"), 64, 128, 0, 0);
             player.AddAnimation(State.Idle, new[] { 0 }, false);
-            player.AddAnimation(State.Walking, new[] { 0, 1, 2 }, true);
+            player.AddAnimation(State.Walking, new[] { 0 }, true);
         }
 
         /// <summary>

@@ -46,7 +46,7 @@ namespace mono.core
         {
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
             {
-                var hitbox = new Rect((int)position.X, (int)position.Y - 30, 16, 30);
+                var hitbox = getHitBoxes()[0];
 
                 Console.WriteLine("");
                 Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);

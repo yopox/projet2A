@@ -30,6 +30,7 @@ namespace mono.core
         static public string solidLayerName = "terrain";
 
         // Player
-        static public int playerHeight = 30;
+        static public int playerHeight = 128;
+        static public int playerWidth = 64;
     }
 }

@@ -30,7 +30,7 @@ namespace mono.core
         /// Mapping des touches et de leurs effets
         /// </summary>
         /// <param name="kbState">Etat du clavier</param>
-        public void Move(KeyboardState kbState)
+        public void Update(GameTime gameTime, KeyboardState kbState, float frameTime = 0.1f)
         {
             if (kbState.IsKeyDown(Keys.D))
             {
@@ -64,6 +64,8 @@ namespace mono.core
                 state = _newState;
                 facing = _newFacing;
             }
+
+            UpdateFrame(gameTime, kbState, frameTime);
         }
     }
 }

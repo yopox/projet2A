@@ -6,6 +6,7 @@ using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
 using System.Diagnostics;
+using System;
 
 namespace mono
 {
@@ -102,8 +103,9 @@ namespace mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Move(Keyboard.GetState());
-            player.Update(gameTime, 0.1f);
+            Console.WriteLine(1 / (float)gameTime.ElapsedGameTime.TotalSeconds);
+
+            player.Update(gameTime, Keyboard.GetState());
             camera.Update(player);
             physics.Update(gameTime);
             base.Update(gameTime);
@@ -121,7 +123,7 @@ namespace mono
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
             map.DrawDecor(spriteBatch, tileset, camera);
-            player.Draw(spriteBatch, camera);
+            player.Draw(GraphicsDevice, spriteBatch, camera);
             map.Draw(spriteBatch, tileset, camera);
             map.DrawObjects(spriteBatch, tileset, camera);
             spriteBatch.End();

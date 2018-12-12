@@ -42,16 +42,6 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <Compile Include="core\Animation.cs" />
-    <Compile Include="core\Camera.cs" />
-    <Compile Include="core\Player.cs" />
-    <Compile Include="core\Atlas.cs" />
-    <Compile Include="core\Actor.cs" />
-    <Compile Include="PhysicsEngine\CollisionTester.cs" />
-    <Compile Include="PhysicsEngine\Physics.cs" />
-=======
->>>>>>> 2ade31d01de0e3d3cc02d7c48973570c6a168152
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

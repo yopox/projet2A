@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -26,7 +26,7 @@ namespace mono.core
     /// </summary>
     public class Actor
     {
-        public Atlas atlas;//Spritesheet de l'acteur
+        public Atlas atlas; // Spritesheet de l'acteur
         public State state { get; set; } = State.Idle;
 
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
@@ -50,20 +50,17 @@ namespace mono.core
             this.position = position;
         }
 
-
         /// <summary>
         /// Update la frame de l'animation
         /// </summary>
         /// <param name="gameTime"></param>
         /// <param name="frameTime">durée d'une frame</param>
-        public void UpdateFrame(GameTime gameTime, KeyboardState kbState, float frameTime = 0.1f)
+        public void UpdateFrame(GameState gstate, GameTime gameTime)
         {
-            Animations[state].UpdateFrame(gameTime, frameTime);
+            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
             size = Animations[state].getSize();
 
-            
-
-            if (kbState.IsKeyUp(Keys.F1))
+            if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
             {
                 DebugMode = !DebugMode;
             }

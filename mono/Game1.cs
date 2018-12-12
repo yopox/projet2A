@@ -5,23 +5,29 @@ using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
-using System.Diagnostics;
-using System;
 
 namespace mono
 {
+
+    public struct GameState
+    {
+        public KeyboardState kso;
+        public KeyboardState ksn;
+        public Tilemap map;
+        public float frameTime;
+    }
 
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player;
         Atlas atlas;
 
-        Tilemap map;
+        GameState state;
         Atlas tileset;
 
         Physics physics;
@@ -29,6 +35,7 @@ namespace mono
 
         public Game1()
         {
+            // TODO: Taille d'écran réelle et virtuelle dans Util
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics, 640, 360);
@@ -46,7 +53,6 @@ namespace mono
         {
             atlas = new Atlas();
             tileset = new Atlas();
-            // TODO: Lire la position initiale de la tilemap
             var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
             player = new Player(atlas, initialPos);
 
@@ -54,6 +60,7 @@ namespace mono
             physics.addActor(player);
 
             camera = new Camera();
+            state.frameTime = 0.1f;
 
             base.Initialize();
         }
@@ -72,11 +79,11 @@ namespace mono
             StreamReader stream = File.OpenText("Content/maps/tilemap.json");
             string content = stream.ReadToEnd();
             stream.Close();
-            map = new Tilemap("Map de test", content);
-            player.position = map.GetStartingPosition();
+            state.map = new Tilemap("Map de test", content);
+            player.position = state.map.GetStartingPosition();
 
             // On récupère les tiles de terrain
-            int[][] tiles = map.GetTiles("terrain");
+            int[][] tiles = state.map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
 
             atlas.SetTexture(Content.Load<Texture2D>("Graphics/mario"), 16, 30, 0, 0);
@@ -103,12 +110,14 @@ namespace mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Console.WriteLine(1 / (float)gameTime.ElapsedGameTime.TotalSeconds);
+            state.ksn = Keyboard.GetState();
 
-            player.Update(gameTime, Keyboard.GetState());
+            player.Update(state, gameTime);
             camera.Update(player);
             physics.Update(gameTime);
             base.Update(gameTime);
+
+            state.kso = state.ksn;
         }
 
         /// <summary>
@@ -122,10 +131,10 @@ namespace mono
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
-            map.DrawDecor(spriteBatch, tileset, camera);
+            state.map.DrawDecor(spriteBatch, tileset, camera);
             player.Draw(GraphicsDevice, spriteBatch, camera);
-            map.Draw(spriteBatch, tileset, camera);
-            map.DrawObjects(spriteBatch, tileset, camera);
+            state.map.Draw(spriteBatch, tileset, camera);
+            state.map.DrawObjects(spriteBatch, tileset, camera);
             spriteBatch.End();
 
             base.Draw(gameTime);

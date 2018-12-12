@@ -12,14 +12,14 @@ namespace mono.core
     class Animation
     {
 
-        public Atlas atlas; //Spritesheet d'un actor
-        public int[] frames; //Frames de l'animation
-        public bool isLooping = true; //Répétition de l'animation
-        public State state; //Etat que représente l'animation
+        public Atlas atlas; // Spritesheet d'un actor
+        public int[] frames; // Frames de l'animation
+        public bool isLooping = true; // Répétition de l'animation
+        public State state; // Etat que représente l'animation
 
         private int _currentFrame;
-        private bool _isReversed = false; //frames inversé
-        private float _time; //Durée d'affichage d'un sprite
+        private bool _isReversed = false; // Frame inversée
+        private float _time; // Durée d'affichage d'un sprite
 
         /// <summary>
         /// 
@@ -50,10 +50,10 @@ namespace mono.core
             Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
             Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
 
-            //On flip les sprites suivant la direction à laquelle le joueur fait face
+            // On flip les sprites suivant la direction à laquelle le joueur fait face
             if (facing == Facing.Left)
             {
-                //spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
+                // spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
                 spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0f);
 
             }
@@ -72,10 +72,10 @@ namespace mono.core
         /// <param name="frameTime">Temps d'affichage minimal d'un sprite</param>
         public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
         {
-            _time += (float)gameTime.ElapsedGameTime.TotalSeconds; //calcul le temps depuis le dernier appel de update
+            _time += (float)gameTime.ElapsedGameTime.TotalSeconds; // Calcul le temps depuis le dernier appel de update
             if (_time > frameTime)
             {
-                this.Next();//Appel du prochain sprite à afficher
+                this.Next();// Appel du prochain sprite à afficher
                 _time = 0f;
             }
         }

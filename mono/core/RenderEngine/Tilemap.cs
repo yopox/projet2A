@@ -8,6 +8,8 @@ using Newtonsoft.Json.Linq;
 
 namespace mono.core
 {
+
+    // TODO: NE PAS HARDCODE LA TAILLE DES TILES
     /// <summary>
     /// Représente une couche de la tilemap.
     /// </summary>
@@ -135,15 +137,15 @@ namespace mono.core
         public void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
         {
             var terrain = GetTiles("terrain");
-            int centerTileX = (int)camera.center.X / 32;
-            int centerTileY = (int)camera.center.Y / 32;
+            int centerTileX = (int)camera.center.X / Util.tileSize;
+            int centerTileY = (int)camera.center.Y / Util.tileSize;
 
             for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
             {
                 for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 32, i * 32) - camera.center,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -159,15 +161,15 @@ namespace mono.core
         public void DrawDecor(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
         {
             var terrain = GetTiles("decor");
-            int centerTileX = (int)camera.center.X / 32;
-            int centerTileY = (int)camera.center.Y / 32;
+            int centerTileX = (int)camera.center.X / Util.tileSize;
+            int centerTileY = (int)camera.center.Y / Util.tileSize;
 
             for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
             {
                 for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * 32, i * 32) - camera.center,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -177,14 +179,14 @@ namespace mono.core
 
         public void DrawObjects(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
         {
-            int centerTileX = (int)camera.center.X / 32;
-            int centerTileY = (int)camera.center.Y / 32;
+            int centerTileX = (int)camera.center.X / Util.tileSize;
+            int centerTileY = (int)camera.center.Y / Util.tileSize;
 
             foreach (MapObject mobj in objects)
             {
                 // Condition sur la position de l'objet
-                if (Math.Abs(mobj.position.X - camera.center.X) < xTileRange * 32 &&
-                    Math.Abs(mobj.position.Y - camera.center.Y) < yTileRange * 32)
+                if (Math.Abs(mobj.position.X - camera.center.X) < xTileRange * Util.tileSize &&
+                    Math.Abs(mobj.position.Y - camera.center.Y) < yTileRange * Util.tileSize)
                 {
                     mobj.Draw(spriteBatch, atlas, camera);
                 }

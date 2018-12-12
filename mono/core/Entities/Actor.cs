@@ -32,6 +32,7 @@ namespace mono.core
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
 
         public Facing facing = Facing.Right;//Direction à laquelle l'acteur fait face
+        private Vector2 size;
         public Vector2 position;
         public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
@@ -39,10 +40,9 @@ namespace mono.core
 
         private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();
 
-        private Vector2 size;
+        private Rectangle[] hitBoxes;
 
         public Boolean DebugMode = false;
-
 
         public Actor(Atlas atlas, Vector2 position)
         {

@@ -13,8 +13,8 @@ namespace mono
     {
         public KeyboardState kso;
         public KeyboardState ksn;
-        public GameTime gameTime;
         public Tilemap map;
+        public float frameTime;
     }
 
     /// <summary>
@@ -22,7 +22,7 @@ namespace mono
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player;
         Atlas atlas;
@@ -35,6 +35,7 @@ namespace mono
 
         public Game1()
         {
+            // TODO: Taille d'écran réelle et virtuelle dans Util
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics, 640, 360);
@@ -59,6 +60,7 @@ namespace mono
             physics.addActor(player);
 
             camera = new Camera();
+            state.frameTime = 0.1f;
 
             base.Initialize();
         }
@@ -110,8 +112,7 @@ namespace mono
 
             state.ksn = Keyboard.GetState();
 
-            player.Move(Keyboard.GetState());
-            player.Update(gameTime, 0.1f);
+            player.Update(state, gameTime);
             camera.Update(player);
             physics.Update(gameTime);
             base.Update(gameTime);
@@ -131,7 +132,7 @@ namespace mono
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
             state.map.DrawDecor(spriteBatch, tileset, camera);
-            player.Draw(spriteBatch, camera);
+            player.Draw(GraphicsDevice, spriteBatch, camera);
             state.map.Draw(spriteBatch, tileset, camera);
             state.map.DrawObjects(spriteBatch, tileset, camera);
             spriteBatch.End();

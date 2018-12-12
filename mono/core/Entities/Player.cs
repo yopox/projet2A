@@ -1,13 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using mono.PhysicsEngine;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace mono.core
@@ -30,16 +23,16 @@ namespace mono.core
         /// Mapping des touches et de leurs effets
         /// </summary>
         /// <param name="kbState">Etat du clavier</param>
-        public void Move(KeyboardState kbState)
+        public void Update(GameState gstate, GameTime gameTime)
         {
-            if (kbState.IsKeyDown(Keys.D))
+            if (gstate.ksn.IsKeyDown(Keys.D))
             {
                 _newFacing = Facing.Right;
                 _newState = State.Walking;
 
                 forces.X = 1500;
             }
-            else if (kbState.IsKeyDown(Keys.Q))
+            else if (gstate.ksn.IsKeyDown(Keys.Q))
             {
                 _newFacing = Facing.Left;
                 _newState = State.Walking;
@@ -52,7 +45,7 @@ namespace mono.core
                 _newState = State.Idle;
             }
 
-            if (kbState.IsKeyDown(Keys.Z))
+            if (gstate.ksn.IsKeyDown(Keys.Z))
             {
                 forces.Y = -5000;
             }
@@ -64,6 +57,8 @@ namespace mono.core
                 state = _newState;
                 facing = _newFacing;
             }
+
+            UpdateFrame(gstate, gameTime);
         }
     }
 }

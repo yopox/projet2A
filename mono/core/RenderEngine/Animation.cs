@@ -112,5 +112,10 @@ namespace mono.core
                 Array.Reverse(frames);
             }
         }
+
+        public Vector2 getSize()
+        {
+            return new Vector2(atlas.Width, atlas.Heigth);
+        }
     }
 }

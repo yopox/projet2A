@@ -19,6 +19,19 @@ namespace mono.core.PhysicsEngine
                     {
                         actor.position.X = rectangle.X - actor.size.X;
                     }
+                    else if (actor.position.X > rectangle.X + rectangle.Width)
+                    {
+                        actor.position.X = rectangle.X + rectangle.Width;
+                    }
+
+                    if (actor.position.Y < rectangle.Y)
+                    {
+                        actor.position.Y = rectangle.Y - actor.size.Y;
+                    }
+                    else if (actor.position.Y > rectangle.Y + rectangle.Height)
+                    {
+                        actor.position.Y = rectangle.Y + actor.size.Y;
+                    }
                     break;
                 case PolygonType.Triangle:
                     break;

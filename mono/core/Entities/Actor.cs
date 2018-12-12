@@ -110,7 +110,7 @@ namespace mono.core
                     Color[] data = new Color[rect.Width * rect.Height];
                     for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
                     rectangleTexture.SetData(data);
-                    spriteBatch.Draw(rectangleTexture, displayPos + new Vector2(rect.X, rect.Y), Color.White);
+                    spriteBatch.Draw(rectangleTexture, displayPos, Color.White);
                 }
             }
         }

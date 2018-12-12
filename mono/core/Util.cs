@@ -2,6 +2,22 @@
 
 namespace mono.core
 {
+    public enum Face
+    {
+        Left,
+        Right,
+        Up,
+        Down
+    }
+
+    public enum State
+    {
+        Idle,
+        Jumping,
+        Falling,
+        Walking
+    }
+
     public static class Util
     {
         // Screen

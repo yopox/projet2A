@@ -11,13 +11,13 @@ namespace mono.core
     {
         public bool canJump => state == State.Idle || state == State.Walking;
 
-        public Player(Atlas atlas, Vector2 position) : base(atlas, position)
+        public Player(Atlas atlas, Vector2 position, Vector2 size) : base(atlas, position, size)
         {
-            facing = Facing.Right;
+            facing = Face.Right;
         }
 
         private State _newState;
-        private Facing _newFacing;
+        private Face _newFacing;
 
         /// <summary>
         /// Mapping des touches et de leurs effets
@@ -27,14 +27,14 @@ namespace mono.core
         {
             if (gstate.ksn.IsKeyDown(Keys.D))
             {
-                _newFacing = Facing.Right;
+                _newFacing = Face.Right;
                 _newState = State.Walking;
 
                 forces.X = 1500;
             }
             else if (gstate.ksn.IsKeyDown(Keys.Q))
             {
-                _newFacing = Facing.Left;
+                _newFacing = Face.Left;
                 _newState = State.Walking;
 
                 forces.X = -1500;

@@ -7,20 +7,6 @@ using Microsoft.Xna.Framework.Input;
 namespace mono.core
 
 {
-    public enum Facing
-    {
-        Left,
-        Right
-    }
-
-    public enum State
-    {
-        Idle,
-        Jumping,
-        Falling,
-        Walking
-    }
-
     /// <summary>
     /// Classe parent de tous les acteurs
     /// </summary>
@@ -31,8 +17,8 @@ namespace mono.core
 
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
 
-        public Facing facing = Facing.Right;//Direction à laquelle l'acteur fait face
-        private Vector2 size;
+        public Face facing = Face.Right;//Direction à laquelle l'acteur fait face
+        public Vector2 size;
         public Vector2 position;
         public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
@@ -40,14 +26,13 @@ namespace mono.core
 
         private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();
 
-        private Rectangle[] hitBoxes;
-
         public Boolean DebugMode = false;
 
-        public Actor(Atlas atlas, Vector2 position)
+        public Actor(Atlas atlas, Vector2 position, Vector2 size)
         {
             this.atlas = atlas;
             this.position = position;
+
         }
 
         /// <summary>
@@ -90,11 +75,14 @@ namespace mono.core
 
             if (DebugMode)
             {
-                Texture2D square = new Texture2D(GraphicsDevice, (int)size.X, (int)size.Y);
-                Color[] data = new Color[(int)size.X * (int)size.Y];
-                for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
-                square.SetData(data);
-                spriteBatch.Draw(square, displayPos, Color.White);
+                foreach (var rect in getHitBoxes())
+                {
+                    Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
+                    Color[] data = new Color[rect.Width * rect.Height];
+                    for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
+                    rectangleTexture.SetData(data);
+                    spriteBatch.Draw(rectangleTexture, displayPos + new Vector2(rect.X, rect.Y), Color.White);
+                }
             }
         }
 
@@ -103,5 +91,9 @@ namespace mono.core
             return Util.center + (position - camera.center);
         }
 
+        public Rectangle[] getHitBoxes()
+        {
+            return new Rectangle[] { new Rectangle(0, 0, (int)size.X, (int)size.Y) };
+        }
     }
 }

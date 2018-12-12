@@ -54,7 +54,7 @@ namespace mono
             atlas = new Atlas();
             tileset = new Atlas();
             var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
-            player = new Player(atlas, initialPos);
+            player = new Player(atlas, initialPos, new Vector2(16, 30));
 
             physics = new Physics(new Vector2(0, 0));
             physics.addActor(player);

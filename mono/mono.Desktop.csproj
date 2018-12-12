@@ -56,6 +56,8 @@
     <Compile Include="core\Entities\Player.cs" />
     <Compile Include="core\Entities\Warp.cs" />
     <Compile Include="core\RenderEngine\Tilemap.cs" />
+    <Compile Include="core\PhysicsEngine\CollisionTester.cs" />
+    <Compile Include="core\PhysicsEngine\Polygon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

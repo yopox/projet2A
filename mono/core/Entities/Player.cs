@@ -9,7 +9,7 @@ namespace mono.core
 
     public class Player : Actor
     {
-        public bool canJump => state == State.Idle || state == State.Walking;
+        public bool CanJump => state == State.Idle || state == State.Walking;
 
         public Player(Atlas atlas, Vector2 position) : base(atlas, position)
         {
@@ -50,7 +50,17 @@ namespace mono.core
                 forces.Y = -5000;
             }
 
-            //Reset de l'ancienne animation si on change d'état ou de direction
+            if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
+            {
+                var tiles = gstate.map.GetTiles(position, 1);
+                for (int i = 0; i < tiles.Length; i++)
+                {
+                    Console.WriteLine(String.Join(" ", tiles[i]));
+                }
+
+            }
+
+            // Reset de l'ancienne animation si on change d'état ou de direction
             if (_newState != state || _newFacing != facing)
             {
                 Animations[state].Reset();

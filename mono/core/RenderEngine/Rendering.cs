@@ -13,14 +13,14 @@ namespace mono.RenderEngine
     {
         static private GraphicsDeviceManager _graphicsDeviceManager;
 
-        static int _width; //Largeur réelle de notre fenetre
+        static int _width; // Largeur réelle de notre fenetre
         static int _height; // Hauteur réelle de notre fenetre
-        static int _virtualWidth; //Largeur de la fenetre de dessin
-        static int _virtualHeight; //Hauteur de notre fenetre de dessin
-        static int _realWidth; //largeur réelle de la fenetre d'affichage
-        static int _realHeight; //Hauteur réelle de la fenetre d'affichage
-        static bool _dirtyMatrix = true; //Représente l'état de notre matrice de dessin
-        static Matrix _scaleMatrix; //Matrice de l'échelle du dessin
+        static int _virtualWidth; // Largeur de la fenetre de dessin
+        static int _virtualHeight; // Hauteur de notre fenetre de dessin
+        static int _realWidth; // Largeur réelle de la fenetre d'affichage
+        static int _realHeight; // Hauteur réelle de la fenetre d'affichage
+        static bool _dirtyMatrix = true; // Représente l'état de notre matrice de dessin
+        static Matrix _scaleMatrix; // Matrice de l'échelle du dessin
 
         static Texture2D _textureOverflow;
 
@@ -33,7 +33,6 @@ namespace mono.RenderEngine
             _dirtyMatrix = true;
 
             ApplyResolution();
-
         }
 
         /// <summary>
@@ -41,7 +40,7 @@ namespace mono.RenderEngine
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public static void setVirtualResolution(int width, int height)
+        public static void SetVirtualResolution(int width, int height)
         {
             _virtualHeight = height;
             _virtualWidth = width;
@@ -54,7 +53,7 @@ namespace mono.RenderEngine
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
-        public static void setResolution(int width, int height)
+        public static void SetResolution(int width, int height)
         {
             _height = height;
             _width = width;
@@ -65,14 +64,14 @@ namespace mono.RenderEngine
         /// Donne la matrice d'échelle
         /// </summary>
         /// <returns>Matrice scalaire donnant les rapports d'échelle</returns>
-        public static Matrix getScaleMatrix()
+        public static Matrix GetScaleMatrix()
         {
             if (_dirtyMatrix)
                 RecreateScaleMatrix();
             return _scaleMatrix;
         }
 
-        public static float getAspectRatio()
+        public static float GetAspectRatio()
         {
             return (float)_virtualWidth / (float)_virtualHeight;
         }
@@ -95,11 +94,13 @@ namespace mono.RenderEngine
         /// </summary>
         public static void FullViewport()
         {
-            Viewport viewport = new Viewport();
-            viewport.X = 0;
-            viewport.Y = 0;
-            viewport.Width = _width;
-            viewport.Height = _height;
+            Viewport viewport = new Viewport
+            {
+                X = 0,
+                Y = 0,
+                Width = _width,
+                Height = _height
+            };
 
             _graphicsDeviceManager.GraphicsDevice.Viewport = viewport;
         }
@@ -110,7 +111,7 @@ namespace mono.RenderEngine
         /// </summary>
         public static void RealViewport()
         {
-            float aspectRatio = getAspectRatio();
+            float aspectRatio = GetAspectRatio();
             int height = _graphicsDeviceManager.PreferredBackBufferHeight;
             int width = (int)(height * aspectRatio);
 
@@ -120,11 +121,13 @@ namespace mono.RenderEngine
                 height = (int)(width / aspectRatio);
             }
 
-            Viewport realViewport = new Viewport();
-            realViewport.X = _width / 2 - width / 2;
-            realViewport.Y = _height / 2 - height / 2;
-            realViewport.Width = width;
-            realViewport.Height = height;
+            Viewport realViewport = new Viewport
+            {
+                X = _width / 2 - width / 2,
+                Y = _height / 2 - height / 2,
+                Width = width,
+                Height = height
+            };
 
             _dirtyMatrix = true;
             _graphicsDeviceManager.GraphicsDevice.Viewport = realViewport;
@@ -153,17 +156,17 @@ namespace mono.RenderEngine
         {
             FullViewport();
             Vector2[] position = new Vector2[2];
-            position = Rendering.getPositionOverflow();
-            spriteBatch.Draw(Rendering.getTextureOverflow(), position[0], Color.Black);
-            spriteBatch.Draw(Rendering.getTextureOverflow(), position[1], Color.Black);
+            position = Rendering.GetPositionOverflow();
+            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[0], Color.Black);
+            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[1], Color.Black);
 
             RealViewport();
-            _graphicsDeviceManager.GraphicsDevice.Clear(Color.CornflowerBlue);
+            _graphicsDeviceManager.GraphicsDevice.Clear(Color.LightBlue);
         }
 
-        public static Texture2D getTextureOverflow()
+        public static Texture2D GetTextureOverflow()
         {
-            if(_textureOverflow == null)
+            if (_textureOverflow == null)
             {
                 if (_width == _realWidth)
                 {
@@ -194,9 +197,9 @@ namespace mono.RenderEngine
             }
         }
 
-        public static Vector2[] getPositionOverflow()
+        public static Vector2[] GetPositionOverflow()
         {
-            if(_width == _realWidth)
+            if (_width == _realWidth)
             {
                 return new[] { new Vector2(0, 0), new Vector2(0, _height / 2 + _realHeight / 2) };
             }
@@ -205,6 +208,6 @@ namespace mono.RenderEngine
                 return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
             }
         }
-        
+
     }
 }

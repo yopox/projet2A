@@ -39,8 +39,8 @@ namespace mono
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics, 640, 360);
-            Rendering.setResolution(640, 360);
-            Rendering.setVirtualResolution(640, 360);
+            Rendering.SetResolution(640, 360);
+            Rendering.SetVirtualResolution(640, 360);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace mono
             Texture2D texture = new Texture2D(GraphicsDevice, 10, 10);
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.getScaleMatrix());
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
             state.map.DrawDecor(spriteBatch, tileset, camera);
             player.Draw(GraphicsDevice, spriteBatch, camera);

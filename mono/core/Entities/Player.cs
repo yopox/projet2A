@@ -51,19 +51,9 @@ namespace mono.core
                 forces.Y = -5000;
             }
 
-            if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
+            if (gstate.ksn.IsKeyDown(Keys.S))
             {
-                var hitbox = new Rect((int)position.X, (int)position.Y - 30, 16, 30);
-
-                Console.WriteLine("");
-                Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);
-
-                var tiles = gstate.map.GetTerrain(position, 1);
-                for (int i = 0; i < tiles.Length; i++)
-                {
-                    Console.WriteLine(String.Join(" ", tiles[i]));
-                }
-
+                forces.Y = 1500;
             }
 
             // Reset de l'ancienne animation si on change d'état ou de direction

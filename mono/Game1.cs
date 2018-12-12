@@ -30,7 +30,6 @@ namespace mono
         GameState state;
         Atlas tileset;
 
-        Physics physics;
         Camera camera;
 
         public Game1()
@@ -56,8 +55,8 @@ namespace mono
             var initialPos = new Vector2(4 * 16, 10 * 16 + 2);
             player = new Player(atlas, new Vector2(16, 30));
 
-            physics = new Physics(new Vector2(0, 0));
-            physics.addActor(player);
+            //Physics.Gravity = new Vector2(0, 1000);
+            Physics.addActor(player);
 
             camera = new Camera();
             state.frameTime = 0.1f;
@@ -114,7 +113,7 @@ namespace mono
 
             player.Update(state, gameTime);
             camera.Update(player);
-            physics.Update(gameTime);
+            Physics.UpdateAll(gameTime);
             base.Update(gameTime);
 
             state.kso = state.ksn;

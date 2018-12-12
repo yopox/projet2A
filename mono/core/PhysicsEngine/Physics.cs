@@ -9,34 +9,38 @@ using mono.core;
 
 namespace mono.PhysicsEngine
 {
-    class Physics
+    static class Physics
     {
-        private List<Actor> _actors = new List<Actor>();
-        public Vector2 gravity;
+        private static List<Actor> _actors = new List<Actor>();
+        private static Vector2 _gravity = Vector2.Zero;
+        public static Vector2 Gravity { get => _gravity; set => _gravity = value; }
 
-        public Physics(Vector2 gravity)
-        {
-            this.gravity = gravity;
-        }
-
-        public void addActor(Actor actor)
+        public static void addActor(Actor actor)
         {
             _actors.Add(actor);
         }
 
 
-        public void Update(GameTime gameTime)
+
+        public static void UpdateAll(GameTime gameTime)
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Actor actor in _actors)
             {
-                actor.acceleration = gravity - 15 * actor.speed + actor.forces;
+                actor.acceleration = _gravity - 15 * actor.speed + actor.forces;
                 actor.speed += deltaT * actor.acceleration;
                 actor.position += deltaT * actor.speed;
                 actor.forces = Vector2.Zero;
             }
+        }
 
-
+        public static void Update(GameTime gameTime, Actor actor)
+        {
+            float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            actor.acceleration = _gravity - 15 * actor.speed + actor.forces;
+            actor.speed += deltaT * actor.acceleration;
+            actor.position += deltaT * actor.speed;
+            actor.forces = Vector2.Zero;
         }
     }
 }

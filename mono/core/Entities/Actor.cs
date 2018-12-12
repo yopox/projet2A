@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
+using mono.PhysicsEngine;
 
 namespace mono.core
 
@@ -43,10 +44,34 @@ namespace mono.core
         /// <param name="frameTime">durée d'une frame</param>
         public void Update(GameState gstate, GameTime gameTime)
         {
-            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
-            foreach (var Rect in getHitBoxes())
+            if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
             {
+                var hitbox = new Rect((int)position.X, (int)position.Y - 30, 16, 30);
 
+                Console.WriteLine("");
+                Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);
+
+                var tiles = gstate.map.GetTerrain(position, 1);
+                for (int i = 0; i < tiles.Length; i++)
+                {
+                    Console.WriteLine(String.Join(" ", tiles[i]));
+                }
+
+            }
+            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
+            foreach (var rectangle in getHitBoxes())
+            {
+                var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
+                if (listPolygon.Count != 0)
+                {
+                    if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
+                    {
+                        Console.WriteLine(((Rect)listPolygon[0]));
+                    Console.WriteLine(position);
+
+                    }
+                    CollisionSolver.ActorTerrain(this, listPolygon[0]);
+                }
             }
 
             if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
@@ -97,7 +122,7 @@ namespace mono.core
 
         public Rect[] getHitBoxes()
         {
-            return new Rect[] { new Rect(0, 0, (int)size.X, (int)size.Y) };
+            return new Rect[] { new Rect((int)position.X, (int)(position.Y - size.Y), (int)size.X, (int)size.Y) };
         }
     }
 }

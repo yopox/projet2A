@@ -18,7 +18,7 @@ namespace mono.core
 
         internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
 
-        public Face facing = Face.Right;//Direction à laquelle l'acteur fait face
+        public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 size;
         public Vector2 position;
         public Vector2 speed = new Vector2(0, 0);

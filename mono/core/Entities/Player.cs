@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using mono.core.PhysicsEngine;
 using System;
 
 
@@ -52,7 +53,12 @@ namespace mono.core
 
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
             {
-                var tiles = gstate.map.GetTiles(position, 1);
+                var hitbox = new Rect((int)position.X, (int)position.Y - 30, 16, 30);
+
+                Console.WriteLine("");
+                Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);
+
+                var tiles = gstate.map.GetTerrain(position, 1);
                 for (int i = 0; i < tiles.Length; i++)
                 {
                     Console.WriteLine(String.Join(" ", tiles[i]));

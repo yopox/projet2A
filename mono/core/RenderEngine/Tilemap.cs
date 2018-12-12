@@ -129,20 +129,20 @@ namespace mono.core
         /// <returns>The terrain.</returns>
         /// <param name="position">La position centrale.</param>
         /// <param name="radius">Nombre de tiles à récupérer de chaque côté.</param>
-        public int[][] GetTiles(Vector2 position, int radius)
+        public int[][] GetTerrain(Vector2 position, int radius)
         {
-            int diametre = 2 * radius + 1;
-            int[][] tiles = new int[diametre][];
+            int diameter = 2 * radius + 1;
+            int[][] tiles = new int[diameter][];
             int[][] terrain = GetTiles(Util.solidLayerName);
 
             int x = (int)Math.Floor(position.X / Util.tileSize);
             int y = (int)Math.Floor(position.Y / Util.tileSize);
 
-            for (int i = 0; i < diametre; i++)
+            for (int i = 0; i < diameter; i++)
             {
-                int[] subTiles = new int[diametre];
+                int[] subTiles = new int[diameter];
 
-                for (int j = 0; j < diametre; j++)
+                for (int j = 0; j < diameter; j++)
                 {
                     var x2 = x + j - radius;
                     var y2 = y + i - radius;
@@ -153,7 +153,7 @@ namespace mono.core
                     }
                     else
                     {
-                        subTiles[j] = -2;
+                        subTiles[j] = -1;
                     }
                 }
                 tiles[i] = (int[])subTiles.Clone();

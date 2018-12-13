@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using mono.core.PhysicsEngine;
 using System;
 
 
@@ -53,6 +54,21 @@ namespace mono.core
             if (gstate.ksn.IsKeyDown(Keys.S))
             {
                 forces.Y = 1500;
+            }
+
+            if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
+            {
+                var hitbox = GetHitboxes()[0];
+
+                Console.WriteLine("");
+                Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);
+
+                var tiles = gstate.map.GetTerrain(GetHitboxes()[0].Center, 4);
+                for (int i = 0; i < tiles.Length; i++)
+                {
+                    Console.WriteLine(String.Join(" ", tiles[i]));
+                }
+
             }
 
             // Reset de l'ancienne animation si on change d'état ou de direction

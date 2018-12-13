@@ -9,7 +9,7 @@ namespace mono.core.PhysicsEngine
         public static List<Polygon> CollidesWithTerrain(Rect hitbox, Tilemap map)
         {
             List<Polygon> collisions = new List<Polygon>();
-            int radius = 1;
+            int radius = 4;
 
             // On récupère les tiles autour de la hitbox
             int[][] tiles = map.GetTerrain(hitbox.Center, radius);
@@ -28,7 +28,7 @@ namespace mono.core.PhysicsEngine
                     Polygon p = Polygon.FromTile(tiles[i][j], x2 * Util.tileSize, y2 * Util.tileSize);
 
                     // S'il y a collision on ajoute le polygone à la liste
-                    if (p.CollidesWith(hitbox))
+                    if (hitbox.CollidesWith(p))
                     {
                         collisions.Add(p);
                     }

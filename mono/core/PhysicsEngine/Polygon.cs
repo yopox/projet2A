@@ -7,12 +7,13 @@ namespace mono.core.PhysicsEngine
     public enum PolygonType
     {
         Rectangle,
-        Triangle
+        Triangle,
+        None
     }
 
     public class Polygon
     {
-        public PolygonType type;
+        public PolygonType type = PolygonType.None;
 
         public bool CollidesWith(Polygon p)
         {
@@ -34,7 +35,7 @@ namespace mono.core.PhysicsEngine
         {
             if (id != 0)
             {
-                return new Rect(x, y - Util.tileSize, Util.tileSize, Util.tileSize);
+                return new Rect(x, y, Util.tileSize, Util.tileSize);
             }
             else
             {
@@ -63,7 +64,10 @@ namespace mono.core.PhysicsEngine
 
         public override bool CollidesWithRectangle(Rect r)
         {
-            return X + Width >= r.X && X <= r.X + r.Width && Y >= r.Y - r.Height && Y - Height <= r.Y ;
+            Console.WriteLine(this);
+            Console.WriteLine(r);
+            Console.WriteLine("");
+            return X + Width > r.X && X < r.X + r.Width && Y < r.Y + r.Height && Y + Height > r.Y ;
         }
 
         public override string ToString()

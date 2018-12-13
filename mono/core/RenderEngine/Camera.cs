@@ -6,11 +6,11 @@ namespace mono.core
     {
 
         public Vector2 center = new Vector2(0, 0);
-        public Vector2 offset = new Vector2(8, -48);
+        public Vector2 offset = new Vector2(-Util.playerWidth / 2, Util.playerHeight / 2);
 
         // (2*wBox, 2*hBox) est la dimension de la boîte de mouvement libre
-        static readonly int _wBox = 16;
-        static readonly int _hBox = 8;
+        static readonly int _wBox = 64;
+        static readonly int _hBox = 32;
 
         /// <summary>
         /// Change la position de la caméra selon la position du joueur.
@@ -38,6 +38,11 @@ namespace mono.core
             {
                 center.Y = player.position.Y + _hBox + offset.Y;
             }
+        }
+
+        public Vector2 GetScreenPosition(Vector2 absPos)
+        {
+            return Util.center + (absPos - center);
         }
 
     }

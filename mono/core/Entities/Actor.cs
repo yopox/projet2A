@@ -44,24 +44,10 @@ namespace mono.core
         /// <param name="frameTime">durée d'une frame</param>
         public void Update(GameState gstate, GameTime gameTime)
         {
-            if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
-            {
-                var hitbox = new Rect((int)position.X, (int)position.Y - 30, 16, 30);
-
-                Console.WriteLine("");
-                Console.WriteLine("Number of coll : " + CollisionTester.CollidesWithTerrain(hitbox, gstate.map).Count);
-
-                var tiles = gstate.map.GetTerrain(position, 1);
-                for (int i = 0; i < tiles.Length; i++)
-                {
-                    Console.WriteLine(String.Join(" ", tiles[i]));
-                }
-
-            }
             Animations[state].UpdateFrame(gameTime, gstate.frameTime);
-            foreach (var rectangle in getHitBoxes())
+            foreach (var rectangle in GetHitboxes())
             {
-                var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
+                /*var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 if (listPolygon.Count != 0)
                 {
                     if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
@@ -71,7 +57,7 @@ namespace mono.core
 
                     }
                     CollisionSolver.ActorTerrain(this, listPolygon[0]);
-                }
+                }*/
             }
 
             if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
@@ -99,30 +85,25 @@ namespace mono.core
         /// <param name="camera"></param>
         public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, Camera camera)
         {
-            var displayPos = getScreenPosition(camera);
+            var displayPos = camera.GetScreenPosition(position);
             Animations[state].Draw(spriteBatch, displayPos, facing);
 
             if (DebugMode)
             {
-                foreach (var rect in getHitBoxes())
+                foreach (var rect in GetHitboxes())
                 {
                     Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
                     Color[] data = new Color[rect.Width * rect.Height];
                     for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
                     rectangleTexture.SetData(data);
-                    spriteBatch.Draw(rectangleTexture, displayPos, Color.White);
+                    spriteBatch.Draw(rectangleTexture, camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
                 }
             }
         }
 
-        public Vector2 getScreenPosition(Camera camera)
+        public Rect[] GetHitboxes()
         {
-            return Util.center + (position - camera.center);
-        }
-
-        public Rect[] getHitBoxes()
-        {
-            return new Rect[] { new Rect((int)position.X, (int)(position.Y - size.Y), (int)size.X, (int)size.Y) };
+            return new Rect[] { new Rect((int)position.X, (int)position.Y, (int)size.X, (int)size.Y) };
         }
     }
 }

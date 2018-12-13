@@ -53,7 +53,7 @@ namespace mono.core
                     if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
                     {
                         Console.WriteLine(((Rect)listPolygon[0]));
-                    Console.WriteLine(position);
+                        Console.WriteLine(position);
 
                     }
                     CollisionSolver.ActorTerrain(this, listPolygon[0]);

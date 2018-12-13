@@ -14,23 +14,28 @@ namespace mono.core.PhysicsEngine
             switch (polygon.type)
             {
                 case PolygonType.Rectangle:
-                    Rect rectangle = (Rect)polygon;
-                    if (actor.position.X < rectangle.X)
+                    var rectangle = (Rect)polygon;
+                    if(actor.position.X < rectangle.X)
                     {
-                        actor.position.X = rectangle.X - actor.size.X;
+                        if(actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y)
+                        {
+                            actor.position.X = rectangle.X - actor.size.X;
+                        }
+                        else
+                        {
+                            actor.position.Y = rectangle.Y - actor.size.Y;
+                        }
                     }
-                    else if (actor.position.X > rectangle.X + rectangle.Width)
+                    else
                     {
-                        actor.position.X = rectangle.X + rectangle.Width;
-                    }
-
-                    if (actor.position.Y < rectangle.Y)
-                    {
-                        actor.position.Y = rectangle.Y - actor.size.Y;
-                    }
-                    else if (actor.position.Y > rectangle.Y + rectangle.Height)
-                    {
-                        actor.position.Y = rectangle.Y + actor.size.Y;
+                        if (actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y)
+                        {
+                            actor.position.X = rectangle.X + rectangle.Width - actor.size.X;
+                        }
+                        else
+                        {
+                            actor.position.Y = rectangle.Y - actor.size.Y;
+                        }
                     }
                     break;
                 case PolygonType.Triangle:

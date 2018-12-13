@@ -10,7 +10,7 @@ namespace mono.core
 
     public class Player : Actor
     {
-        public bool CanJump => state == State.Idle || state == State.Walking;
+        public bool CanJump = true;
 
         public Player(Atlas atlas, Vector2 size) : base(atlas, Vector2.Zero, size)
         {
@@ -31,14 +31,14 @@ namespace mono.core
                 _newFacing = Face.Right;
                 _newState = State.Walking;
 
-                forces.X = 1500;
+                forces.X = 3000;
             }
             else if (gstate.ksn.IsKeyDown(Keys.Q))
             {
                 _newFacing = Face.Left;
                 _newState = State.Walking;
 
-                forces.X = -1500;
+                forces.X = -3000;
             }
             else if (Math.Abs(speed.X) < 50)
             {
@@ -46,9 +46,10 @@ namespace mono.core
                 _newState = State.Idle;
             }
 
-            if (gstate.ksn.IsKeyDown(Keys.Z))
+            if (gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z))
             {
-                forces.Y = -10000;
+                forces.Y = -100000;
+                CanJump = false;
             }
 
             if (gstate.ksn.IsKeyDown(Keys.S))

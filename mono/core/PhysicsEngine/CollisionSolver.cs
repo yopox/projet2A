@@ -8,41 +8,59 @@ namespace mono.core.PhysicsEngine
 {
     static class CollisionSolver
     {
-        public static void ActorTerrain(Actor actor, Polygon polygon)
+        public static void ActorTerrain(Actor actor, List<Polygon> listPolygon)
         {
             //Console.WriteLine("Position avant rectification : " + actor.position);
-            switch (polygon.type)
+            foreach (var polygon in listPolygon)
             {
-                case PolygonType.Rectangle:
-                    var rectangle = (Rect)polygon;
-                    if(actor.position.X < rectangle.X)
-                    {
-                        if(actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y)
-                        {
-                            actor.position.X = rectangle.X - actor.size.X + 1;
-                        }
-                        else
-                        {
-                            actor.position.Y = rectangle.Y - actor.size.Y - 1;
-                        }
-                    }
-                    else
-                    {
-                        if (rectangle.X + rectangle.Width - actor.position.X < actor.position.Y + actor.size.Y - rectangle.Y)
-                        {
-                            actor.position.X = rectangle.X + rectangle.Width - 1;
-                        }
-                        else
-                        {
-                            actor.position.Y = rectangle.Y - actor.size.Y + 1;
-                        }
-                    }
-                    break;
-                case PolygonType.Triangle:
-                    break;
-                default:
-                    break;
+                switch (polygon.type)
+                {
+                    case PolygonType.Rectangle:
+                        var rectangle = (Rect)polygon;
 
+                        //Le joueur se situe à gauche du début du bloc
+                        if (actor.position.X < rectangle.X)
+                        {
+                            //Console.WriteLine(rectangle.X);
+                            //Console.WriteLine("acteur : " + actor.position.X + "diff = " + (actor.position.X + actor.size.X - rectangle.X));
+                            //Console.WriteLine("diffx = " + (actor.position.X + actor.size.X - rectangle.X) + " et diffy = " + (actor.position.Y + actor.size.Y - rectangle.Y));
+
+                            //Collisision vers la droite
+                            if (actor.position.X + actor.size.X - rectangle.X >= actor.position.Y + actor.size.Y - rectangle.Y) 
+                            {
+                                actor.position.Y = rectangle.Y - actor.size.Y;
+                            }
+                            else if (actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y ||listPolygon.Count == 1)
+                            {
+                                actor.position.X = rectangle.X - actor.size.X + 1;
+                            }
+
+
+                        }
+                        // Le joueur est à droite du début du bloc
+                        else if (actor.position.X < rectangle.X + rectangle.Width)
+                        {
+                            //Console.WriteLine("dans le else diffx = " + (rectangle.X - actor.position.X + actor.size.X - rectangle.Width) + " et diffy = " + (actor.position.Y + actor.size.Y - rectangle.Y));
+                            
+                            if (rectangle.X - actor.position.X + actor.size.X - rectangle.Width > actor.position.Y + actor.size.Y - rectangle.Y)
+                            {
+                                actor.position.Y = rectangle.Y - actor.size.Y;
+                            }
+
+                            else if(actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
+                            {
+                                actor.position.X = rectangle.X + rectangle.Width;
+                            }
+                        }
+
+
+                        break;
+                    case PolygonType.Triangle:
+                        break;
+                    default:
+                        break;
+
+                }
             }
         }
     }

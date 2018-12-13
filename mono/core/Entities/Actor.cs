@@ -47,10 +47,8 @@ namespace mono.core
             foreach (var rectangle in GetHitboxes())
             {
                 var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
-                foreach (var polygon in listPolygon)
-                {
-                    CollisionSolver.ActorTerrain(this, polygon);
-                } 
+                CollisionSolver.ActorTerrain(this, listPolygon);
+                //listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 
             }
 

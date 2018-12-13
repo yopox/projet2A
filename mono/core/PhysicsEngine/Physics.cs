@@ -37,7 +37,7 @@ namespace mono.PhysicsEngine
         public static void Update(GameTime gameTime, Actor actor)
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            actor.acceleration = _gravity - 15 * actor.speed + actor.forces;
+            actor.acceleration = _gravity - 10000000 * actor.speed + actor.forces;
             actor.speed += deltaT * actor.acceleration;
             actor.position += deltaT * actor.speed;
             actor.forces = Vector2.Zero;

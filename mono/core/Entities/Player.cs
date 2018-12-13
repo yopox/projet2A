@@ -48,7 +48,7 @@ namespace mono.core
 
             if (gstate.ksn.IsKeyDown(Keys.Z))
             {
-                forces.Y = -1500;
+                forces.Y = -10000;
             }
 
             if (gstate.ksn.IsKeyDown(Keys.S))

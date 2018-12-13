@@ -44,22 +44,17 @@ namespace mono.core
         /// <param name="frameTime">durée d'une frame</param>
         public void Update(GameState gstate, GameTime gameTime)
         {
-            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
             foreach (var rectangle in GetHitboxes())
             {
-                /*var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
-                if (listPolygon.Count != 0)
+                var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
+                foreach (var polygon in listPolygon)
                 {
-                    if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
-                    {
-                        Console.WriteLine(((Rect)listPolygon[0]));
-                        Console.WriteLine(position);
-
-                    }
-                    CollisionSolver.ActorTerrain(this, listPolygon[0]);
-                }*/
+                    CollisionSolver.ActorTerrain(this, polygon);
+                } 
+                
             }
 
+            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
             if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
             {
                 DebugMode = !DebugMode;

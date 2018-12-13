@@ -19,22 +19,22 @@ namespace mono.core.PhysicsEngine
                     {
                         if(actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y)
                         {
-                            actor.position.X = rectangle.X - actor.size.X;
+                            actor.position.X = rectangle.X - actor.size.X + 1;
                         }
                         else
                         {
-                            actor.position.Y = rectangle.Y - actor.size.Y;
+                            actor.position.Y = rectangle.Y - actor.size.Y - 1;
                         }
                     }
                     else
                     {
-                        if (actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y)
+                        if (rectangle.X + rectangle.Width - actor.position.X < actor.position.Y + actor.size.Y - rectangle.Y)
                         {
-                            actor.position.X = rectangle.X + rectangle.Width - actor.size.X;
+                            actor.position.X = rectangle.X + rectangle.Width - 1;
                         }
                         else
                         {
-                            actor.position.Y = rectangle.Y - actor.size.Y;
+                            actor.position.Y = rectangle.Y - actor.size.Y + 1;
                         }
                     }
                     break;

@@ -38,7 +38,7 @@ namespace mono
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics, 640, 360);
-            Rendering.SetResolution(640, 360);
+            Rendering.SetResolution(1280, 720);
             Rendering.SetVirtualResolution(640, 360);
         }
 
@@ -54,7 +54,7 @@ namespace mono
             tileset = new Atlas();
             player = new Player(atlas, new Vector2(64, 128));
 
-            //Physics.Gravity = new Vector2(0, 1000);
+            Physics.Gravity = new Vector2(0, 5000);
             Physics.addActor(player);
 
             camera = new Camera();
@@ -110,9 +110,9 @@ namespace mono
 
             state.ksn = Keyboard.GetState();
 
+            Physics.UpdateAll(gameTime);
             player.Update(state, gameTime);
             camera.Update(player);
-            Physics.UpdateAll(gameTime);
             base.Update(gameTime);
 
             state.kso = state.ksn;

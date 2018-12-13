@@ -64,9 +64,6 @@ namespace mono.core.PhysicsEngine
 
         public override bool CollidesWithRectangle(Rect r)
         {
-            Console.WriteLine(this);
-            Console.WriteLine(r);
-            Console.WriteLine("");
             return X + Width > r.X && X < r.X + r.Width && Y < r.Y + r.Height && Y + Height > r.Y ;
         }
 

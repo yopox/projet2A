@@ -22,8 +22,8 @@ namespace mono.core
     public static class Util
     {
         // Screen
-        static public int width = 640;
-        static public int height = 360;
+        static public int width = 1280;
+        static public int height = 720;
         static public Vector2 center = new Vector2(width / 2, height / 2);
 
         // Tileset
@@ -33,6 +33,11 @@ namespace mono.core
         // Player
         static public int playerHeight = 128;
         static public int playerWidth = 64;
+        static public int weight = 80;
+
+        // Unité du monde
+        static public int baseUnit = 200;
+        static public Vector2 gravity = new Vector2(0,11);
 
         public static void ToIntVector2(ref Vector2 vect)
         {

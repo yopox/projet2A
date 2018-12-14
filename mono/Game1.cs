@@ -37,9 +37,9 @@ namespace mono
             // TODO: Taille d'écran réelle et virtuelle dans Util
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Rendering.Init(ref graphics, 640, 360);
+            Rendering.Init(ref graphics, 1280, 720);
             Rendering.SetResolution(1280, 720);
-            Rendering.SetVirtualResolution(640, 360);
+            Rendering.SetVirtualResolution(1280, 720);
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace mono
             tileset = new Atlas();
             player = new Player(atlas, new Vector2(64, 128));
 
-            Physics.Gravity = new Vector2(0, 5000);
+            Physics.Gravity = Util.gravity;
             Physics.addActor(player);
 
             camera = new Camera();

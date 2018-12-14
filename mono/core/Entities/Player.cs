@@ -30,7 +30,7 @@ namespace mono.core
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
 
-            if (Math.Abs(speed.Y) < 10 && Math.Abs(acceleration.Y) < 10)
+            if (Math.Abs(speed.Y) < 1 && Math.Abs(acceleration.Y) < 1)
             {
                 CanJump = true;
             }
@@ -40,14 +40,14 @@ namespace mono.core
                 _newFacing = Face.Right;
                 _newState = State.Walking;
 
-                forces.X = 3000;
+                speed.X = 1.5f;
             }
             else if (gstate.ksn.IsKeyDown(Keys.Q))
             {
                 _newFacing = Face.Left;
                 _newState = State.Walking;
 
-                forces.X = -3000;
+                speed.X = -1.5f;
             }
             else if (Math.Abs(speed.X) < 50)
             {
@@ -57,13 +57,14 @@ namespace mono.core
 
             if (gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z) && CanJump)
             {
-                forces.Y = -100000;
+                forces.Y = -15000;
+                speed.Y -= 0.8f;
                 CanJump = false;
             }
 
             if (gstate.ksn.IsKeyDown(Keys.S))
             {
-                forces.Y = 1500;
+                forces.Y = 10;
             }
 
             // Activation mode Debug

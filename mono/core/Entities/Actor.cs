@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
-using mono.PhysicsEngine;
 
 namespace mono.core
 
@@ -22,6 +20,7 @@ namespace mono.core
         public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 size;
         public Vector2 position;
+        public Vector2 center;
         public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
         public Vector2 forces = new Vector2(0, 0);
@@ -35,6 +34,8 @@ namespace mono.core
             this.atlas = atlas;
             this.position = position;
             this.size = size;
+            center =  new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
+            Util.ToIntVector2(ref center);
         }
 
         /// <summary>
@@ -53,10 +54,6 @@ namespace mono.core
             }
 
             Animations[state].UpdateFrame(gameTime, gstate.frameTime);
-            if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
-            {
-                DebugMode = !DebugMode;
-            }
         }
 
         /// <summary>
@@ -80,18 +77,6 @@ namespace mono.core
         {
             var displayPos = camera.GetScreenPosition(position);
             Animations[state].Draw(spriteBatch, displayPos, facing);
-
-            if (DebugMode)
-            {
-                foreach (var rect in GetHitboxes())
-                {
-                    Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
-                    Color[] data = new Color[rect.Width * rect.Height];
-                    for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
-                    rectangleTexture.SetData(data);
-                    spriteBatch.Draw(rectangleTexture, camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
-                }
-            }
         }
 
         public Rect[] GetHitboxes()

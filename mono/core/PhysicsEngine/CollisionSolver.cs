@@ -9,13 +9,19 @@ namespace mono.core.PhysicsEngine
 {
     static class CollisionSolver
     {
+        /// <summary>
+        /// Place un acteur au bon endroit suivant les collisions
+        /// </summary>
+        /// <param name="actor">acteur qui va être déplacé au bont endroit</param>
+        /// <param name="listPolygon">Liste des polygones qui collisionnent avec l'acteur</param>
+        /// <param name="gameTime">acteur dont on va résoudre les collisions</param>
         public static void ActorTerrain(Actor actor, List<Polygon> listPolygon, GameTime gameTime)
         {
+            // Calcule l'ancienne position de l'acteur
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
             var oldPos = actor.position;
             oldPos -= deltaT * actor.speed * Util.baseUnit;
-            Console.WriteLine("Vieille position = " + (actor.position.Y + actor.size.Y));
+            Util.ToIntVector2(ref oldPos);
 
             foreach (var polygon in listPolygon)
             {
@@ -23,8 +29,6 @@ namespace mono.core.PhysicsEngine
                 {
                     case PolygonType.Rectangle:
                         var rectangle = (Rect)polygon;
-                        Console.WriteLine("rctangle : " + rectangle.Y);
-
                         // Collision à droite
                         if (actor.position.X < rectangle.X)
                         {
@@ -39,7 +43,7 @@ namespace mono.core.PhysicsEngine
                             {
 
                                 // Collision vers le haut
-                                if (oldPos.Y >=  rectangle.Y + rectangle.Height - 1)
+                                if (oldPos.Y >=  rectangle.Y + rectangle.Height - 1 && oldPos.X + actor.size.X > rectangle.X)
                                 {
                                     actor.position.Y = rectangle.Y + rectangle.Height;
                                     actor.acceleration.Y = Util.gravity.Y;
@@ -67,7 +71,7 @@ namespace mono.core.PhysicsEngine
                             else if(actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
                             {
                                 // Collision avec le haut
-                                if (oldPos.Y >= rectangle.Y + rectangle.Height - 1)
+                                if (oldPos.Y >= rectangle.Y + rectangle.Height - 1 && oldPos.X < rectangle.X + rectangle.Width)
                                 {
                                     actor.position.Y = rectangle.Y + rectangle.Height;
                                     actor.acceleration.Y = Util.gravity.Y;
@@ -82,8 +86,6 @@ namespace mono.core.PhysicsEngine
                                 }
                             }
                         }
-
-
                         break;
                     case PolygonType.Triangle:
                         break;

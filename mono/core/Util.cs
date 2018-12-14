@@ -39,6 +39,10 @@ namespace mono.core
         static public int baseUnit = 200;
         static public Vector2 gravity = new Vector2(0,11);
 
+        /// <summary>
+        /// Convertie un vecteur 2 de float en vecteur 2 d'entier
+        /// </summary>
+        /// <param name="vect">vecteur modifié</param>
         public static void ToIntVector2(ref Vector2 vect)
         {
             vect.X = (int)Math.Round(vect.X);

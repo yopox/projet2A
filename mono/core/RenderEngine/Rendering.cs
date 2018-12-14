@@ -1,11 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono.RenderEngine
 {
@@ -17,14 +11,19 @@ namespace mono.RenderEngine
         static int _height; // Hauteur réelle de notre fenetre
         static int _virtualWidth; // Largeur de la fenetre de dessin
         static int _virtualHeight; // Hauteur de notre fenetre de dessin
-        static int _realWidth; // Largeur réelle de la fenetre d'affichage
-        static int _realHeight; // Hauteur réelle de la fenetre d'affichage
+        static int _realWidth; // Largeur réelle de l'affichage le plus grand dans la fenêtre
+        static int _realHeight; // Hauteur réelle de l'affichage le plus grand dans la fenêtre
         static bool _dirtyMatrix = true; // Représente l'état de notre matrice de dessin
         static Matrix _scaleMatrix; // Matrice de l'échelle du dessin
 
         static Texture2D _textureOverflow;
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="graphicsDeviceManager">Fenêtre d'affichage</param>
+        /// <param name="width">Largeur de la fenêtre</param>
+        /// <param name="heigth">Hauteur de la fenêtre</param>
         public static void Init(ref GraphicsDeviceManager graphicsDeviceManager, int width, int heigth)
         {
             _width = graphicsDeviceManager.PreferredBackBufferWidth;
@@ -36,7 +35,7 @@ namespace mono.RenderEngine
         }
 
         /// <summary>
-        /// Set la résolution dans laquelle on va dessiner notre environnement
+        /// Affecte la résolution dans laquelle on va dessiner notre environnement
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -49,7 +48,7 @@ namespace mono.RenderEngine
         }
 
         /// <summary>
-        /// Set la résolution réelle de notre affichage
+        /// Affecte la taille de la fenêtre
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -71,6 +70,10 @@ namespace mono.RenderEngine
             return _scaleMatrix;
         }
 
+        /// <summary>
+        /// Calcule le ratio de la fenêtre de dessin
+        /// </summary>
+        /// <returns>Ratio de la fenêtre de dessin</returns>
         public static float GetAspectRatio()
         {
             return (float)_virtualWidth / (float)_virtualHeight;

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
-using mono.PhysicsEngine;
 using System;
 
 
@@ -55,7 +54,7 @@ namespace mono.core
                 _newState = State.Idle;
             }
 
-            if (gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z) && CanJump)
+            if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && CanJump)
             {
                 forces.Y = -15000;
                 speed.Y -= 0.8f;
@@ -91,7 +90,10 @@ namespace mono.core
                 facing = _newFacing;
             }
 
-
+            if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
+            {
+                Debuger.debugActors = !Debuger.debugActors;
+            }
         }
     }
 }

@@ -20,51 +20,65 @@ namespace mono.core.PhysicsEngine
                     case PolygonType.Rectangle:
                         var rectangle = (Rect)polygon;
 
-                        //Le joueur se situe à gauche du début du bloc
+                        // Collision à droite
                         if (actor.position.X < rectangle.X)
                         {
-                            //Collisision vers la droite
+                            // Collision vers le bas
                             if (actor.position.X + actor.size.X - rectangle.X >= actor.position.Y + actor.size.Y - rectangle.Y) 
                             {
                                 actor.position.Y = rectangle.Y - actor.size.Y;
+                                actor.acceleration.Y = 0;
+                                actor.speed.Y = 0;
                             }
                             else if (actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y ||listPolygon.Count == 1)
                             {
                                 var oldPos = actor.position;
                                 oldPos -= deltaT * actor.speed;
 
+                                // Collision vers le haut
                                 if (oldPos.Y >=  rectangle.Y + rectangle.Height)
                                 {
                                     actor.position.Y = rectangle.Y + rectangle.Height;
+                                    actor.acceleration.Y = 0;
+                                    actor.speed.Y = 0;
                                 }
+                                // Collision vers la droite
                                 else
                                 {
-                                actor.position.X = rectangle.X - actor.size.X + 1;
+                                    actor.position.X = rectangle.X - actor.size.X + 1;
+                                    actor.acceleration.X = 0;
+                                    actor.speed.X = 0;
                                 }
                             }
                         }
-                        // Le joueur est à droite du début du bloc
+                        // Collision à gauche du joueur
                         else if (actor.position.X < rectangle.X + rectangle.Width)
                         {
-                            //Console.WriteLine("dans le else diffx = " + (rectangle.X - actor.position.X + actor.size.X - rectangle.Width) + " et diffy = " + (actor.position.Y + actor.size.Y - rectangle.Y));
-                            
+                            // Collision avec le bas
                             if (rectangle.X - actor.position.X + actor.size.X - rectangle.Width > actor.position.Y + actor.size.Y - rectangle.Y)
                             {
                                 actor.position.Y = rectangle.Y - actor.size.Y;
+                                actor.acceleration.Y = 0;
+                                actor.speed.Y = 0;
                             }
-
                             else if(actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
                             {
                                 var oldPos = actor.position;
                                 oldPos -= deltaT * actor.speed;
 
+                                // Collision avec le haut
                                 if (oldPos.Y >= rectangle.Y + rectangle.Height)
                                 {
                                     actor.position.Y = rectangle.Y + rectangle.Height;
+                                    actor.acceleration.Y = 0;
+                                    actor.speed.Y = 0;
                                 }
+                                // Collision avec la gauche
                                 else
                                 {
                                     actor.position.X = rectangle.X + rectangle.Width;
+                                    actor.acceleration.X = 0;
+                                    actor.speed.X = 0;
                                 }
                             }
                         }

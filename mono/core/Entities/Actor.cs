@@ -48,7 +48,7 @@ namespace mono.core
             {
                 var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
-                //listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
+                listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 
             }
 

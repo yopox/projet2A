@@ -54,7 +54,7 @@ namespace mono
             tileset = new Atlas();
             player = new Player(atlas, new Vector2(64, 128));
 
-            //Physics.Gravity = new Vector2(0, 5000);
+            Physics.Gravity = new Vector2(0, 5000);
             Physics.addActor(player);
 
             camera = new Camera();

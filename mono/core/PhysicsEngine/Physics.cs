@@ -25,11 +25,14 @@ namespace mono.PhysicsEngine
         public static void UpdateAll(GameTime gameTime)
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             foreach (Actor actor in _actors)
             {
                 actor.acceleration = _gravity - 15 * actor.speed + actor.forces;
                 actor.speed += deltaT * actor.acceleration;
                 actor.position += deltaT * actor.speed;
+                Util.ToIntVector2(ref actor.position);
+
                 actor.forces = Vector2.Zero;
             }
         }
@@ -37,9 +40,12 @@ namespace mono.PhysicsEngine
         public static void Update(GameTime gameTime, Actor actor)
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             actor.acceleration = _gravity - 10000000 * actor.speed + actor.forces;
             actor.speed += deltaT * actor.acceleration;
             actor.position += deltaT * actor.speed;
+            Util.ToIntVector2(ref actor.position);
+
             actor.forces = Vector2.Zero;
         }
     }

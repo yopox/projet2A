@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
+using mono.PhysicsEngine;
 using System;
 
 
@@ -21,11 +22,19 @@ namespace mono.core
         private Face _newFacing;
 
         /// <summary>
-        /// Mapping des touches et de leurs effets
+        /// Update par rapport aux entrées claviers
         /// </summary>
         /// <param name="kbState">Etat du clavier</param>
         public new void Update(GameState gstate, GameTime gameTime)
         {
+            // Update les animations et les collisions
+            base.Update(gstate, gameTime);
+
+            if (Math.Abs(speed.Y) < 10 && Math.Abs(acceleration.Y) < 10)
+            {
+                CanJump = true;
+            }
+
             if (gstate.ksn.IsKeyDown(Keys.D))
             {
                 _newFacing = Face.Right;
@@ -46,7 +55,7 @@ namespace mono.core
                 _newState = State.Idle;
             }
 
-            if (gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z))
+            if (gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z) && CanJump)
             {
                 forces.Y = -100000;
                 CanJump = false;
@@ -57,6 +66,7 @@ namespace mono.core
                 forces.Y = 1500;
             }
 
+            // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
             {
                 var hitbox = GetHitboxes()[0];
@@ -80,7 +90,7 @@ namespace mono.core
                 facing = _newFacing;
             }
 
-            base.Update(gstate, gameTime);
+
         }
     }
 }

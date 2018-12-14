@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace mono.core
 {
@@ -32,5 +33,11 @@ namespace mono.core
         // Player
         static public int playerHeight = 128;
         static public int playerWidth = 64;
+
+        public static void ToIntVector2(ref Vector2 vect)
+        {
+            vect.X = (int)Math.Round(vect.X);
+            vect.Y = (int)Math.Round(vect.Y);
+        }
     }
 }

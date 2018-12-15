@@ -1,11 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace mono.RenderEngine
 {
     static class Rendering
     {
         static private GraphicsDeviceManager _graphicsDeviceManager;
+
+        private static bool alreadyDone = false; // Information si les calculs de fenêtre d'affichage
+
+        private static Texture2D backgroundTexture; // Fond bleu
 
         static int _width; // Largeur réelle de notre fenetre
         static int _height; // Hauteur réelle de notre fenetre
@@ -19,12 +24,12 @@ namespace mono.RenderEngine
         static Texture2D _textureOverflow;
 
         /// <summary>
-        /// 
+        /// Définie la fenêtre d'affichage
         /// </summary>
         /// <param name="graphicsDeviceManager">Fenêtre d'affichage</param>
         /// <param name="width">Largeur de la fenêtre</param>
         /// <param name="heigth">Hauteur de la fenêtre</param>
-        public static void Init(ref GraphicsDeviceManager graphicsDeviceManager, int width, int heigth)
+        public static void Init(ref GraphicsDeviceManager graphicsDeviceManager)
         {
             _width = graphicsDeviceManager.PreferredBackBufferWidth;
             _height = graphicsDeviceManager.PreferredBackBufferHeight;
@@ -157,14 +162,26 @@ namespace mono.RenderEngine
         /// </summary>
         public static void BeginDraw(SpriteBatch spriteBatch)
         {
-            FullViewport();
-            Vector2[] position = new Vector2[2];
-            position = Rendering.GetPositionOverflow();
-            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[0], Color.Black);
-            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[1], Color.Black);
+            if (!alreadyDone)
+            {
+                FullViewport();
+                Vector2[] position = new Vector2[2];
+                position = GetPositionOverflow();
 
-            RealViewport();
-            _graphicsDeviceManager.GraphicsDevice.Clear(Color.LightBlue);
+                spriteBatch.Draw(GetTextureOverflow(), position[0], Color.Black);
+                spriteBatch.Draw(GetTextureOverflow(), position[1], Color.Black);
+                RealViewport();
+
+                backgroundTexture = new Texture2D(_graphicsDeviceManager.GraphicsDevice, _virtualWidth, _virtualHeight);
+                Color[] data = new Color[_virtualWidth * _virtualHeight];
+                for (int i = 0; i < data.Length; ++i) data[i] = Color.LightBlue; ;
+                backgroundTexture.SetData(data);
+
+                alreadyDone = true;
+            }
+
+            _graphicsDeviceManager.GraphicsDevice.Clear(Color.Black);
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
         }
 
         public static Texture2D GetTextureOverflow()
@@ -200,6 +217,10 @@ namespace mono.RenderEngine
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Vector2[] GetPositionOverflow()
         {
             if (_width == _realWidth)
@@ -211,6 +232,5 @@ namespace mono.RenderEngine
                 return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
             }
         }
-
     }
 }

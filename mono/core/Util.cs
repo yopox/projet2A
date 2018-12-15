@@ -24,6 +24,8 @@ namespace mono.core
         // Screen
         static public int width = 1280;
         static public int height = 720;
+        static public int virtualWidth = 1280;
+        static public int virtualHeight = 720;
         static public Vector2 center = new Vector2(width / 2, height / 2);
 
         // Tileset

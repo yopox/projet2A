@@ -37,9 +37,9 @@ namespace mono
             // TODO: Taille d'écran réelle et virtuelle dans Util
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Rendering.Init(ref graphics, 1400, 720);
+            Rendering.Init(ref graphics);
             Rendering.SetResolution(1280, 720);
-            Rendering.SetVirtualResolution(1280, 720);
+            Rendering.SetVirtualResolution(Util.virtualWidth, Util.virtualHeight);
         }
 
         /// <summary>

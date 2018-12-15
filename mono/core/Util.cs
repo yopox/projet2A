@@ -27,6 +27,8 @@ namespace mono.core
         static public int virtualWidth = 1280;
         static public int virtualHeight = 720;
         static public Vector2 center = new Vector2(width / 2, height / 2);
+        static public Color backgroundColor = Color.LightBlue;
+        static public Color screenBorderColor = Color.Black;
 
         // Tileset
         static public int tileSize = 32;

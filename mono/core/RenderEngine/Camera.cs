@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using mono.RenderEngine;
 
 namespace mono.core
 {
@@ -6,7 +7,7 @@ namespace mono.core
     {
 
         public Vector2 center = new Vector2(0, 0);
-        public Vector2 offset = new Vector2(-Util.playerWidth / 2, Util.playerHeight / 2);
+        public Vector2 offset = new Vector2((float)-Util.playerWidth / 2, Util.playerHeight / 2);
 
         // (2*wBox, 2*hBox) est la dimension de la boîte de mouvement libre
         static readonly int _wBox = 64;

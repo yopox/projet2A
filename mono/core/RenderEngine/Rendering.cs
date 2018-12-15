@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core;
 using System;
 
 namespace mono.RenderEngine
@@ -14,12 +15,18 @@ namespace mono.RenderEngine
 
         static int _width; // Largeur réelle de notre fenetre
         static int _height; // Hauteur réelle de notre fenetre
+        static Vector2 _center;
+        static Vector2 _virtualCenter;
+        public static Vector2 Center { get => _center; }
+        public static Vector2 VirtualCenter { get => _virtualCenter; }
         static int _virtualWidth; // Largeur de la fenetre de dessin
         static int _virtualHeight; // Hauteur de notre fenetre de dessin
         static int _realWidth; // Largeur réelle de l'affichage le plus grand dans la fenêtre
         static int _realHeight; // Hauteur réelle de l'affichage le plus grand dans la fenêtre
         static bool _dirtyMatrix = true; // Représente l'état de notre matrice de dessin
         static Matrix _scaleMatrix; // Matrice de l'échelle du dessin
+        public static Vector2 zoomOffset = Vector2.Zero;
+        public static float zoomFactor = 1f;
 
         static Texture2D _textureOverflow;
 
@@ -33,6 +40,7 @@ namespace mono.RenderEngine
         {
             _width = graphicsDeviceManager.PreferredBackBufferWidth;
             _height = graphicsDeviceManager.PreferredBackBufferHeight;
+            _center = new Vector2(_width / 2, _height / 2);
             _graphicsDeviceManager = graphicsDeviceManager;
             _dirtyMatrix = true;
 
@@ -48,6 +56,7 @@ namespace mono.RenderEngine
         {
             _virtualHeight = height;
             _virtualWidth = width;
+            _virtualCenter = new Vector2(_virtualWidth / 2, _virtualHeight / 2);
 
             _dirtyMatrix = true;
         }
@@ -61,6 +70,7 @@ namespace mono.RenderEngine
         {
             _height = height;
             _width = width;
+            _center = new Vector2(width / 2, height / 2);
             ApplyResolution();
         }
 
@@ -91,8 +101,8 @@ namespace mono.RenderEngine
         {
             _dirtyMatrix = false;
             _scaleMatrix = Matrix.CreateScale(
-                (float)_realWidth / (float)_virtualWidth,
-                (float)_realHeight / (float)_virtualHeight,
+                zoomFactor * (float)_realWidth / (float)_virtualWidth,
+                zoomFactor * (float)_realHeight / (float)_virtualHeight,
                 1f);
         }
 
@@ -172,15 +182,15 @@ namespace mono.RenderEngine
                 spriteBatch.Draw(GetTextureOverflow(), position[1], Color.Black);
                 RealViewport();
 
-                backgroundTexture = new Texture2D(_graphicsDeviceManager.GraphicsDevice, _virtualWidth, _virtualHeight);
-                Color[] data = new Color[_virtualWidth * _virtualHeight];
-                for (int i = 0; i < data.Length; ++i) data[i] = Color.LightBlue; ;
+                backgroundTexture = new Texture2D(_graphicsDeviceManager.GraphicsDevice, (int)(_virtualWidth / zoomFactor), (int)(_virtualHeight / zoomFactor));
+                Color[] data = new Color[(int)(_virtualWidth / zoomFactor) * (int)(_virtualHeight / zoomFactor)];
+                for (int i = 0; i < data.Length; ++i) data[i] = Util.backgroundColor;
                 backgroundTexture.SetData(data);
 
                 alreadyDone = true;
             }
 
-            _graphicsDeviceManager.GraphicsDevice.Clear(Color.Black);
+            _graphicsDeviceManager.GraphicsDevice.Clear(Util.screenBorderColor);
             spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
         }
 
@@ -231,6 +241,18 @@ namespace mono.RenderEngine
             {
                 return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
             }
+        }
+
+        public static void setZoom(float zFactor)
+        {
+            zoomOffset = new Vector2(_virtualCenter.X - zFactor * _virtualWidth / 2, _virtualCenter.Y - zFactor * _virtualHeight / 2) / zFactor;
+            Console.WriteLine(zoomOffset);
+            Console.WriteLine(_virtualWidth);
+            Console.WriteLine(_center.X);
+
+            Util.ToIntVector2(ref zoomOffset);
+            zoomFactor = zFactor;
+            _dirtyMatrix = true;
         }
     }
 }

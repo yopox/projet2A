@@ -33,6 +33,10 @@ namespace mono.core
             {
                 CanJump = true;
             }
+            else
+            {
+                CanJump = false;
+            }
 
             if (gstate.ksn.IsKeyDown(Keys.D))
             {
@@ -61,7 +65,6 @@ namespace mono.core
             {
                 forces.Y = -15000;
                 speed.Y -= 0.8f;
-                CanJump = false;
             }
 
             if (gstate.ksn.IsKeyDown(Keys.S))

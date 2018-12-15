@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using mono.core;
+using mono.RenderEngine;
 
 namespace mono.PhysicsEngine
 {
@@ -29,7 +30,7 @@ namespace mono.PhysicsEngine
             foreach (Actor actor in _actors)
             {
 
-                actor.acceleration = _gravity + (actor.forces - 40 * actor.speed) / Util.weight ;
+                actor.acceleration = _gravity + (actor.forces - 40 * actor.speed) / Util.weight;
                 actor.speed += deltaT * actor.acceleration;
                 actor.position += deltaT * actor.speed * Util.baseUnit;
                 actor.center += deltaT * actor.speed * Util.baseUnit;
@@ -48,7 +49,7 @@ namespace mono.PhysicsEngine
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            actor.acceleration = _gravity - 10000000 * actor.speed + actor.forces;
+            actor.acceleration = _gravity + (actor.forces - 40 * actor.speed) / Util.weight;
             actor.speed += deltaT * actor.acceleration;
             actor.position += deltaT * actor.speed;
             Util.ToIntVector2(ref actor.position);

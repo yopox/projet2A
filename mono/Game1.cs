@@ -38,7 +38,7 @@ namespace mono
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(1280, 720);
+            Rendering.SetResolution(1000, 720);
             Rendering.SetVirtualResolution(Util.virtualWidth, Util.virtualHeight);
         }
 
@@ -56,6 +56,8 @@ namespace mono
 
             Physics.Gravity = Util.gravity;
             Physics.addActor(player);
+
+            Rendering.setZoom(1f);
 
             camera = new Camera();
             state.frameTime = 0.1f;

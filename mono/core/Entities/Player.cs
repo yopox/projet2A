@@ -29,7 +29,7 @@ namespace mono.core
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
 
-            if (Math.Abs(speed.Y) < 1 && Math.Abs(acceleration.Y) < 1)
+            if (Math.Abs(speed.Y) < 0.2 && Math.Abs(acceleration.Y) < 0.2)
             {
                 CanJump = true;
             }
@@ -48,10 +48,13 @@ namespace mono.core
 
                 speed.X = -1.5f;
             }
-            else if (Math.Abs(speed.X) < 50)
+            else if (Math.Abs(speed.X) < 0.2)
+            {
+                _newState = State.Idle;
+            }
+            else
             {
                 speed.X = 0;
-                _newState = State.Idle;
             }
 
             if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && CanJump)

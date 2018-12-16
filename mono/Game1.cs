@@ -59,7 +59,7 @@ namespace mono
             Physics.Gravity = Util.gravity;
             Physics.addActor(player);
 
-            Rendering.setZoom(1f);
+            Rendering.setZoom(0.7f);
 
             camera = new Camera();
             state.frameTime = 0.1f;

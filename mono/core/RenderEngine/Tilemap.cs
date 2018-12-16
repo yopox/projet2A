@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core.RenderEngine;
 using mono.RenderEngine;
 using Newtonsoft.Json.Linq;
 
@@ -41,11 +43,13 @@ namespace mono.core
     /// </summary>
     public class Tilemap
     {
+        readonly String regex = "(.*);(.*)";
 
         public static int[] warpGids = new int[] { 1 };
 
         readonly int height;
         readonly int width;
+        public List<ParallaxElement> parallaxElements = new List<ParallaxElement>();
 
         readonly int xTileRange = Util.width / Util.tileSize / 2 + 1;
         readonly int yTileRange = Util.height / Util.tileSize / 2 + 2;
@@ -54,7 +58,7 @@ namespace mono.core
         List<MapObject> objects = new List<MapObject>();
         List<Warp> warps = new List<Warp>();
 
-        public Tilemap(string name, string json)
+        public Tilemap(string name, string json, Game game)
         {
             // On parse la tilemap
             dynamic map = JObject.Parse(json);
@@ -62,6 +66,18 @@ namespace mono.core
             // Informations sur la tilemap
             height = map.height;
             width = map.width;
+
+            foreach (var element in map.properties)
+            {
+                var matches = Regex.Split((String)element.value, regex);
+
+                ParallaxElement p = new ParallaxElement();
+                Console.WriteLine(matches[2]);
+                p.factor = (float)Convert.ToDouble(matches[1]);
+                p.texture = game.Content.Load<Texture2D>(matches[2]);
+
+                parallaxElements.Add(p);
+            }
 
             // Couches
             foreach (dynamic layer in map.layers)
@@ -197,6 +213,11 @@ namespace mono.core
             var terrain = GetTiles("decor");
             int centerTileX = (int)camera.center.X / Util.tileSize;
             int centerTileY = (int)camera.center.Y / Util.tileSize;
+
+            foreach (var parallaxElement in parallaxElements)
+            {
+                BackgroundImage.Draw(spriteBatch, camera, parallaxElement);
+            }
 
             for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
             {

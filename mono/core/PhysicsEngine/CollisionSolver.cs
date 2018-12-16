@@ -40,7 +40,6 @@ namespace mono.core.PhysicsEngine
                                 actor.speed.Y = 0;
 
                                 actor.acceleration.X = 0;
-                                actor.speed.X = 0;
                             }
                             else if (actor.position.X + actor.size.X - rectangle.X < actor.position.Y + actor.size.Y - rectangle.Y || listPolygon.Count == 1)
                             {
@@ -72,7 +71,6 @@ namespace mono.core.PhysicsEngine
                                 actor.speed.Y = 0;
 
                                 actor.acceleration.X = 0;
-                                actor.speed.X = 0;
                             }
                             else if(actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
                             {

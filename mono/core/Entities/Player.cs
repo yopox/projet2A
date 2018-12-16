@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
+using mono.core.RenderEngine;
 using System;
 
 
@@ -31,7 +32,10 @@ namespace mono.core
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
 
-            PlayerControl.Update(this, gstate);
+            // Update le joueur en fonction des touches appuyées
+            PlayerControl.ReadKeypad(this, gstate);
+
+            //PlayerControl.ReadController(this, gstate);
 
             // Reset de l'ancienne animation si on change d'état ou de direction
             if (_newState != state || _newFacing != facing)
@@ -39,11 +43,6 @@ namespace mono.core
                 Animations[state].Reset();
                 state = _newState;
                 facing = _newFacing;
-            }
-
-            if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
-            {
-                Debuger.debugActors = !Debuger.debugActors;
             }
         }
     }

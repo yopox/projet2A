@@ -246,9 +246,6 @@ namespace mono.RenderEngine
         public static void setZoom(float zFactor)
         {
             zoomOffset = new Vector2(_virtualCenter.X - zFactor * _virtualWidth / 2, _virtualCenter.Y - zFactor * _virtualHeight / 2) / zFactor;
-            Console.WriteLine(zoomOffset);
-            Console.WriteLine(_virtualWidth);
-            Console.WriteLine(_center.X);
 
             Util.ToIntVector2(ref zoomOffset);
             zoomFactor = zFactor;

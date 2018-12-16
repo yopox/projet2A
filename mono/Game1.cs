@@ -5,6 +5,7 @@ using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
+using mono.core.RenderEngine;
 
 namespace mono
 {
@@ -15,6 +16,7 @@ namespace mono
         public KeyboardState ksn;
         public Tilemap map;
         public float frameTime;
+        public GamePadState gamePadState;
     }
 
     /// <summary>
@@ -79,7 +81,7 @@ namespace mono
             StreamReader stream = File.OpenText("Content/maps/tilemap.json");
             string content = stream.ReadToEnd();
             stream.Close();
-            state.map = new Tilemap("Map de test", content);
+            state.map = new Tilemap("Map de test", content, this);
             player.position = state.map.GetStartingPosition();
 
             // On récupère les tiles de terrain
@@ -111,6 +113,7 @@ namespace mono
                 Exit();
 
             state.ksn = Keyboard.GetState();
+            state.gamePadState = GamePad.GetState(PlayerIndex.One);
 
             Physics.UpdateAll(gameTime);
             player.Update(state, gameTime);

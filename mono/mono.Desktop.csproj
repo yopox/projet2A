@@ -45,6 +45,7 @@
     <Compile Include="core\Debuger.cs" />
     <Compile Include="core\PhysicsEngine\CollisionSolver.cs" />
     <Compile Include="core\PlayerControl.cs" />
+    <Compile Include="core\RenderEngine\BackgroundImage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

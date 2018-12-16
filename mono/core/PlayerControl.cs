@@ -1,16 +1,12 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using mono.core.PhysicsEngine;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono.core
 {
     static class PlayerControl
     {
-        public static void Update(Player player, GameState gstate)
+        public static void ReadKeypad(Player player, GameState gstate)
         {
             if (Math.Abs(player.speed.Y) < 0.2 && Math.Abs(player.acceleration.Y) < 0.2)
             {
@@ -68,8 +64,21 @@ namespace mono.core
                 {
                     Console.WriteLine(String.Join(" ", tiles[i]));
                 }
-
             }
+
+            if (gstate.ksn.IsKeyDown(Keys.F1) && gstate.kso.IsKeyUp(Keys.F1))
+            {
+                Debuger.debugActors = !Debuger.debugActors;
+            }
+        }
+
+        public static void ReadController(Player player, GameState gstate)
+        {
+            player.speed.X = gstate.gamePadState.ThumbSticks.Left.X * 1500;
+            if (gstate.gamePadState.IsButtonDown(Buttons.A))
+                Console.WriteLine("bouton A");
+            //if (gstate.gamePadState.IsConnected)
+                //Console.WriteLine("connectée");
         }
     }
 }

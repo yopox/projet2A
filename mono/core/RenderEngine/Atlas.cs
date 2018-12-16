@@ -76,7 +76,7 @@ namespace mono.core
 
 
         /// <summary>
-        /// Calcul la position du rectangle correspondant à un sprite
+        /// Calcule la position du rectangle correspondant à un sprite
         /// </summary>
         /// <param name="indexElement">Index d'un sprite</param>
         /// <returns></returns>

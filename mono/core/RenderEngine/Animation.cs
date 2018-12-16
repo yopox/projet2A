@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.RenderEngine;
 
 namespace mono.core
 {
@@ -48,18 +49,15 @@ namespace mono.core
         {
 
             Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
-            Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, atlas.Width, atlas.Heigth);
 
             // On flip les sprites suivant la direction à laquelle le joueur fait face
             if (facing == Face.Left)
             {
-                // spriteBatch.Draw(atlas.Texture, destinationRectangle, sourceRectangle, Color.White, 0f, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 0f);
-                spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0f);
-
+                spriteBatch.Draw(atlas.Texture, position + Rendering.zoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-                spriteBatch.Draw(atlas.Texture, position, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(atlas.Texture, position + Rendering.zoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
 
 

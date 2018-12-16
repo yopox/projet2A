@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono.RenderEngine
 {
@@ -13,22 +9,38 @@ namespace mono.RenderEngine
     {
         static private GraphicsDeviceManager _graphicsDeviceManager;
 
+        private static bool alreadyDone = false; // Information si les calculs de fenêtre d'affichage
+
+        private static Texture2D backgroundTexture; // Fond bleu
+
         static int _width; // Largeur réelle de notre fenetre
         static int _height; // Hauteur réelle de notre fenetre
+        static Vector2 _center;
+        static Vector2 _virtualCenter;
+        public static Vector2 Center { get => _center; }
+        public static Vector2 VirtualCenter { get => _virtualCenter; }
         static int _virtualWidth; // Largeur de la fenetre de dessin
         static int _virtualHeight; // Hauteur de notre fenetre de dessin
-        static int _realWidth; // Largeur réelle de la fenetre d'affichage
-        static int _realHeight; // Hauteur réelle de la fenetre d'affichage
+        static int _realWidth; // Largeur réelle de l'affichage le plus grand dans la fenêtre
+        static int _realHeight; // Hauteur réelle de l'affichage le plus grand dans la fenêtre
         static bool _dirtyMatrix = true; // Représente l'état de notre matrice de dessin
         static Matrix _scaleMatrix; // Matrice de l'échelle du dessin
+        public static Vector2 zoomOffset = Vector2.Zero;
+        public static float zoomFactor = 1f;
 
         static Texture2D _textureOverflow;
 
-
-        public static void Init(ref GraphicsDeviceManager graphicsDeviceManager, int width, int heigth)
+        /// <summary>
+        /// Définie la fenêtre d'affichage
+        /// </summary>
+        /// <param name="graphicsDeviceManager">Fenêtre d'affichage</param>
+        /// <param name="width">Largeur de la fenêtre</param>
+        /// <param name="heigth">Hauteur de la fenêtre</param>
+        public static void Init(ref GraphicsDeviceManager graphicsDeviceManager)
         {
             _width = graphicsDeviceManager.PreferredBackBufferWidth;
             _height = graphicsDeviceManager.PreferredBackBufferHeight;
+            _center = new Vector2(_width / 2, _height / 2);
             _graphicsDeviceManager = graphicsDeviceManager;
             _dirtyMatrix = true;
 
@@ -36,7 +48,7 @@ namespace mono.RenderEngine
         }
 
         /// <summary>
-        /// Set la résolution dans laquelle on va dessiner notre environnement
+        /// Affecte la résolution dans laquelle on va dessiner notre environnement
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -44,12 +56,13 @@ namespace mono.RenderEngine
         {
             _virtualHeight = height;
             _virtualWidth = width;
+            _virtualCenter = new Vector2(_virtualWidth / 2, _virtualHeight / 2);
 
             _dirtyMatrix = true;
         }
 
         /// <summary>
-        /// Set la résolution réelle de notre affichage
+        /// Affecte la taille de la fenêtre
         /// </summary>
         /// <param name="width"></param>
         /// <param name="height"></param>
@@ -57,6 +70,7 @@ namespace mono.RenderEngine
         {
             _height = height;
             _width = width;
+            _center = new Vector2(width / 2, height / 2);
             ApplyResolution();
         }
 
@@ -71,6 +85,10 @@ namespace mono.RenderEngine
             return _scaleMatrix;
         }
 
+        /// <summary>
+        /// Calcule le ratio de la fenêtre de dessin
+        /// </summary>
+        /// <returns>Ratio de la fenêtre de dessin</returns>
         public static float GetAspectRatio()
         {
             return (float)_virtualWidth / (float)_virtualHeight;
@@ -83,8 +101,8 @@ namespace mono.RenderEngine
         {
             _dirtyMatrix = false;
             _scaleMatrix = Matrix.CreateScale(
-                (float)_realWidth / (float)_virtualWidth,
-                (float)_realHeight / (float)_virtualHeight,
+                zoomFactor * (float)_realWidth / (float)_virtualWidth,
+                zoomFactor * (float)_realHeight / (float)_virtualHeight,
                 1f);
         }
 
@@ -154,14 +172,26 @@ namespace mono.RenderEngine
         /// </summary>
         public static void BeginDraw(SpriteBatch spriteBatch)
         {
-            FullViewport();
-            Vector2[] position = new Vector2[2];
-            position = Rendering.GetPositionOverflow();
-            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[0], Color.Black);
-            spriteBatch.Draw(Rendering.GetTextureOverflow(), position[1], Color.Black);
+            if (!alreadyDone)
+            {
+                FullViewport();
+                Vector2[] position = new Vector2[2];
+                position = GetPositionOverflow();
 
-            RealViewport();
-            _graphicsDeviceManager.GraphicsDevice.Clear(Color.LightBlue);
+                spriteBatch.Draw(GetTextureOverflow(), position[0], Color.Black);
+                spriteBatch.Draw(GetTextureOverflow(), position[1], Color.Black);
+                RealViewport();
+
+                backgroundTexture = new Texture2D(_graphicsDeviceManager.GraphicsDevice, (int)(_virtualWidth / zoomFactor), (int)(_virtualHeight / zoomFactor));
+                Color[] data = new Color[(int)(_virtualWidth / zoomFactor) * (int)(_virtualHeight / zoomFactor)];
+                for (int i = 0; i < data.Length; ++i) data[i] = Util.backgroundColor;
+                backgroundTexture.SetData(data);
+
+                alreadyDone = true;
+            }
+
+            _graphicsDeviceManager.GraphicsDevice.Clear(Util.screenBorderColor);
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
         }
 
         public static Texture2D GetTextureOverflow()
@@ -197,6 +227,10 @@ namespace mono.RenderEngine
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Vector2[] GetPositionOverflow()
         {
             if (_width == _realWidth)
@@ -209,5 +243,16 @@ namespace mono.RenderEngine
             }
         }
 
+        public static void setZoom(float zFactor)
+        {
+            zoomOffset = new Vector2(_virtualCenter.X - zFactor * _virtualWidth / 2, _virtualCenter.Y - zFactor * _virtualHeight / 2) / zFactor;
+            Console.WriteLine(zoomOffset);
+            Console.WriteLine(_virtualWidth);
+            Console.WriteLine(_center.X);
+
+            Util.ToIntVector2(ref zoomOffset);
+            zoomFactor = zFactor;
+            _dirtyMatrix = true;
+        }
     }
 }

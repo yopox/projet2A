@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.RenderEngine;
 using Newtonsoft.Json.Linq;
 
 namespace mono.core
@@ -173,12 +174,12 @@ namespace mono.core
             int centerTileX = (int)camera.center.X / Util.tileSize;
             int centerTileY = (int)camera.center.Y / Util.tileSize;
 
-            for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
+            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
             {
-                for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
+                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center + Rendering.zoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -197,12 +198,12 @@ namespace mono.core
             int centerTileX = (int)camera.center.X / Util.tileSize;
             int centerTileY = (int)camera.center.Y / Util.tileSize;
 
-            for (int i = centerTileY - yTileRange; i < centerTileY + yTileRange; i++)
+            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
             {
-                for (int j = centerTileX - xTileRange; j < centerTileX + xTileRange; j++)
+                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center + Rendering.zoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -218,8 +219,8 @@ namespace mono.core
             foreach (MapObject mobj in objects)
             {
                 // Condition sur la position de l'objet
-                if (Math.Abs(mobj.position.X - camera.center.X) < xTileRange * Util.tileSize &&
-                    Math.Abs(mobj.position.Y - camera.center.Y) < yTileRange * Util.tileSize)
+                if (Math.Abs(mobj.position.X - camera.center.X) < (int)(xTileRange / Rendering.zoomFactor) * Util.tileSize &&
+                    Math.Abs(mobj.position.Y - camera.center.Y) < (int)(yTileRange / Rendering.zoomFactor) * Util.tileSize)
                 {
                     mobj.Draw(spriteBatch, atlas, camera);
                 }

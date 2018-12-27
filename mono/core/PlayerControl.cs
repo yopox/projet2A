@@ -8,48 +8,17 @@ namespace mono.core
     {
         public static void ReadKeypad(Player player, GameState gstate)
         {
-            if (Math.Abs(player.speed.Y) < 0.2 && Math.Abs(player.acceleration.Y) < 0.2)
-            {
-                player.CanJump = true;
-            }
-            else
-            {
-                player.CanJump = false;
-            }
-
-            if (gstate.ksn.IsKeyDown(Keys.D))
-            {
-                player.NewFacing = Face.Right;
-                player.NewState = State.Walking;
-
-                player.speed.X = 1.5f;
-            }
-            else if (gstate.ksn.IsKeyDown(Keys.Q))
-            {
-                player.NewFacing = Face.Left;
-                player.NewState = State.Walking;
-
-                player.speed.X = -1.5f;
-            }
-            else if (Math.Abs(player.speed.X) < 0.2)
-            {
-                player.NewState = State.Idle;
-            }
-            else
-            {
+            if(gstate.ksn.IsKeyDown(Keys.D) && gstate.ksn.IsKeyDown(Keys.Q))
                 player.speed.X = 0;
-            }
+            else if (gstate.ksn.IsKeyDown(Keys.D))
+                player.Walk(Face.Right);
+            else if (gstate.ksn.IsKeyDown(Keys.Q))
+                player.Walk(Face.Left);
+            else if (Math.Abs(player.speed.X) < 0.2)
+                player.Idle();
 
             if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && player.CanJump)
-            {
-                player.forces.Y = -15000;
-                player.speed.Y -= 0.8f;
-            }
-
-            if (gstate.ksn.IsKeyDown(Keys.S))
-            {
-                player.forces.Y = 10;
-            }
+                player.Jump();
 
             // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
@@ -74,11 +43,17 @@ namespace mono.core
 
         public static void ReadController(Player player, GameState gstate)
         {
-            player.speed.X = gstate.gamePadState.ThumbSticks.Left.X * 1500;
-            if (gstate.gamePadState.IsButtonDown(Buttons.A))
-                Console.WriteLine("bouton A");
-            //if (gstate.gamePadState.IsConnected)
-                //Console.WriteLine("connectée");
+            player.speed.X = gstate.gsn.ThumbSticks.Left.X  * 1.5f;
+
+            if (gstate.gsn.ThumbSticks.Left.X < 0)
+                player.NewFacing = Face.Left;
+            else if (gstate.gsn.ThumbSticks.Left.X > 0)
+                player.NewFacing = Face.Right;
+            else if (Math.Abs(player.speed.X) < 0.2)
+                player.Idle();
+
+            if (((gstate.gsn.IsButtonDown(Buttons.A) && gstate.gso.IsButtonDown(Buttons.A)) || (gstate.gsn.IsButtonDown(Buttons.A) && gstate.gso.IsButtonDown(Buttons.A))) && player.CanJump)
+                player.Jump();
         }
     }
 }

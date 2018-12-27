@@ -5,7 +5,6 @@ using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
-using mono.core.RenderEngine;
 
 namespace mono
 {
@@ -14,6 +13,8 @@ namespace mono
     {
         public KeyboardState kso;
         public KeyboardState ksn;
+        public GamePadState gso;
+        public GamePadState gsn;
         public Tilemap map;
         public float frameTime;
         public GamePadState gamePadState;
@@ -59,7 +60,7 @@ namespace mono
             Physics.Gravity = Util.gravity;
             Physics.addActor(player);
 
-            Rendering.setZoom(0.7f);
+            Rendering.setZoom(1f);
 
             camera = new Camera();
             state.frameTime = 0.1f;
@@ -113,7 +114,7 @@ namespace mono
                 Exit();
 
             state.ksn = Keyboard.GetState();
-            state.gamePadState = GamePad.GetState(PlayerIndex.One);
+            state.gsn = GamePad.GetState(PlayerIndex.One);
 
             Physics.UpdateAll(gameTime);
             player.Update(state, gameTime);
@@ -121,6 +122,7 @@ namespace mono
             base.Update(gameTime);
 
             state.kso = state.ksn;
+            state.gso = state.gsn;
         }
 
         /// <summary>

@@ -24,9 +24,9 @@ namespace mono.core.RenderEngine
         /// <param name="spriteBatch"></param>
         /// <param name="camera"></param>
         /// <param name="parallaxElement">Image et rapport de la parallaxe</param>
-        public static void Draw(SpriteBatch spriteBatch, Camera camera, ParallaxElement parallaxElement)
+        public static void Draw(SpriteBatch spriteBatch, ParallaxElement parallaxElement)
         {
-            parallaxElement.position.X = -camera.center.X / parallaxElement.factor % parallaxElement.texture.Width;
+            parallaxElement.position.X = - Camera.center.X / parallaxElement.factor % parallaxElement.texture.Width;
             parallaxElement.position += Rendering.zoomOffset;
             spriteBatch.Draw(parallaxElement.texture, parallaxElement.position, Color.White);
             var newPos = new Vector2(parallaxElement.position.X - parallaxElement.texture.Width, parallaxElement.position.Y);

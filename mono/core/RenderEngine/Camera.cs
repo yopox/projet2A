@@ -3,11 +3,11 @@ using mono.RenderEngine;
 
 namespace mono.core
 {
-    public class Camera
+    public static class Camera
     {
 
-        public Vector2 center = new Vector2(0, 0);
-        public Vector2 offset = new Vector2((float)-Util.playerWidth / 2, Util.playerHeight / 2);
+        public static Vector2 center = new Vector2(0, 0);
+        public static Vector2 offset = new Vector2((float)-Util.playerWidth / 2, Util.playerHeight / 2);
 
         // (2*wBox, 2*hBox) est la dimension de la boîte de mouvement libre
         static readonly int _wBox = 64;
@@ -17,7 +17,7 @@ namespace mono.core
         /// Change la position de la caméra selon la position du joueur.
         /// </summary>
         /// <param name="player">Player.</param>
-        public void Update(Player player)
+        public static void Update(Player player)
         {
 
             // Mouvement sans déplacement de caméra pour une largeur 2*wBox
@@ -41,7 +41,7 @@ namespace mono.core
             }
         }
 
-        public Vector2 GetScreenPosition(Vector2 absPos)
+        public static Vector2 GetScreenPosition(Vector2 absPos)
         {
             return Util.center + (absPos - center);
         }

@@ -33,8 +33,6 @@ namespace mono
         GameState state;
         Atlas tileset;
 
-        Camera camera;
-
         public Game1()
         {
             // TODO: Taille d'écran réelle et virtuelle dans Util
@@ -62,7 +60,6 @@ namespace mono
 
             Rendering.setZoom(1f);
 
-            camera = new Camera();
             state.frameTime = 0.1f;
 
             base.Initialize();
@@ -118,7 +115,7 @@ namespace mono
 
             Physics.UpdateAll(gameTime);
             player.Update(state, gameTime);
-            camera.Update(player);
+            Camera.Update(player);
             base.Update(gameTime);
 
             state.kso = state.ksn;
@@ -136,11 +133,11 @@ namespace mono
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
-            state.map.DrawDecor(spriteBatch, tileset, camera);
-            player.Draw(GraphicsDevice, spriteBatch, camera);
-            state.map.Draw(spriteBatch, tileset, camera);
-            state.map.DrawObjects(spriteBatch, tileset, camera);
-            Debuger.DebugActors(camera, GraphicsDevice, spriteBatch);
+            state.map.DrawDecor(spriteBatch, tileset);
+            player.Draw(GraphicsDevice, spriteBatch);
+            state.map.Draw(spriteBatch, tileset);
+            state.map.DrawObjects(spriteBatch, tileset);
+            Debuger.DebugActors(GraphicsDevice, spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

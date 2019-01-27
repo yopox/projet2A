@@ -73,9 +73,9 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="camera"></param>
-        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, Camera camera)
+        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
-            var displayPos = camera.GetScreenPosition(position);
+            var displayPos = Camera.GetScreenPosition(position);
             Animations[state].Draw(spriteBatch, displayPos, facing);
         }
 

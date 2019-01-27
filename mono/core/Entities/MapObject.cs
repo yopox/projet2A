@@ -15,9 +15,9 @@ namespace mono.core
             this.id = id;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        public virtual void Draw(SpriteBatch spriteBatch, Atlas atlas)
         {
-            spriteBatch.Draw(atlas.Texture, Util.center + position - camera.center - new Vector2(0, 16),
+            spriteBatch.Draw(atlas.Texture, Util.center + position - Camera.center - new Vector2(0, 16),
                                      atlas.GetSourceRectangle(id - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);

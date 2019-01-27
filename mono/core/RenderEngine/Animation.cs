@@ -16,11 +16,11 @@ namespace mono.core
         public Atlas atlas; // Spritesheet d'un actor
         public int[] frames; // Frames de l'animation
         public bool isLooping = true; // Répétition de l'animation
-        public State state; // Etat que représente l'animation
+        public PlayerState state; // Etat que représente l'animation
 
         private int _currentFrame;
         private bool _isReversed = false; // Frame inversée
-        private float _time; // Durée d'affichage d'un sprite
+        private float _time = 0; // Durée d'affichage d'un sprite
 
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace mono.core
         /// <param name="atlas">Spritesheet d'un actor</param>
         /// <param name="frames">Frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public Animation(State state, Atlas atlas, int[] frames, bool isLooping)
+        public Animation(PlayerState state, Atlas atlas, int[] frames, bool isLooping)
         {
             this.atlas = atlas;
             this.frames = frames;

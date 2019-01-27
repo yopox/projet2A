@@ -11,12 +11,20 @@ namespace mono.core
         Down
     }
 
-    public enum State
+    public enum PlayerState
     {
         Idle,
         Jumping,
         Falling,
         Walking
+    }
+
+    public enum State
+    {
+        SplashScreen,
+        Loading,
+        Title,
+        Main
     }
 
     public static class Util

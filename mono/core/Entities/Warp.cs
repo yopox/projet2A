@@ -14,7 +14,7 @@ namespace mono.core
             this.type = type;
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        public override void Draw(SpriteBatch spriteBatch, Atlas atlas)
         {
 
         }

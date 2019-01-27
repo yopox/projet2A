@@ -184,18 +184,18 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="atlas">Atlas du tileset.</param>
-        public void Draw(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        public void Draw(SpriteBatch spriteBatch, Atlas atlas)
         {
             var terrain = GetTiles("terrain");
-            int centerTileX = (int)camera.center.X / Util.tileSize;
-            int centerTileY = (int)camera.center.Y / Util.tileSize;
+            int centerTileX = (int)Camera.center.X / Util.tileSize;
+            int centerTileY = (int)Camera.center.Y / Util.tileSize;
 
             for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
             {
                 for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center + Rendering.zoomOffset,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - Camera.center + Rendering.zoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -208,15 +208,15 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="atlas">Atlas du tileset.</param>
-        public void DrawDecor(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        public void DrawDecor(SpriteBatch spriteBatch, Atlas atlas)
         {
             var terrain = GetTiles("decor");
-            int centerTileX = (int)camera.center.X / Util.tileSize;
-            int centerTileY = (int)camera.center.Y / Util.tileSize;
+            int centerTileX = (int)Camera.center.X / Util.tileSize;
+            int centerTileY = (int)Camera.center.Y / Util.tileSize;
 
             foreach (var parallaxElement in parallaxElements)
             {
-                BackgroundImage.Draw(spriteBatch, camera, parallaxElement);
+                BackgroundImage.Draw(spriteBatch, parallaxElement);
             }
 
             for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
@@ -224,7 +224,7 @@ namespace mono.core
                 for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - camera.center + Rendering.zoomOffset,
+                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - Camera.center + Rendering.zoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -232,18 +232,18 @@ namespace mono.core
             }
         }
 
-        public void DrawObjects(SpriteBatch spriteBatch, Atlas atlas, Camera camera)
+        public void DrawObjects(SpriteBatch spriteBatch, Atlas atlas)
         {
-            int centerTileX = (int)camera.center.X / Util.tileSize;
-            int centerTileY = (int)camera.center.Y / Util.tileSize;
+            int centerTileX = (int)Camera.center.X / Util.tileSize;
+            int centerTileY = (int)Camera.center.Y / Util.tileSize;
 
             foreach (MapObject mobj in objects)
             {
                 // Condition sur la position de l'objet
-                if (Math.Abs(mobj.position.X - camera.center.X) < (int)(xTileRange / Rendering.zoomFactor) * Util.tileSize &&
-                    Math.Abs(mobj.position.Y - camera.center.Y) < (int)(yTileRange / Rendering.zoomFactor) * Util.tileSize)
+                if (Math.Abs(mobj.position.X - Camera.center.X) < (int)(xTileRange / Rendering.zoomFactor) * Util.tileSize &&
+                    Math.Abs(mobj.position.Y - Camera.center.Y) < (int)(yTileRange / Rendering.zoomFactor) * Util.tileSize)
                 {
-                    mobj.Draw(spriteBatch, atlas, camera);
+                    mobj.Draw(spriteBatch, atlas);
                 }
             }
         }

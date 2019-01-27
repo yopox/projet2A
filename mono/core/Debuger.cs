@@ -17,7 +17,7 @@ namespace mono.core
         /// <param name="camera"></param>
         /// <param name="GraphicsDevice"></param>
         /// <param name="spriteBatch"></param>
-        public static void DebugActors(Camera camera, GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
+        public static void DebugActors(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
             if (debugActors)
             {
@@ -33,7 +33,7 @@ namespace mono.core
                                 Color[] data = new Color[rect.Width * rect.Height];
                                 for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
                                 rectangleTexture.SetData(data);
-                                spriteBatch.Draw(rectangleTexture, camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
+                                spriteBatch.Draw(rectangleTexture, Camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
                                 break;
                             case PolygonType.TriangleL:
                                 break;

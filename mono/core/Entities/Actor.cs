@@ -9,13 +9,15 @@ namespace mono.core
 {
     /// <summary>
     /// Classe parent de tous les acteurs
+    /// 
+    /// 
     /// </summary>
     public class Actor
     {
         public Atlas atlas; // Spritesheet de l'acteur
-        public State state { get; set; } = State.Idle;
+        public PlayerState state { get; set; } = PlayerState.Idle;
 
-        internal Dictionary<State, Animation> Animations { get => _animations; set => _animations = value; }
+        internal Dictionary<PlayerState, Animation> Animations { get => _animations;}
 
         public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 size;
@@ -25,7 +27,7 @@ namespace mono.core
         public Vector2 acceleration = new Vector2(0, 0);
         public Vector2 forces = new Vector2(0, 0);
 
-        private Dictionary<State, Animation> _animations = new Dictionary<State, Animation>();
+        private Dictionary<PlayerState, Animation> _animations = new Dictionary<PlayerState, Animation>();
 
         public Boolean DebugMode = false;
 
@@ -62,10 +64,10 @@ namespace mono.core
         /// <param name="state">Etat de l'animation</param>
         /// <param name="frames">Nombre de frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public void AddAnimation(State state, int[] frames, bool isLooping)
+        public void AddAnimation(PlayerState state, int[] frames, bool isLooping)
         {
             // TODO: Durée d'une frame de l'animation
-            Animations.Add(state, new Animation(state, atlas, frames, isLooping));
+            _animations.Add(state, new Animation(state, atlas, frames, isLooping));
         }
 
         /// <summary>
@@ -76,7 +78,7 @@ namespace mono.core
         public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
             var displayPos = Camera.GetScreenPosition(position);
-            Animations[state].Draw(spriteBatch, displayPos, facing);
+            _animations[state].Draw(spriteBatch, displayPos, facing);
         }
 
         public Rect[] GetHitboxes()

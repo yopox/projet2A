@@ -12,7 +12,7 @@ namespace mono.core
     public class Player : Actor
     {
         public bool CanJump = true;
-        public State NewState;
+        public PlayerState NewState;
         public Face NewFacing = Face.Right;
 
         public Player(Atlas atlas, Vector2 size) : base(atlas, Vector2.Zero, size)
@@ -22,14 +22,14 @@ namespace mono.core
 
         public void Idle()
         {
-            NewState = State.Idle;
+            NewState = PlayerState.Idle;
             speed.X = 0;
         }
 
         public void Walk(Face face)
         {
             NewFacing = face;
-            NewState = State.Walking;
+            NewState = PlayerState.Walking;
 
             if (face == Face.Left)
             {

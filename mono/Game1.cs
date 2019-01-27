@@ -5,6 +5,7 @@ using System.IO;
 using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
+using mono.core.States;
 
 namespace mono
 {
@@ -30,8 +31,9 @@ namespace mono
         Player player;
         Atlas atlas;
 
-        GameState state;
+        GameState GameState;
         Atlas tileset;
+        State state = State.SplashScreen;
 
         public Game1()
         {
@@ -60,7 +62,11 @@ namespace mono
 
             Rendering.setZoom(1f);
 
-            state.frameTime = 0.1f;
+            GameState.frameTime = 0.1f;
+
+            
+            Loading loading = new Loading();
+            Title title = new Title();
 
             base.Initialize();
 
@@ -80,16 +86,16 @@ namespace mono
             StreamReader stream = File.OpenText("Content/maps/tilemap.json");
             string content = stream.ReadToEnd();
             stream.Close();
-            state.map = new Tilemap("Map de test", content, this);
-            player.position = state.map.GetStartingPosition();
+            GameState.map = new Tilemap("Map de test", content, this);
+            player.position = GameState.map.GetStartingPosition();
 
             // On récupère les tiles de terrain
-            int[][] tiles = state.map.GetTiles("terrain");
+            int[][] tiles = GameState.map.GetTiles("terrain");
             tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
 
             atlas.SetTexture(Content.Load<Texture2D>("Graphics/hero"), 64, 128, 0, 0);
-            player.AddAnimation(State.Idle, new[] { 0 }, false);
-            player.AddAnimation(State.Walking, new[] { 0 }, true);
+            player.AddAnimation(PlayerState.Idle, new[] { 0 }, false);
+            player.AddAnimation(PlayerState.Walking, new[] { 0 }, true);
         }
 
         /// <summary>
@@ -111,16 +117,29 @@ namespace mono
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            state.ksn = Keyboard.GetState();
-            state.gsn = GamePad.GetState(PlayerIndex.One);
+            GameState.ksn = Keyboard.GetState();
+            GameState.gsn = GamePad.GetState(PlayerIndex.One);
 
-            Physics.UpdateAll(gameTime);
-            player.Update(state, gameTime);
-            Camera.Update(player);
+            switch (state)
+            {
+                case State.SplashScreen:
+                    state = SplashScreen.Update(gameTime);
+                    break;
+                case State.Loading:
+                    break;
+                case State.Title:
+                    break;
+                case State.Main:
+                    Main.Update(player, gameTime, GameState);
+                    break;
+                default:
+                    break;
+            }
+
             base.Update(gameTime);
 
-            state.kso = state.ksn;
-            state.gso = state.gsn;
+            GameState.kso = GameState.ksn;
+            GameState.gso = GameState.gsn;
         }
 
         /// <summary>
@@ -133,12 +152,24 @@ namespace mono
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());
-            Rendering.BeginDraw(spriteBatch);
-            state.map.DrawDecor(spriteBatch, tileset);
-            player.Draw(GraphicsDevice, spriteBatch);
-            state.map.Draw(spriteBatch, tileset);
-            state.map.DrawObjects(spriteBatch, tileset);
-            Debuger.DebugActors(GraphicsDevice, spriteBatch);
+
+            switch (state)
+            {
+                case State.SplashScreen:
+                    SplashScreen.Draw();
+                    break;
+                case State.Loading:
+                    break;
+                case State.Title:
+                    break;
+                case State.Main:
+                    Main.Draw(spriteBatch, tileset, GraphicsDevice, player, GameState.map);
+                    break;
+                default:
+                    break;
+            }
+
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

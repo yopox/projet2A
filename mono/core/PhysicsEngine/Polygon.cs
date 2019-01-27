@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace mono.core.PhysicsEngine
 {
@@ -6,7 +7,8 @@ namespace mono.core.PhysicsEngine
     public enum PolygonType
     {
         Rectangle,
-        Triangle,
+        TriangleL,
+        TriangleR,
         None
     }
 
@@ -20,12 +22,18 @@ namespace mono.core.PhysicsEngine
             {
                 case PolygonType.Rectangle:
                     return CollidesWithRectangle((Rect)p);
-                default:
-                    return false;
+                case PolygonType.TriangleL:
+                case PolygonType.TriangleR:
+                    return CollidesWithTriangle((Tri)p);
             }
         }
 
         public virtual bool CollidesWithRectangle(Rect r)
+        {
+            return false;
+        }
+
+        public virtual bool CollidesWithTriangle(Tri t)
         {
             return false;
         }
@@ -43,6 +51,9 @@ namespace mono.core.PhysicsEngine
         }
     }
 
+    /// <summary>
+    /// Origine des rectangles en haut à droite.
+    /// </summary>
     public class Rect : Polygon
     {
         public readonly int X;
@@ -63,12 +74,69 @@ namespace mono.core.PhysicsEngine
 
         public override bool CollidesWithRectangle(Rect r)
         {
-            return X + Width > r.X && X < r.X + r.Width && Y < r.Y + r.Height && Y + Height > r.Y ;
+            return X + Width > r.X && X < r.X + r.Width && Y < r.Y + r.Height && Y + Height > r.Y;
+        }
+
+        public override bool CollidesWithTriangle(Tri t)
+        {
+            switch (t.type)
+            {
+                case PolygonType.TriangleL:
+                    if (X + Width < t.A.X || X > t.A.X + t.Width || Y + Height < t.A.Y - t.Height || Y > t.A.Y)
+                        return false;
+                    var w0 = t.A.X + t.Width - X;
+                    var sH0 = t.Height * w0 / t.Width;
+                    return Y + Height > t.A.Y - sH0;
+                default:
+                    if (X + Width < t.A.X - t.Width || X > t.A.X || Y + Height < t.A.Y - t.Height || Y > t.A.Y)
+                        return false;
+                    var w1 = X + Width - t.A.X + t.Width;
+                    var sH1 = t.Height * w1 / t.Width;
+                    Console.WriteLine(w1 + " ; " + sH1);
+                    return Y + Height > t.A.Y - sH1;
+            }
         }
 
         public override string ToString()
         {
             return "[Rect] X: " + X + " ; Y: " + Y + " ; W: " + Width + " ; H: " + Height;
+        }
+
+    }
+
+    /// <summary>
+    /// Origine des triangles : angle droit.
+    /// La hauteur et la largeur sont positives.
+    /// Les coordonnées du point le plus haut seront (A.X, A.Y - H).
+    /// </summary>
+    public class Tri : Polygon
+    {
+        public readonly Vector2 A;
+        public readonly int Width;
+        public readonly int Height;
+        public readonly Vector2 Center;
+
+        public Tri(Vector2 a, int w, int h, PolygonType type)
+        {
+            this.type = type;
+            A = a;
+            Width = w;
+            Height = h;
+        }
+
+        public override bool CollidesWithRectangle(Rect r)
+        {
+            return r.CollidesWithTriangle(this);
+        }
+
+        public override bool CollidesWithTriangle(Tri t)
+        {
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return "[Tri] A.X: " + A.X + " ; A.Y: " + A.Y + " ; W: " + Width + " ; H: " + Height;
         }
 
     }

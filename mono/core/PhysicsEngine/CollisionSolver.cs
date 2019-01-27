@@ -33,7 +33,7 @@ namespace mono.core.PhysicsEngine
                         if (actor.position.X < rectangle.X)
                         {
                             // Collision vers le bas
-                            if (actor.position.X + actor.size.X - rectangle.X >= actor.position.Y + actor.size.Y - rectangle.Y && oldPos.Y + actor.size.Y <= rectangle.Y + 1) 
+                            if (actor.position.X + actor.size.X - rectangle.X >= actor.position.Y + actor.size.Y - rectangle.Y && oldPos.Y + actor.size.Y <= rectangle.Y + 1)
                             {
                                 actor.position.Y = rectangle.Y - actor.size.Y;
                                 actor.acceleration.Y = 0;
@@ -45,7 +45,7 @@ namespace mono.core.PhysicsEngine
                             {
 
                                 // Collision vers le haut
-                                if (oldPos.Y >=  rectangle.Y + rectangle.Height - 1 && oldPos.X + actor.size.X > rectangle.X)
+                                if (oldPos.Y >= rectangle.Y + rectangle.Height - 1 && oldPos.X + actor.size.X > rectangle.X)
                                 {
                                     actor.position.Y = rectangle.Y + rectangle.Height;
                                     actor.acceleration.Y = Util.gravity.Y;
@@ -72,7 +72,7 @@ namespace mono.core.PhysicsEngine
 
                                 actor.acceleration.X = 0;
                             }
-                            else if(actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
+                            else if (actor.position.Y + actor.size.Y > rectangle.Y + rectangle.Height || listPolygon.Count == 1)
                             {
                                 // Collision avec le haut
                                 if (oldPos.Y >= rectangle.Y + rectangle.Height - 1 && oldPos.X < rectangle.X + rectangle.Width)
@@ -91,7 +91,9 @@ namespace mono.core.PhysicsEngine
                             }
                         }
                         break;
-                    case PolygonType.Triangle:
+                    case PolygonType.TriangleL:
+                        break;
+                    case PolygonType.TriangleR:
                         break;
                     default:
                         break;

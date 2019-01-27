@@ -31,7 +31,7 @@ namespace mono.core
             NewFacing = face;
             NewState = State.Walking;
 
-            if(face == Face.Left)
+            if (face == Face.Left)
             {
                 speed.X -= 1.5f;
             }

@@ -66,6 +66,7 @@ namespace mono
             state.frameTime = 0.1f;
 
             base.Initialize();
+
         }
 
         /// <summary>

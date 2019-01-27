@@ -35,7 +35,7 @@ namespace mono.core
                                 rectangleTexture.SetData(data);
                                 spriteBatch.Draw(rectangleTexture, camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
                                 break;
-                            case PolygonType.Triangle:
+                            case PolygonType.TriangleL:
                                 break;
                             case PolygonType.None:
                                 break;

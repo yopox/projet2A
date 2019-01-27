@@ -92,8 +92,36 @@ namespace mono.core.PhysicsEngine
                         }
                         break;
                     case PolygonType.TriangleL:
+                        var triangleL = (Tri)polygon;
+                        if(oldPos.X + actor.size.X < triangleL.A.X)
+                        {
+                            actor.position.X = triangleL.A.X;
+                        }
+
+                        else if(oldPos.X > triangleL.A.X + triangleL.Width)
+                        {
+                            actor.position.X = triangleL.A.X + triangleL.Width;
+                        }
+                        else if(oldPos.Y > triangleL.A.Y)
+                        {
+                            actor.position.Y = triangleL.A.Y;
+                        }
                         break;
                     case PolygonType.TriangleR:
+                        var triangleR = (Tri)polygon;
+                        if (oldPos.X + actor.size.X < triangleR.A.X - triangleR.Width)
+                        {
+                            actor.position.X = triangleR.A.X - triangleR.Width;
+                        }
+
+                        else if (oldPos.X > triangleR.A.X)
+                        {
+                            actor.position.X = triangleR.A.X;
+                        }
+                        else if (oldPos.Y > triangleR.A.Y)
+                        {
+                            actor.position.Y = triangleR.A.Y;
+                        }
                         break;
                     default:
                         break;

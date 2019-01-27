@@ -25,6 +25,8 @@ namespace mono.core.PhysicsEngine
                 case PolygonType.TriangleL:
                 case PolygonType.TriangleR:
                     return CollidesWithTriangle((Tri)p);
+                default:
+                    return false;
             }
         }
 

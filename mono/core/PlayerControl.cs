@@ -8,7 +8,7 @@ namespace mono.core
     {
         public static void ReadKeypad(Player player, GameState gstate)
         {
-            if(gstate.ksn.IsKeyDown(Keys.D) && gstate.ksn.IsKeyDown(Keys.Q))
+            if (gstate.ksn.IsKeyDown(Keys.D) && gstate.ksn.IsKeyDown(Keys.Q))
                 player.speed.X = 0;
             else if (gstate.ksn.IsKeyDown(Keys.D))
                 player.Walk(Face.Right);
@@ -43,7 +43,7 @@ namespace mono.core
 
         public static void ReadController(Player player, GameState gstate)
         {
-            player.speed.X = gstate.gsn.ThumbSticks.Left.X  * 1.5f;
+            player.speed.X = gstate.gsn.ThumbSticks.Left.X * 1.5f;
 
             if (gstate.gsn.ThumbSticks.Left.X < 0)
                 player.NewFacing = Face.Left;

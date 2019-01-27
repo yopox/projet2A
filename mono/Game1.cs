@@ -69,6 +69,7 @@ namespace mono
             Title title = new Title();
 
             base.Initialize();
+
         }
 
         /// <summary>

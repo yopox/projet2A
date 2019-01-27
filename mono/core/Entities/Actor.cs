@@ -36,7 +36,7 @@ namespace mono.core
             this.atlas = atlas;
             this.position = position;
             this.size = size;
-            center =  new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
+            center = new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
             Util.ToIntVector2(ref center);
         }
 
@@ -52,7 +52,7 @@ namespace mono.core
                 var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
                 listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
-                
+
             }
 
             Animations[state].UpdateFrame(gameTime, gstate.frameTime);

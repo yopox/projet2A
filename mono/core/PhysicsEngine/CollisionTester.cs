@@ -5,7 +5,7 @@ namespace mono.core.PhysicsEngine
 {
     public static class CollisionTester
     {
-        
+
         public static List<Polygon> CollidesWithTerrain(Rect hitbox, Tilemap map)
         {
             List<Polygon> collisions = new List<Polygon>();
@@ -15,7 +15,7 @@ namespace mono.core.PhysicsEngine
             int[][] tiles = map.GetTerrain(hitbox.Center, radius);
             int x = (int)Math.Floor(hitbox.Center.X / Util.tileSize);
             int y = (int)Math.Floor(hitbox.Center.Y / Util.tileSize);
-            
+
             for (int i = 0; i < tiles.Length; i++)
             {
                 for (int j = 0; j < tiles[i].Length; j++)

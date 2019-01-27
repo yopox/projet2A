@@ -25,6 +25,8 @@ namespace mono.core.PhysicsEngine
                 case PolygonType.TriangleL:
                 case PolygonType.TriangleR:
                     return CollidesWithTriangle((Tri)p);
+                default:
+                    return false;
             }
         }
 
@@ -40,6 +42,14 @@ namespace mono.core.PhysicsEngine
 
         public static Polygon FromTile(int id, int x, int y)
         {
+            if (id == 33 || id == 14)
+            {
+                return new Tri(new Vector2(x + Util.tileSize, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleR);
+            }
+            if (id == 36 || id == 15)
+            {
+                return new Tri(new Vector2(x, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleL);
+            }
             if (id != 0)
             {
                 return new Rect(x, y, Util.tileSize, Util.tileSize);

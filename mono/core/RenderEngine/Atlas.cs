@@ -1,13 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace mono.core
 {
+
+    public struct AtlasInfo
+    {
+        public string location;
+        public int width;
+        public int height;
+        public int padding;
+        public int border;
+
+        public AtlasInfo(string location, int width, int height, int padding, int border)
+        {
+            this.location = location;
+            this.width = width;
+            this.height = height;
+            this.padding = padding;
+            this.border = border;
+        }
+    }
+
     /// <summary>
     /// Représentation d'une spritesheet
     /// </summary>
@@ -16,26 +30,21 @@ namespace mono.core
         public Texture2D Texture { get; private set; }
 
         public int Width { get; private set; }
-        public int Heigth { get; private set; }
+        public int Height { get; private set; }
         public int Rows { get; private set; }
         public int Columns { get; private set; }
         public int Padding { get; private set; }
         public int Border { get; private set; }
 
-        public Atlas()
-        {
-
-        }
-
-        public Atlas(Texture2D texture, int width, int heigth, int padding, int border)
+        public Atlas(Texture2D texture, int width, int height, int padding, int border)
         {
             Texture = texture;
             Width = width;
-            Heigth = heigth;
+            Height = height;
             Padding = padding;
             Border = border;
 
-            Rows = (Texture.Height - 2 * Border) / (Heigth + Padding);
+            Rows = (Texture.Height - 2 * Border) / (Height + Padding);
             Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
@@ -51,11 +60,11 @@ namespace mono.core
         {
             Texture = texture;
             Width = width;
-            Heigth = heigth;
+            Height = heigth;
             Padding = padding;
             Border = border;
 
-            Rows = (Texture.Height - 2 * Border) / (Heigth + Padding);
+            Rows = (Texture.Height - 2 * Border) / (Height + Padding);
             Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
@@ -67,10 +76,10 @@ namespace mono.core
         /// <returns></returns>
         public Rectangle GetSourceRectangle(int indexElement)
         {
-            int row = (int)((float)indexElement / (float)this.Columns);
-            int column = indexElement % this.Columns;
+            int row = (int)((float)indexElement / Columns);
+            int column = indexElement % Columns;
 
-            return new Rectangle(Border + (Width + Padding) * column, Border + (Heigth + Padding) * row, Width, Heigth);
+            return new Rectangle(Border + (Width + Padding) * column, Border + (Height + Padding) * row, Width, Height);
         }
 
     }

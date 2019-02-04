@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 namespace mono.core
 {
@@ -57,18 +56,10 @@ namespace mono.core
 
         // Unité du monde
         static public int baseUnit = 200;
-        static public Vector2 gravity = new Vector2(0,11);
-
-        // Assets
-        static public Dictionary<AtlasName, string> assetsPath = new Dictionary<AtlasName, string>()
-        {
-            {AtlasName.Tileset1, "Graphics/tileset"},
-            {AtlasName.Player, "Graphics/hero"},
-            {AtlasName.Platform1, ""},
-        };
+        static public Vector2 gravity = new Vector2(0, 11);
 
         /// <summary>
-        /// Convertie un vecteur 2 de float en vecteur 2 d'entier
+        /// Convertit un vecteur 2 de float en vecteur 2 d'entier
         /// </summary>
         /// <param name="vect">vecteur modifié</param>
         public static void ToIntVector2(ref Vector2 vect)

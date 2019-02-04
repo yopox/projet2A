@@ -26,13 +26,8 @@ namespace mono.core
             tilesToDraw.Add(id - 1);
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch, Atlas atlas)
-        {
-            spriteBatch.Draw(atlas.Texture, Util.center + position - Camera.center - new Vector2(0, 16),
-                                     atlas.GetSourceRectangle(id - 1),
-                                     Color.White, 0f, new Vector2(0, 0), 1f,
-                                     SpriteEffects.None, 0f);
-        }
+        public virtual void Draw(SpriteBatch spriteBatch, AssetManager am)
+        {}
 
         public virtual Polygon GetHitbox()
         {

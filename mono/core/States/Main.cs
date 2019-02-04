@@ -19,13 +19,13 @@ namespace mono.core.States
             Camera.Update(player);
         }
 
-        public static void Draw(SpriteBatch spriteBatch, Atlas tileset, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
+        public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
             Rendering.BeginDraw(spriteBatch);
-            map.DrawDecor(spriteBatch, tileset);
-            player.Draw(GraphicsDevice, spriteBatch);
-            map.Draw(spriteBatch, tileset);
-            map.DrawObjects(spriteBatch, tileset);
+            map.DrawDecor(spriteBatch, am);
+            player.Draw(GraphicsDevice, spriteBatch, am);
+            map.Draw(spriteBatch, am);
+            map.DrawObjects(spriteBatch, am);
             Debuger.DebugActors(GraphicsDevice, spriteBatch);
         }
     }

@@ -14,10 +14,10 @@ namespace mono.core
     /// </summary>
     public class Actor
     {
-        public Atlas atlas; // Spritesheet de l'acteur
-        public PlayerState state { get; set; } = PlayerState.Idle;
+        public AtlasName atlasName; // Nom du spritesheet de l'acteur
+        public PlayerState State { get; set; } = PlayerState.Idle;
 
-        internal Dictionary<PlayerState, Animation> Animations { get => _animations;}
+        internal Dictionary<PlayerState, Animation> Animations { get; } = new Dictionary<PlayerState, Animation>();
 
         public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 size;
@@ -26,14 +26,11 @@ namespace mono.core
         public Vector2 speed = new Vector2(0, 0);
         public Vector2 acceleration = new Vector2(0, 0);
         public Vector2 forces = new Vector2(0, 0);
+        public bool DebugMode;
 
-        private Dictionary<PlayerState, Animation> _animations = new Dictionary<PlayerState, Animation>();
-
-        public Boolean DebugMode = false;
-
-        public Actor(Atlas atlas, Vector2 position, Vector2 size)
+        public Actor(AtlasName atlasName, Vector2 position, Vector2 size)
         {
-            this.atlas = atlas;
+            this.atlasName = atlasName;
             this.position = position;
             this.size = size;
             center = new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
@@ -44,7 +41,6 @@ namespace mono.core
         /// Update la frame de l'animation
         /// </summary>
         /// <param name="gameTime"></param>
-        /// <param name="frameTime">durée d'une frame</param>
         public void Update(GameState gstate, GameTime gameTime)
         {
             foreach (var rectangle in GetHitboxes())
@@ -55,7 +51,7 @@ namespace mono.core
 
             }
 
-            Animations[state].UpdateFrame(gameTime, gstate.frameTime);
+            Animations[State].UpdateFrame(gameTime, gstate.frameTime);
         }
 
         /// <summary>
@@ -67,18 +63,17 @@ namespace mono.core
         public void AddAnimation(PlayerState state, int[] frames, bool isLooping)
         {
             // TODO: Durée d'une frame de l'animation
-            _animations.Add(state, new Animation(state, atlas, frames, isLooping));
+            Animations.Add(state, new Animation(state, frames, isLooping));
         }
 
         /// <summary>
         /// Dessine un actor
         /// </summary>
         /// <param name="spriteBatch"></param>
-        /// <param name="camera"></param>
-        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
+        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, AssetManager am)
         {
             var displayPos = Camera.GetScreenPosition(position);
-            _animations[state].Draw(spriteBatch, displayPos, facing);
+            Animations[State].Draw(spriteBatch, am.GetAtlas(atlasName), displayPos, facing);
         }
 
         public Rect[] GetHitboxes()

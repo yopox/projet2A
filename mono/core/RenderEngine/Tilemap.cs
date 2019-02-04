@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
@@ -44,10 +45,12 @@ namespace mono.core
     /// </summary>
     public class Tilemap
     {
-        readonly String regex = "(.*);(.*)";
 
-        public static int[] warpGids = new int[] { 1 };
-        public static int[] movingGids = new int[] { 121 };
+        readonly string regex = "(.*);(.*)";
+        public AtlasName tilesetName;
+
+        public static int[] warpGids = { 1 };
+        public static int[] movingGids = { 121 };
 
         readonly int height;
         readonly int width;
@@ -60,8 +63,15 @@ namespace mono.core
         List<MapObject> objects = new List<MapObject>();
         List<Warp> warps = new List<Warp>();
 
-        public Tilemap(string name, string json, Game game)
+        public Tilemap(string name, string path, AtlasName tilesetName, Game game)
         {
+            this.tilesetName = tilesetName;
+
+            // On récupère le JSON
+            StreamReader stream = File.OpenText(path);
+            string json = stream.ReadToEnd();
+            stream.Close();
+
             // On parse la tilemap
             dynamic map = JObject.Parse(json);
 
@@ -71,7 +81,7 @@ namespace mono.core
 
             foreach (var element in map.properties)
             {
-                var matches = Regex.Split((String)element.value, regex);
+                var matches = Regex.Split((string)element.value, regex);
 
                 ParallaxElement p = new ParallaxElement();
                 Console.WriteLine(matches[2]);
@@ -190,11 +200,12 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="atlas">Atlas du tileset.</param>
-        public void Draw(SpriteBatch spriteBatch, Atlas atlas)
+        public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("terrain");
             int centerTileX = (int)Camera.center.X / Util.tileSize;
             int centerTileY = (int)Camera.center.Y / Util.tileSize;
+            var atlas = am.GetAtlas(tilesetName);
 
             for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
             {
@@ -214,11 +225,12 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="atlas">Atlas du tileset.</param>
-        public void DrawDecor(SpriteBatch spriteBatch, Atlas atlas)
+        public void DrawDecor(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("decor");
             int centerTileX = (int)Camera.center.X / Util.tileSize;
             int centerTileY = (int)Camera.center.Y / Util.tileSize;
+            var atlas = am.GetAtlas(tilesetName);
 
             foreach (var parallaxElement in parallaxElements)
             {
@@ -238,7 +250,7 @@ namespace mono.core
             }
         }
 
-        public void DrawObjects(SpriteBatch spriteBatch, Atlas atlas)
+        public void DrawObjects(SpriteBatch spriteBatch, AssetManager am)
         {
             int centerTileX = (int)Camera.center.X / Util.tileSize;
             int centerTileY = (int)Camera.center.Y / Util.tileSize;
@@ -249,7 +261,7 @@ namespace mono.core
                 if (Math.Abs(mobj.position.X - Camera.center.X) < (int)(xTileRange / Rendering.zoomFactor) * Util.tileSize &&
                     Math.Abs(mobj.position.Y - Camera.center.Y) < (int)(yTileRange / Rendering.zoomFactor) * Util.tileSize)
                 {
-                    mobj.Draw(spriteBatch, atlas);
+                    mobj.Draw(spriteBatch, am);
                 }
             }
         }

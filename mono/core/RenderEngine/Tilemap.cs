@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core.Entities;
 using mono.core.RenderEngine;
 using mono.RenderEngine;
 using Newtonsoft.Json.Linq;
@@ -46,6 +47,7 @@ namespace mono.core
         readonly String regex = "(.*);(.*)";
 
         public static int[] warpGids = new int[] { 1 };
+        public static int[] movingGids = new int[] { 121 };
 
         readonly int height;
         readonly int width;
@@ -98,6 +100,10 @@ namespace mono.core
                             string type = obj.type;
                             Debug.Print(type);
                             warps.Add(new Warp(id, new Vector2(x, y), type));
+                        }
+                        else if (movingGids.Contains(id))
+                        {
+                            objects.Add(new MovingBox(id, new Vector2(x, y)));
                         }
                         else
                         {

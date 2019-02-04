@@ -29,11 +29,12 @@ namespace mono
         readonly GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Player player;
-        Atlas atlas;
-
         GameState GameState;
-        Atlas tileset;
         State state = State.SplashScreen;
+
+        // TODO: Ne pas créer d'Atlas ici mais un AssetManager
+        Atlas atlas;
+        Atlas tileset;
 
         public Game1()
         {
@@ -91,9 +92,9 @@ namespace mono
 
             // On récupère les tiles de terrain
             int[][] tiles = GameState.map.GetTiles("terrain");
-            tileset.SetTexture(Content.Load<Texture2D>("Graphics/tileset"), 32, 32, 0, 0);
+            tileset.SetTexture(Content.Load<Texture2D>(Util.assetsPath[AtlasName.Tileset1]), 32, 32, 0, 0);
 
-            atlas.SetTexture(Content.Load<Texture2D>("Graphics/hero"), 64, 128, 0, 0);
+            atlas.SetTexture(Content.Load<Texture2D>(Util.assetsPath[AtlasName.Player]), 64, 128, 0, 0);
             player.AddAnimation(PlayerState.Idle, new[] { 0 }, false);
             player.AddAnimation(PlayerState.Walking, new[] { 0 }, true);
         }

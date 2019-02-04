@@ -13,29 +13,14 @@ namespace mono.core
     /// </summary>
     public class Atlas
     {
-        private Texture2D _texture;
+        public Texture2D Texture { get; private set; }
 
-        public Texture2D Texture
-        {
-            get
-            {
-                return _texture;
-            }
-        }
-
-        private int _rows;
-        private int _columns;
-        private int _padding;
-        private int _border;
-        private int _width;
-        private int _heigth;
-
-        public int Width { get => _width; }
-        public int Heigth { get => _heigth; }
-        public int Rows { get => _rows; }
-        public int Columns { get => _columns; }
-        public int Padding { get => _padding; }
-        public int Border { get => _border; }
+        public int Width { get; private set; }
+        public int Heigth { get; private set; }
+        public int Rows { get; private set; }
+        public int Columns { get; private set; }
+        public int Padding { get; private set; }
+        public int Border { get; private set; }
 
         public Atlas()
         {
@@ -44,14 +29,14 @@ namespace mono.core
 
         public Atlas(Texture2D texture, int width, int heigth, int padding, int border)
         {
-            _texture = texture;
-            _width = width;
-            _heigth = heigth;
-            _padding = padding;
-            _border = border;
+            Texture = texture;
+            Width = width;
+            Heigth = heigth;
+            Padding = padding;
+            Border = border;
 
-            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
-            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+            Rows = (Texture.Height - 2 * Border) / (Heigth + Padding);
+            Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
         /// <summary>
@@ -64,14 +49,14 @@ namespace mono.core
         /// <param name="border">Offset à gauche et en haut de la texture</param>
         public void SetTexture(Texture2D texture, int width, int heigth, int padding, int border)
         {
-            _texture = texture;
-            _width = width;
-            _heigth = heigth;
-            _padding = padding;
-            _border = border;
+            Texture = texture;
+            Width = width;
+            Heigth = heigth;
+            Padding = padding;
+            Border = border;
 
-            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
-            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+            Rows = (Texture.Height - 2 * Border) / (Heigth + Padding);
+            Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
 
@@ -85,7 +70,7 @@ namespace mono.core
             int row = (int)((float)indexElement / (float)this.Columns);
             int column = indexElement % this.Columns;
 
-            return new Rectangle(_border + (_width + _padding) * column, _border + (_heigth + _padding) * row, _width, _heigth);
+            return new Rectangle(Border + (Width + Padding) * column, Border + (Heigth + Padding) * row, Width, Heigth);
         }
 
     }

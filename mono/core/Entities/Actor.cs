@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core.Definitions;
 using mono.core.PhysicsEngine;
 
 namespace mono.core
@@ -70,7 +70,7 @@ namespace mono.core
         /// Dessine un actor
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, AssetManager am)
+        public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
             var displayPos = Camera.GetScreenPosition(position);
             Animations[State].Draw(spriteBatch, am.GetAtlas(atlasName), displayPos, facing);

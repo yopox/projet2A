@@ -54,10 +54,7 @@ namespace mono.core.PhysicsEngine
             {
                 return new Rect(x, y, Util.tileSize, Util.tileSize);
             }
-            else
-            {
-                return new Polygon();
-            }
+            return new Polygon();
         }
     }
 
@@ -102,7 +99,6 @@ namespace mono.core.PhysicsEngine
                         return false;
                     var w1 = X + Width - t.A.X + t.Width;
                     var sH1 = t.Height * w1 / t.Width;
-                    Console.WriteLine(w1 + " ; " + sH1);
                     return Y + Height > t.A.Y - sH1;
             }
         }

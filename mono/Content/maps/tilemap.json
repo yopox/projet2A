@@ -67,12 +67,12 @@
         {
          "name":"Parallax1",
          "type":"string",
-         "value":"5;Graphics\/test_parallaxe"
+         "value":"5;Parallax1"
         }, 
         {
          "name":"Parallax2",
          "type":"string",
-         "value":"2;Graphics\/backerground"
+         "value":"2;Parallax2"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.2.0",

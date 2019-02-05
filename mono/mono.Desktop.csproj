@@ -66,9 +66,9 @@
     <Compile Include="core\PhysicsEngine\CollisionTester.cs" />
     <Compile Include="core\PhysicsEngine\Polygon.cs" />
     <Compile Include="core\Entities\MovingBox.cs" />
-    <Compile Include="core\AssetManager.cs" />
     <Compile Include="core\Definitions\AssetInfo.cs" />
     <Compile Include="core\Definitions\Util.cs" />
+    <Compile Include="core\RenderEngine\AssetManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

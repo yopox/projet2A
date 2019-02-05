@@ -16,6 +16,7 @@ namespace mono.core
         /// <summary>
         /// Initializes a new instance of the <see cref="T:mono.core.MapObject"/> class.
         /// TODO: Avoir un AtlasName et demander à AssetManager le chargement
+        /// TODO: Clarifier la relation avec Actor
         /// </summary>
         /// <param name="id">Identifier.</param>
         /// <param name="position">Position.</param>

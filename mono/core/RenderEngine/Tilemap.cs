@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.core.Definitions;
 using mono.core.Entities;
 using mono.core.RenderEngine;
 using mono.RenderEngine;
@@ -63,7 +64,7 @@ namespace mono.core
         List<MapObject> objects = new List<MapObject>();
         List<Warp> warps = new List<Warp>();
 
-        public Tilemap(string name, string path, AtlasName tilesetName, Game game)
+        public Tilemap(string name, string path, AtlasName tilesetName)
         {
             this.tilesetName = tilesetName;
 
@@ -83,10 +84,11 @@ namespace mono.core
             {
                 var matches = Regex.Split((string)element.value, regex);
 
-                ParallaxElement p = new ParallaxElement();
-                Console.WriteLine(matches[2]);
-                p.factor = (float)Convert.ToDouble(matches[1]);
-                p.texture = game.Content.Load<Texture2D>(matches[2]);
+                ParallaxElement p = new ParallaxElement
+                {
+                    factor = (float)Convert.ToDouble(matches[1]),
+                    name = Util.ParseEnum<AtlasName>(matches[2])
+                };
 
                 parallaxElements.Add(p);
             }
@@ -108,7 +110,6 @@ namespace mono.core
                         if (warpGids.Contains(id))
                         {
                             string type = obj.type;
-                            Debug.Print(type);
                             warps.Add(new Warp(id, new Vector2(x, y), type));
                         }
                         else if (movingGids.Contains(id))
@@ -199,7 +200,7 @@ namespace mono.core
         /// Dessine la tilemap.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        /// <param name="atlas">Atlas du tileset.</param>
+        /// <param name="am">AssetManager.</param>
         public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("terrain");
@@ -224,7 +225,7 @@ namespace mono.core
         /// Dessine la tilemap.
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
-        /// <param name="atlas">Atlas du tileset.</param>
+        /// <param name="am">AssetManager.</param>
         public void DrawDecor(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("decor");
@@ -234,7 +235,7 @@ namespace mono.core
 
             foreach (var parallaxElement in parallaxElements)
             {
-                BackgroundImage.Draw(spriteBatch, parallaxElement);
+                BackgroundImage.Draw(spriteBatch, parallaxElement, am);
             }
 
             for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)

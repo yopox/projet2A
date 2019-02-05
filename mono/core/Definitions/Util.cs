@@ -27,13 +27,6 @@ namespace mono.core
         Main
     }
 
-    public enum AtlasName
-    {
-        Tileset1,
-        Player,
-        Platform1
-    }
-
     public static class Util
     {
         // Screen
@@ -66,6 +59,11 @@ namespace mono.core
         {
             vect.X = (int)Math.Round(vect.X);
             vect.Y = (int)Math.Round(vect.Y);
+        }
+
+        public static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

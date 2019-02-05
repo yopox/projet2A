@@ -95,8 +95,6 @@ namespace mono.core.PhysicsEngine
                         break;
                     case PolygonType.TriangleR:
                         break;
-                    default:
-                        break;
 
                 }
             }

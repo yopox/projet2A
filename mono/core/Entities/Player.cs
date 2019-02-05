@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using mono.core.PhysicsEngine;
-using mono.core.RenderEngine;
+using mono.core.Definitions;
 using System;
 
 
@@ -52,7 +50,8 @@ namespace mono.core
         /// <summary>
         /// Update par rapport aux entrées claviers
         /// </summary>
-        /// <param name="kbState">Etat du clavier</param>
+        /// <param name="gstate">Etat du jeu</param>
+        /// <param name="gameTime"></param>
         public new void Update(GameState gstate, GameTime gameTime)
         {
             // Update les animations et les collisions

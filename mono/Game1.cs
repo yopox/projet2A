@@ -5,6 +5,7 @@ using mono.core;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
 using mono.core.States;
+using mono.core.Definitions;
 
 namespace mono
 {
@@ -70,7 +71,6 @@ namespace mono
             Title title = new Title();
 
             base.Initialize();
-
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace mono
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Chargement de la map
-            GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1, this);
+            GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.position = GameState.map.GetStartingPosition();
         }
 
@@ -134,7 +134,6 @@ namespace mono
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Texture2D texture = new Texture2D(GraphicsDevice, 10, 10);
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());

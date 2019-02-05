@@ -9,16 +9,15 @@ namespace mono.RenderEngine
     {
         static private GraphicsDeviceManager _graphicsDeviceManager;
 
-        private static bool alreadyDone = false; // Information si les calculs de fenêtre d'affichage
+        private static bool alreadyDone; // Information si les calculs de fenêtre d'affichage
 
         private static Texture2D backgroundTexture; // Fond bleu
 
         static int _width; // Largeur réelle de notre fenetre
         static int _height; // Hauteur réelle de notre fenetre
-        static Vector2 _center;
-        static Vector2 _virtualCenter;
-        public static Vector2 Center { get => _center; }
-        public static Vector2 VirtualCenter { get => _virtualCenter; }
+
+        public static Vector2 Center { get; private set; }
+        public static Vector2 VirtualCenter { get; private set; }
         static int _virtualWidth; // Largeur de la fenetre de dessin
         static int _virtualHeight; // Hauteur de notre fenetre de dessin
         static int _realWidth; // Largeur réelle de l'affichage le plus grand dans la fenêtre
@@ -31,16 +30,14 @@ namespace mono.RenderEngine
         static Texture2D _textureOverflow;
 
         /// <summary>
-        /// Définie la fenêtre d'affichage
+        /// Définit la fenêtre d'affichage
         /// </summary>
         /// <param name="graphicsDeviceManager">Fenêtre d'affichage</param>
-        /// <param name="width">Largeur de la fenêtre</param>
-        /// <param name="heigth">Hauteur de la fenêtre</param>
         public static void Init(ref GraphicsDeviceManager graphicsDeviceManager)
         {
             _width = graphicsDeviceManager.PreferredBackBufferWidth;
             _height = graphicsDeviceManager.PreferredBackBufferHeight;
-            _center = new Vector2(_width / 2, _height / 2);
+            Center = new Vector2(_width / 2, _height / 2);
             _graphicsDeviceManager = graphicsDeviceManager;
             _dirtyMatrix = true;
 
@@ -56,7 +53,7 @@ namespace mono.RenderEngine
         {
             _virtualHeight = height;
             _virtualWidth = width;
-            _virtualCenter = new Vector2(_virtualWidth / 2, _virtualHeight / 2);
+            VirtualCenter = new Vector2(_virtualWidth / 2, _virtualHeight / 2);
 
             _dirtyMatrix = true;
         }
@@ -70,7 +67,7 @@ namespace mono.RenderEngine
         {
             _height = height;
             _width = width;
-            _center = new Vector2(width / 2, height / 2);
+            Center = new Vector2(width / 2, height / 2);
             ApplyResolution();
         }
 
@@ -91,7 +88,7 @@ namespace mono.RenderEngine
         /// <returns>Ratio de la fenêtre de dessin</returns>
         public static float GetAspectRatio()
         {
-            return (float)_virtualWidth / (float)_virtualHeight;
+            return (float)_virtualWidth / _virtualHeight;
         }
 
         /// <summary>
@@ -101,8 +98,8 @@ namespace mono.RenderEngine
         {
             _dirtyMatrix = false;
             _scaleMatrix = Matrix.CreateScale(
-                zoomFactor * (float)_realWidth / (float)_virtualWidth,
-                zoomFactor * (float)_realHeight / (float)_virtualHeight,
+                zoomFactor * _realWidth / _virtualWidth,
+                zoomFactor * _realHeight / _virtualHeight,
                 1f);
         }
 
@@ -221,10 +218,7 @@ namespace mono.RenderEngine
                     return _textureOverflow;
                 }
             }
-            else
-            {
-                return _textureOverflow;
-            }
+            return _textureOverflow;
         }
 
         /// <summary>
@@ -237,15 +231,12 @@ namespace mono.RenderEngine
             {
                 return new[] { new Vector2(0, 0), new Vector2(0, _height / 2 + _realHeight / 2) };
             }
-            else
-            {
-                return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
-            }
+            return new[] { new Vector2(0, 0), new Vector2(0, _width / 2 + _realWidth / 2) };
         }
 
         public static void setZoom(float zFactor)
         {
-            zoomOffset = new Vector2(_virtualCenter.X - zFactor * _virtualWidth / 2, _virtualCenter.Y - zFactor * _virtualHeight / 2) / zFactor;
+            zoomOffset = new Vector2(VirtualCenter.X - zFactor * _virtualWidth / 2, VirtualCenter.Y - zFactor * _virtualHeight / 2) / zFactor;
 
             Util.ToIntVector2(ref zoomOffset);
             zoomFactor = zFactor;

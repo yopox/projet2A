@@ -23,7 +23,7 @@ namespace mono.core.States
         {
             Rendering.BeginDraw(spriteBatch);
             map.DrawDecor(spriteBatch, am);
-            player.Draw(GraphicsDevice, spriteBatch, am);
+            player.Draw(spriteBatch, am);
             map.Draw(spriteBatch, am);
             map.DrawObjects(spriteBatch, am);
             Debuger.DebugActors(GraphicsDevice, spriteBatch);

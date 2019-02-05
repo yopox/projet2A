@@ -13,8 +13,8 @@ namespace mono.core
         public PlayerState state; // Etat que représente l'animation
 
         private int _currentFrame;
-        private bool _isReversed = false; // Frame inversée
-        private float _time = 0; // Durée d'affichage d'un sprite
+        private bool _isReversed; // Frame inversée
+        private float _time; // Durée d'affichage d'un sprite
 
         /// <summary>
         /// 

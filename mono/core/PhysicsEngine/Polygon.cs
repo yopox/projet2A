@@ -23,6 +23,7 @@ namespace mono.core.PhysicsEngine
                 case PolygonType.Rectangle:
                     return CollidesWithRectangle((Rect)p);
                 case PolygonType.TriangleL:
+                    return CollidesWithTriangle((Tri)p);
                 case PolygonType.TriangleR:
                     return CollidesWithTriangle((Tri)p);
                 default:
@@ -42,6 +43,14 @@ namespace mono.core.PhysicsEngine
 
         public static Polygon FromTile(int id, int x, int y)
         {
+            if (id == 33 || id == 14)
+            {
+                return new Tri(new Vector2(x + Util.tileSize, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleR);
+            }
+            if (id == 36 || id == 15)
+            {
+                return new Tri(new Vector2(x, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleL);
+            }
             if (id != 0)
             {
                 return new Rect(x, y, Util.tileSize, Util.tileSize);
@@ -94,7 +103,7 @@ namespace mono.core.PhysicsEngine
                         return false;
                     var w1 = X + Width - t.A.X + t.Width;
                     var sH1 = t.Height * w1 / t.Width;
-                    Console.WriteLine(w1 + " ; " + sH1);
+                    //Console.WriteLine(w1 + " ; " + sH1);
                     return Y + Height > t.A.Y - sH1;
             }
         }

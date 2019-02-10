@@ -45,6 +45,7 @@ namespace mono.core
         {
             forces.Y = -15000;
             speed.Y -= 0.8f;
+            //speed.Y -= 1.5f;
         }
 
         /// <summary>

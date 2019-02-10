@@ -8,7 +8,7 @@ namespace mono.core
 
 {
     /// <summary>
-    /// Classe parent de tous les acteurs
+    /// Classe parent de tous les acteurs : monstres, joueur.
     /// 
     /// 
     /// </summary>
@@ -17,7 +17,7 @@ namespace mono.core
         public Atlas atlas; // Spritesheet de l'acteur
         public PlayerState state { get; set; } = PlayerState.Idle;
 
-        internal Dictionary<PlayerState, Animation> Animations { get => _animations;}
+        internal Dictionary<PlayerState, Animation> Animations { get => _animations; }
 
         public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 size;
@@ -47,14 +47,13 @@ namespace mono.core
         /// <param name="frameTime">durée d'une frame</param>
         public void Update(GameState gstate, GameTime gameTime)
         {
+            List<Polygon> listPolygon;
             foreach (var rectangle in GetHitboxes())
             {
-                var listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
-                CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
                 listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
-
+                CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
+                CollisionSolver.slope = false;
             }
-
             Animations[state].UpdateFrame(gameTime, gstate.frameTime);
         }
 

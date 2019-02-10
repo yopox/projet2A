@@ -19,6 +19,10 @@ namespace mono.core
 
             if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && player.CanJump)
                 player.Jump();
+            if (gstate.ksn.IsKeyDown(Keys.S) && gstate.kso.IsKeyUp(Keys.S))
+            {
+                player.speed.Y += 1.5f;
+            }
 
             // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))

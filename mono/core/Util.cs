@@ -50,7 +50,8 @@ namespace mono.core
         // Unité du monde
         static public int baseUnit = 200;
         static public Vector2 gravity = new Vector2(0,11);
-
+        //static public Vector2 gravity = new Vector2(0,0);
+        
         /// <summary>
         /// Convertie un vecteur 2 de float en vecteur 2 d'entier
         /// </summary>

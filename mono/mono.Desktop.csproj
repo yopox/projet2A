@@ -53,7 +53,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="core\Util.cs" />
     <Compile Include="core\PhysicsEngine\Physics.cs" />
     <Compile Include="core\RenderEngine\Rendering.cs" />
     <Compile Include="core\RenderEngine\Animation.cs" />
@@ -66,6 +65,10 @@
     <Compile Include="core\RenderEngine\Tilemap.cs" />
     <Compile Include="core\PhysicsEngine\CollisionTester.cs" />
     <Compile Include="core\PhysicsEngine\Polygon.cs" />
+    <Compile Include="core\Entities\MovingBox.cs" />
+    <Compile Include="core\Definitions\AssetInfo.cs" />
+    <Compile Include="core\Definitions\Util.cs" />
+    <Compile Include="core\RenderEngine\AssetManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -133,6 +136,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="core\Definitions\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
 </Project>

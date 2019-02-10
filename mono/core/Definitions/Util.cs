@@ -49,17 +49,21 @@ namespace mono.core
 
         // Unité du monde
         static public int baseUnit = 200;
-        static public Vector2 gravity = new Vector2(0,11);
-        //static public Vector2 gravity = new Vector2(0,0);
-        
+        static public Vector2 gravity = new Vector2(0, 11);
+
         /// <summary>
-        /// Convertie un vecteur 2 de float en vecteur 2 d'entier
+        /// Convertit un vecteur 2 de float en vecteur 2 d'entier
         /// </summary>
         /// <param name="vect">vecteur modifié</param>
         public static void ToIntVector2(ref Vector2 vect)
         {
             vect.X = (int)Math.Round(vect.X);
             vect.Y = (int)Math.Round(vect.Y);
+        }
+
+        public static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

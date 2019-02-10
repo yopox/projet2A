@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using mono.RenderEngine;
@@ -13,25 +8,22 @@ namespace mono.core
     class Animation
     {
 
-        public Atlas atlas; // Spritesheet d'un actor
         public int[] frames; // Frames de l'animation
         public bool isLooping = true; // Répétition de l'animation
         public PlayerState state; // Etat que représente l'animation
 
         private int _currentFrame;
-        private bool _isReversed = false; // Frame inversée
-        private float _time = 0; // Durée d'affichage d'un sprite
+        private bool _isReversed; // Frame inversée
+        private float _time; // Durée d'affichage d'un sprite
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="state">Etat de l'acteur</param>
-        /// <param name="atlas">Spritesheet d'un actor</param>
         /// <param name="frames">Frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public Animation(PlayerState state, Atlas atlas, int[] frames, bool isLooping)
+        public Animation(PlayerState state, int[] frames, bool isLooping)
         {
-            this.atlas = atlas;
             this.frames = frames;
             this.isLooping = isLooping;
             this.state = state;
@@ -45,7 +37,7 @@ namespace mono.core
         /// <param name="spriteBatch"></param>
         /// <param name="position">position de l'acteur</param>
         /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
-        public void Draw(SpriteBatch spriteBatch, Vector2 position, Face facing)
+        public void Draw(SpriteBatch spriteBatch, Atlas atlas, Vector2 position, Face facing)
         {
 
             Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
@@ -111,9 +103,5 @@ namespace mono.core
             }
         }
 
-        public Vector2 getSize()
-        {
-            return new Vector2(atlas.Width, atlas.Heigth);
-        }
     }
 }

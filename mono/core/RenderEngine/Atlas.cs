@@ -1,57 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace mono.core
 {
+
+    public struct AtlasInfo
+    {
+        public string location;
+        public int width;
+        public int height;
+        public int padding;
+        public int border;
+
+        public AtlasInfo(string location, int width, int height, int padding, int border)
+        {
+            this.location = location;
+            this.width = width;
+            this.height = height;
+            this.padding = padding;
+            this.border = border;
+        }
+    }
+
     /// <summary>
     /// Représentation d'une spritesheet
     /// </summary>
     public class Atlas
     {
-        private Texture2D _texture;
+        public Texture2D Texture { get; private set; }
 
-        public Texture2D Texture
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public int Rows { get; private set; }
+        public int Columns { get; private set; }
+        public int Padding { get; private set; }
+        public int Border { get; private set; }
+
+        public Atlas(Texture2D texture, int width, int height, int padding, int border)
         {
-            get
-            {
-                return _texture;
-            }
-        }
+            Texture = texture;
+            Width = width;
+            Height = height;
+            Padding = padding;
+            Border = border;
 
-        private int _rows;
-        private int _columns;
-        private int _padding;
-        private int _border;
-        private int _width;
-        private int _heigth;
-
-        public int Width { get => _width; }
-        public int Heigth { get => _heigth; }
-        public int Rows { get => _rows; }
-        public int Columns { get => _columns; }
-        public int Padding { get => _padding; }
-        public int Border { get => _border; }
-
-        public Atlas()
-        {
-
-        }
-
-        public Atlas(Texture2D texture, int width, int heigth, int padding, int border)
-        {
-            _texture = texture;
-            _width = width;
-            _heigth = heigth;
-            _padding = padding;
-            _border = border;
-
-            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
-            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+            Rows = (Texture.Height - 2 * Border) / (Height + Padding);
+            Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
         /// <summary>
@@ -64,14 +58,14 @@ namespace mono.core
         /// <param name="border">Offset à gauche et en haut de la texture</param>
         public void SetTexture(Texture2D texture, int width, int heigth, int padding, int border)
         {
-            _texture = texture;
-            _width = width;
-            _heigth = heigth;
-            _padding = padding;
-            _border = border;
+            Texture = texture;
+            Width = width;
+            Height = heigth;
+            Padding = padding;
+            Border = border;
 
-            _rows = (_texture.Height - 2 * _border) / (_heigth + _padding);
-            _columns = (_texture.Width - 2 * _border) / (_width + _padding);
+            Rows = (Texture.Height - 2 * Border) / (Height + Padding);
+            Columns = (Texture.Width - 2 * Border) / (Width + Padding);
         }
 
 
@@ -82,10 +76,10 @@ namespace mono.core
         /// <returns></returns>
         public Rectangle GetSourceRectangle(int indexElement)
         {
-            int row = (int)((float)indexElement / (float)this.Columns);
-            int column = indexElement % this.Columns;
+            int row = (int)((float)indexElement / Columns);
+            int column = indexElement % Columns;
 
-            return new Rectangle(_border + (_width + _padding) * column, _border + (_heigth + _padding) * row, _width, _heigth);
+            return new Rectangle(Border + (Width + Padding) * column, Border + (Height + Padding) * row, Width, Height);
         }
 
     }

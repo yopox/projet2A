@@ -7,14 +7,13 @@ namespace mono.core
 {
     class Debuger
     {
-        public static bool debugActors = false;
-        public static bool debugTiles = false;
+        public static bool debugActors;
+        public static bool debugTiles;
         public static int radius = 4;
 
         /// <summary>
         /// Affiche la hitbox autour des acteurs
         /// </summary>
-        /// <param name="camera"></param>
         /// <param name="GraphicsDevice"></param>
         /// <param name="spriteBatch"></param>
         public static void DebugActors(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
@@ -28,7 +27,7 @@ namespace mono.core
                         switch (polygon.type)
                         {
                             case PolygonType.Rectangle:
-                                var rect = (Rect)polygon;
+                                var rect = polygon;
                                 Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
                                 Color[] data = new Color[rect.Width * rect.Height];
                                 for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
@@ -38,8 +37,6 @@ namespace mono.core
                             case PolygonType.TriangleL:
                                 break;
                             case PolygonType.None:
-                                break;
-                            default:
                                 break;
                         }
                     }

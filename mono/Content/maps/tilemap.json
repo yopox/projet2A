@@ -41,8 +41,20 @@
                  "type":"starting",
                  "visible":true,
                  "width":32,
-                 "x":378.666666666667,
-                 "y":265.333333333333
+                 "x":352,
+                 "y":512
+                }, 
+                {
+                 "gid":121,
+                 "height":32,
+                 "id":22,
+                 "name":"",
+                 "rotation":0,
+                 "type":"movingBox",
+                 "visible":true,
+                 "width":32,
+                 "x":64,
+                 "y":384
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -51,18 +63,18 @@
          "y":0
         }],
  "nextlayerid":12,
- "nextobjectid":22,
+ "nextobjectid":23,
  "orientation":"orthogonal",
  "properties":[
         {
          "name":"Parallax1",
          "type":"string",
-         "value":"5;Graphics\/test_parallaxe"
+         "value":"5;Parallax1"
         }, 
         {
          "name":"Parallax2",
          "type":"string",
-         "value":"2;Graphics\/backerground"
+         "value":"2;Parallax2"
         }],
  "renderorder":"right-down",
  "tiledversion":"1.2.1",

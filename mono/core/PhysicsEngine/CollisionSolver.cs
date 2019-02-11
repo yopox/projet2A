@@ -67,7 +67,7 @@ namespace mono.core.PhysicsEngine
                         actor.SetX((int)(triangleL.A.X - actor.size.X), 0, 0);
                     }
                     //Collision haut
-                    else if (oldPos.Y > triangleL.A.Y)
+                    else if (oldPos.Y > triangleL.A.Y && oldPos.X < triangleL.A.X + triangleL.Width)
                     {
                         actor.SetY((int)(triangleL.A.Y), 0, 0);
                     }
@@ -94,7 +94,7 @@ namespace mono.core.PhysicsEngine
                         actor.SetX((int)(triangleR.A.X), 0, 0);
                     }
                     //Collision haut
-                    else if (oldPos.Y > triangleR.A.Y)
+                    else if (oldPos.Y > triangleR.A.Y && oldPos.X + actor.size.X > triangleR.A.X - triangleR.Width)
                     {
                         actor.SetY((int)(triangleR.A.Y), 0, 0);
                     }

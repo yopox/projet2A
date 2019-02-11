@@ -80,5 +80,19 @@ namespace mono.core
         {
             return new Rect[] { new Rect((int)position.X, (int)position.Y, (int)size.X, (int)size.Y) };
         }
+
+        public void SetX(int positionX, int speedX, int accelerationX)
+        {
+            position.X = positionX;
+            speed.X = speedX;
+            acceleration.X = accelerationX;
+        }
+
+        public void SetY(int positionY, float speedY, float accelerationY)
+        {
+            position.Y = positionY;
+            speed.Y = speedY;
+            acceleration.Y = accelerationY;
+        }
     }
 }

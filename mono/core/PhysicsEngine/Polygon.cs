@@ -52,10 +52,6 @@ namespace mono.core.PhysicsEngine
             }
             if (id != 0)
             {
-                return new Tri(new Vector2(x, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleL);
-            }
-            if (id != 0)
-            {
                 return new Rect(x, y, Util.tileSize, Util.tileSize);
             }
             return new Polygon();

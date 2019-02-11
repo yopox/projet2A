@@ -67,12 +67,7 @@ namespace mono
             Rendering.setZoom(1f);
             GameState.frameTime = 0.1f;
 
-            // Création des Game States
-            Loading loading = new Loading();
-            Title title = new Title();
-
             base.Initialize();
-            Polygon.test();
         }
 
         /// <summary>
@@ -104,7 +99,7 @@ namespace mono
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || GameState.ksn.IsKeyDown(Keys.Escape))
                 Exit();
 
             GameState.ksn = Keyboard.GetState();
@@ -120,7 +115,10 @@ namespace mono
                 case State.Title:
                     break;
                 case State.Main:
-                    Main.Update(player, gameTime, GameState);
+                    state = Main.Update(player, gameTime, GameState);
+                    break;
+                case State.Pause:
+                    state = Pause.Update(GameState);
                     break;
             }
 
@@ -151,6 +149,9 @@ namespace mono
                     break;
                 case State.Main:
                     Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
+                    break;
+                case State.Pause:
+                    Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     break;
             }
 

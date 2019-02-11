@@ -20,6 +20,8 @@ namespace mono.RenderEngine
         public static Vector2 VirtualCenter { get; private set; }
         static int _virtualWidth; // Largeur de la fenetre de dessin
         static int _virtualHeight; // Hauteur de notre fenetre de dessin
+        public static int VirtualWidth { get => _virtualWidth; }
+        public static int VirtualHeight { get => _virtualHeight; }
         static int _realWidth; // Largeur réelle de l'affichage le plus grand dans la fenêtre
         static int _realHeight; // Hauteur réelle de l'affichage le plus grand dans la fenêtre
         static bool _dirtyMatrix = true; // Représente l'état de notre matrice de dessin

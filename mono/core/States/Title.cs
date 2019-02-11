@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mono.core.States
 {
-    class Title
+    static class Title
     {
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
 using System;
@@ -12,11 +13,16 @@ namespace mono.core.States
 {
     static class Main
     {
-        public static void Update(Player player, GameTime gameTime, GameState GameState)
+        public static State Update(Player player, GameTime gameTime, GameState GameState)
         {
             Physics.UpdateAll(gameTime);
             player.Update(GameState, gameTime);
             Camera.Update(player);
+
+            if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
+                return State.Pause;
+            else
+                return State.Main;
         }
 
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)

@@ -24,7 +24,8 @@ namespace mono.core
         SplashScreen,
         Loading,
         Title,
-        Main
+        Main,
+        Pause
     }
 
     public static class Util

@@ -22,23 +22,21 @@ namespace mono.core
             {
                 foreach (var actor in Physics.Actors)
                 {
-                    foreach (var polygon in actor.GetHitboxes())
+                    var polygon = actor.GetHitbox();
+                    switch (polygon.type)
                     {
-                        switch (polygon.type)
-                        {
-                            case PolygonType.Rectangle:
-                                var rect = polygon;
-                                Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
-                                Color[] data = new Color[rect.Width * rect.Height];
-                                for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
-                                rectangleTexture.SetData(data);
-                                spriteBatch.Draw(rectangleTexture, Camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
-                                break;
-                            case PolygonType.TriangleL:
-                                break;
-                            case PolygonType.None:
-                                break;
-                        }
+                        case PolygonType.Rectangle:
+                            var rect = polygon;
+                            Texture2D rectangleTexture = new Texture2D(GraphicsDevice, rect.Width, rect.Height);
+                            Color[] data = new Color[rect.Width * rect.Height];
+                            for (int i = 0; i < data.Length; ++i) data[i] = new Color(150, 50, 50, 50);
+                            rectangleTexture.SetData(data);
+                            spriteBatch.Draw(rectangleTexture, Camera.GetScreenPosition(new Vector2(rect.X, rect.Y)), Color.White);
+                            break;
+                        case PolygonType.TriangleL:
+                            break;
+                        case PolygonType.None:
+                            break;
                     }
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,12 +44,12 @@ namespace mono.core
         /// <param name="gameTime"></param>
         public void Update(GameState gstate, GameTime gameTime)
         {
-            List<Polygon> listPolygon;
-            foreach (var rectangle in GetHitboxes())
+            List<Polygon> listPolygon = CollisionTester.CollidesWithTerrain(GetHitbox(), gstate.map);
+
+            while (listPolygon.Count != 0)
             {
-                listPolygon = CollisionTester.CollidesWithTerrain(rectangle, gstate.map);
                 CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
-                CollisionSolver.slope = false;
+                listPolygon = CollisionTester.CollidesWithTerrain(GetHitbox(), gstate.map);
             }
 
             Animations[State].UpdateFrame(gameTime, gstate.frameTime);
@@ -76,9 +77,9 @@ namespace mono.core
             Animations[State].Draw(spriteBatch, am.GetAtlas(atlasName), displayPos, facing);
         }
 
-        public Rect[] GetHitboxes()
+        public Rect GetHitbox()
         {
-            return new Rect[] { new Rect((int)position.X, (int)position.Y, (int)size.X, (int)size.Y) };
+            return new Rect((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
         }
 
         public void SetX(int positionX, int speedX, int accelerationX)

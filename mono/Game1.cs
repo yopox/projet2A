@@ -6,6 +6,7 @@ using mono.PhysicsEngine;
 using mono.RenderEngine;
 using mono.core.States;
 using mono.core.Definitions;
+using mono.core.PhysicsEngine;
 
 namespace mono
 {
@@ -71,6 +72,7 @@ namespace mono
             Title title = new Title();
 
             base.Initialize();
+            Polygon.test();
         }
 
         /// <summary>

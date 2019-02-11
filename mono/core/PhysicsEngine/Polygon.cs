@@ -14,6 +14,12 @@ namespace mono.core.PhysicsEngine
 
     public class Polygon
     {
+        public static void test()
+        {
+            Rect r1 = new Rect(1, 0, 32, 32);
+            Tri t1 = new Tri(new Vector2(64, 32), 32, 32, PolygonType.TriangleR);
+            r1.CollidesWithTriangle(t1);
+        }
         public PolygonType type = PolygonType.None;
 
         public bool CollidesWith(Polygon p)
@@ -89,13 +95,13 @@ namespace mono.core.PhysicsEngine
             switch (t.type)
             {
                 case PolygonType.TriangleL:
-                    if (X + Width < t.A.X || X > t.A.X + t.Width || Y + Height < t.A.Y - t.Height || Y > t.A.Y)
+                    if (X + Width <= t.A.X || X >= t.A.X + t.Width || Y + Height <= t.A.Y - t.Height || Y >= t.A.Y)
                         return false;
                     var w0 = t.A.X + t.Width - X;
                     var sH0 = t.Height * w0 / t.Width;
                     return Y + Height > t.A.Y - sH0;
                 default:
-                    if (X + Width < t.A.X - t.Width || X > t.A.X || Y + Height < t.A.Y - t.Height || Y > t.A.Y)
+                    if (X + Width <= t.A.X - t.Width || X >= t.A.X || Y + Height <= t.A.Y - t.Height || Y >= t.A.Y)
                         return false;
                     var w1 = X + Width - t.A.X + t.Width;
                     var sH1 = t.Height * w1 / t.Width;

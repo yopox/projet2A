@@ -102,6 +102,5 @@ namespace mono.core
                 Array.Reverse(frames);
             }
         }
-
     }
 }

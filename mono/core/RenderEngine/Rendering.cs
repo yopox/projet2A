@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using mono.core;
-using System;
 
 namespace mono.RenderEngine
 {

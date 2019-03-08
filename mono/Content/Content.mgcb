@@ -64,3 +64,10 @@
 #begin maps/tilemap.json
 /copy:maps/tilemap.json
 
+#begin Test.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Test.spritefont
+

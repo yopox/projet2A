@@ -4,51 +4,110 @@ using Microsoft.Xna.Framework.Input;
 using mono.RenderEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono.core.States
 {
     static class Pause
     {
+        private static ButtonList _listButton;
         private static Texture2D _foregroundTexture;
+        private static Vector2 _size = new Vector2(300, 150);
+        private static int _activatedButton = 0;
+
+        public static void initialize()
+        {
+
+            string[] nameButtons = new string[] { "test1", "test2", "test3", "test4", "test5" };
+            if (nameButtons.Length > 4)
+                _listButton = new ButtonList(nameButtons, 4, _size);
+            else
+                _listButton = new ButtonList(nameButtons, nameButtons.Length, _size);
+
+            Button.ActionButton[] actions = new Button.ActionButton[] { ActionButton1, ActionButton2, ActionButton3, ActionButton4, ActionButton5 };
+
+            for (int i = 0; i < actions.Length; i++)
+            {
+                _listButton.Buttons[i].SetAction(actions[i]);
+            }
+        }
 
         public static State Update(GameState GameState)
         {
+            State newState;
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
-                return State.Main;
+                newState = State.Main;
+            else if (GameState.ksn.IsKeyDown(Keys.S) && GameState.kso.IsKeyUp(Keys.S))
+            {
+                _activatedButton = (_activatedButton + 1) % _listButton.numberButton;
+                newState = State.Pause;
+            }
+            else if (GameState.ksn.IsKeyDown(Keys.Z) && GameState.kso.IsKeyUp(Keys.Z))
+            {
+                _activatedButton = Util.mod(_activatedButton - 1, _listButton.numberButton);
+                newState = State.Pause;
+            }
+            else if (GameState.ksn.IsKeyDown(Keys.Enter) && GameState.kso.IsKeyUp(Keys.Enter))
+            {
+                newState = _listButton.Buttons[_activatedButton].Action();
+            }
             else
-                return State.Pause;
+                newState = State.Pause;
+
+            _listButton.Update(_activatedButton);
+            return newState;
         }
 
-        public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
+        public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map, SpriteFont font)
         {
             Rendering.BeginDraw(spriteBatch);
             map.DrawDecor(spriteBatch, am);
             player.Draw(spriteBatch, am);
             map.Draw(spriteBatch, am);
             map.DrawObjects(spriteBatch, am);
-            
-            spriteBatch.Draw(ForegroundTexture(GraphicsDevice), Vector2.Zero, Color.White);
-            //spriteBatch.DrawString(SpriteFont.Glyph, "test", Vector2.Zero, Color.White);
 
+            spriteBatch.Draw(ForegroundTexture(GraphicsDevice), Vector2.Zero, Color.White);
+            _listButton.Draw(GraphicsDevice, spriteBatch, font);
         }
 
         private static Texture2D ForegroundTexture(GraphicsDevice GraphicsDevice)
         {
-            if(_foregroundTexture == null)
+            if (_foregroundTexture == null)
             {
                 Color foregroundColor = new Color(40, 40, 40, 150);
 
-                _foregroundTexture = new Texture2D(GraphicsDevice,
-                (int)(Rendering.VirtualWidth / Rendering.zoomFactor),
-                (int)(Rendering.VirtualHeight / Rendering.zoomFactor));
-                Color[] data = new Color[(int)(Rendering.VirtualWidth / Rendering.zoomFactor) * (int)(Rendering.VirtualHeight / Rendering.zoomFactor)];
-                for (int i = 0; i < data.Length; ++i) data[i] = foregroundColor;
-                _foregroundTexture.SetData(data);
+                _foregroundTexture = Util.GetRectangleTexture(GraphicsDevice, foregroundColor, (int)(Rendering.VirtualWidth / Rendering.zoomFactor), (int)(Rendering.VirtualHeight / Rendering.zoomFactor));
             }
             return _foregroundTexture;
+        }
+
+        private static State ActionButton1()
+        {
+            Console.WriteLine("test1");
+            return State.Pause;
+        }
+
+        private static State ActionButton2()
+        {
+            Console.WriteLine("test2");
+            return State.Pause;
+        }
+
+        private static State ActionButton3()
+        {
+            Console.WriteLine("test3");
+            return State.Pause;
+        }
+
+        private static State ActionButton4()
+        {
+            Console.WriteLine("test4");
+            return State.Main;
+        }
+
+        private static State ActionButton5()
+        {
+            Console.WriteLine("test5");
+            return State.Pause;
         }
     }
 }

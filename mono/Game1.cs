@@ -6,7 +6,6 @@ using mono.PhysicsEngine;
 using mono.RenderEngine;
 using mono.core.States;
 using mono.core.Definitions;
-using mono.core.PhysicsEngine;
 
 namespace mono
 {
@@ -34,6 +33,8 @@ namespace mono
         State state = State.SplashScreen;
         readonly AssetManager am;
 
+        private SpriteFont font;
+
         public Game1()
         {
             // Graphismes
@@ -56,6 +57,9 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
+            //On initialise la pause
+            Pause.initialize();
+
             // Création du joueur
             player = new Player(new Vector2(64, 128));
 
@@ -77,6 +81,8 @@ namespace mono
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            font = Content.Load<SpriteFont>("Test");
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
@@ -151,7 +157,7 @@ namespace mono
                     Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     break;
                 case State.Pause:
-                    Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
+                    Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map, font);
                     break;
             }
 

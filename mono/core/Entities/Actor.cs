@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -48,7 +47,7 @@ namespace mono.core
 
             while (listPolygon.Count != 0)
             {
-                CollisionSolver.ActorTerrain(this, listPolygon, gameTime);
+                CollisionSolver.ActorTerrain(this, listPolygon[0], gameTime);
                 listPolygon = CollisionTester.CollidesWithTerrain(GetHitbox(), gstate.map);
             }
 

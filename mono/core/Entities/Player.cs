@@ -16,7 +16,7 @@ namespace mono.core
         public Player(Vector2 size) : base(AtlasName.Player, Vector2.Zero, size)
         {
             facing = Face.Right;
-            AddAnimation(PlayerState.Idle, new[] { 0 }, false);
+            AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, true);
             AddAnimation(PlayerState.Walking, new[] { 0 }, true);
         }
 

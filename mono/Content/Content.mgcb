@@ -35,7 +35,7 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/backerground.png
 
-#begin Graphics/hero.png
+#begin Graphics/player_idle.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -45,7 +45,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/hero.png
+/build:Graphics/player_idle.png;Graphics/player.png
 
 #begin Graphics/test_parallaxe.jpg
 /importer:TextureImporter

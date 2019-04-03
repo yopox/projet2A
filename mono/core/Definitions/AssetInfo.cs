@@ -18,7 +18,7 @@ namespace mono.core.Definitions
         static public Dictionary<AtlasName, AtlasInfo> infos = new Dictionary<AtlasName, AtlasInfo>
         {
             {AtlasName.Tileset1, new AtlasInfo("Graphics/tileset", 32, 32, 0, 0)},
-            {AtlasName.Player, new AtlasInfo("Graphics/hero", 64, 128, 0, 0)},
+            {AtlasName.Player, new AtlasInfo("Graphics/player", 64, 128, 0, 0)},
             {AtlasName.Parallax1, new AtlasInfo("Graphics/test_parallaxe", 1280, 720, 0, 0)},
             {AtlasName.Parallax2, new AtlasInfo("Graphics/backerground", 1280, 720, 0, 0)}
         };

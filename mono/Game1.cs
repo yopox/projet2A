@@ -17,7 +17,6 @@ namespace mono
         public GamePadState gso;
         public GamePadState gsn;
         public Tilemap map;
-        public float frameTime;
         public GamePadState gamePadState;
     }
 
@@ -68,7 +67,6 @@ namespace mono
 
             // Rendering
             Rendering.setZoom(1f);
-            GameState.frameTime = 0.1f;
 
             base.Initialize();
         }

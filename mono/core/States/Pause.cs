@@ -15,14 +15,14 @@ namespace mono.core.States
 
         public static void Initialize()
         {
+            string[] nameButtons = new string[] { "test1", "test2", "test3" };
 
-            string[] nameButtons = new string[] { "test1", "test2", "test3", "test4", "test5" };
             if (nameButtons.Length > 4)
                 _listButton = new ButtonList(nameButtons, 4, _size);
             else
                 _listButton = new ButtonList(nameButtons, nameButtons.Length, _size);
 
-            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton3, ActionButton4, ActionButton5 };
+            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton4 };
 
             for (int i = 0; i < actions.Length; i++)
             {

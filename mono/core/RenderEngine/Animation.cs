@@ -15,6 +15,8 @@ namespace mono.core
         private int _currentFrame;
         private bool _isReversed; // Frame inversée
         private float _time; // Durée d'affichage d'un sprite
+        readonly int duration;
+        private int _currentDuration;
 
         /// <summary>
         /// 
@@ -22,12 +24,14 @@ namespace mono.core
         /// <param name="state">Etat de l'acteur</param>
         /// <param name="frames">Frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public Animation(PlayerState state, int[] frames, bool isLooping)
+        public Animation(PlayerState state, int[] frames, int duration, bool isLooping)
         {
             this.frames = frames;
             this.isLooping = isLooping;
             this.state = state;
+            this.duration = duration;
             _currentFrame = 0;
+            _currentDuration = 0;
         }
 
 
@@ -39,7 +43,6 @@ namespace mono.core
         /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
         public void Draw(SpriteBatch spriteBatch, Atlas atlas, Vector2 position, Face facing)
         {
-
             Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
 
             // On flip les sprites suivant la direction à laquelle le joueur fait face
@@ -51,22 +54,18 @@ namespace mono.core
             {
                 spriteBatch.Draw(atlas.Texture, position + Rendering.zoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
-
-
         }
-
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="gameTime">Temps de rafraichissement du jeu</param>
-        /// <param name="frameTime">Temps d'affichage minimal d'un sprite</param>
-        public void UpdateFrame(GameTime gameTime, float frameTime = 0.1f)
+        public void UpdateFrame()
         {
-            _time += (float)gameTime.ElapsedGameTime.TotalSeconds; // Calcul le temps depuis le dernier appel de update
-            if (_time > frameTime)
+            _currentDuration++;
+
+            if (_currentDuration > duration)
             {
-                this.Next();// Appel du prochain sprite à afficher
-                _time = 0f;
+                Next();// Appel du prochain sprite à afficher
+                _currentDuration = 0;
             }
         }
 

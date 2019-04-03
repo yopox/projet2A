@@ -9,8 +9,6 @@ namespace mono.core
 {
     /// <summary>
     /// Classe parent de tous les acteurs : monstres, joueur.
-    /// 
-    /// 
     /// </summary>
     public class Actor
     {
@@ -51,7 +49,7 @@ namespace mono.core
                 listPolygon = CollisionTester.CollidesWithTerrain(GetHitbox(), gstate.map);
             }
 
-            Animations[State].UpdateFrame(gameTime, gstate.frameTime);
+            Animations[State].UpdateFrame();
         }
 
         /// <summary>
@@ -60,10 +58,9 @@ namespace mono.core
         /// <param name="state">Etat de l'animation</param>
         /// <param name="frames">Nombre de frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public void AddAnimation(PlayerState state, int[] frames, bool isLooping)
+        public void AddAnimation(PlayerState state, int[] frames,int duration, bool isLooping)
         {
-            // TODO: Durée d'une frame de l'animation
-            Animations.Add(state, new Animation(state, frames, isLooping));
+            Animations.Add(state, new Animation(state, frames, duration, isLooping));
         }
 
         /// <summary>

@@ -64,7 +64,7 @@ namespace mono.core
                 else
                     color = new Color(150, 70, 50);
 
-                _buttonList[i].Draw(GraphicsDevice, spriteBatch, font, _positions[Util.mod(i - _firstPrinted, _maxPrinted)], color);
+                _buttonList[i].Draw(GraphicsDevice, spriteBatch, font, _positions[Util.Mod(i - _firstPrinted, _maxPrinted)], color);
             }
         }
 

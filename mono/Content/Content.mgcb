@@ -74,3 +74,6 @@
 #begin maps/tilemap.json
 /copy:maps/tilemap.json
 
+#begin Scripts/text1.xml
+/copy:Scripts/text1.xml
+

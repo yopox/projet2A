@@ -42,7 +42,7 @@ namespace mono.core.States
             }
             else if (GameState.ksn.IsKeyDown(Keys.Z) && GameState.kso.IsKeyUp(Keys.Z))
             {
-                _activatedButton = Util.mod(_activatedButton - 1, _listButton.numberButton);
+                _activatedButton = Util.Mod(_activatedButton - 1, _listButton.numberButton);
                 newState = State.Pause;
             }
             else if (GameState.ksn.IsKeyDown(Keys.Enter) && GameState.kso.IsKeyUp(Keys.Enter))

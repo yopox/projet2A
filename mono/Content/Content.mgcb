@@ -13,6 +13,16 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/bird_seed.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/bird_seed.spritefont
+
+#begin Fonts/bird_seed.ttf
+/copy:Fonts/bird_seed.ttf
+
 #begin Graphics/backerground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -63,11 +73,4 @@
 
 #begin maps/tilemap.json
 /copy:maps/tilemap.json
-
-#begin Test.spritefont
-/importer:FontDescriptionImporter
-/processor:FontDescriptionProcessor
-/processorParam:PremultiplyAlpha=True
-/processorParam:TextureFormat=Compressed
-/build:Test.spritefont
 

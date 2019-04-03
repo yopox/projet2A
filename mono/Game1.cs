@@ -58,7 +58,7 @@ namespace mono
         protected override void Initialize()
         {
             //On initialise la pause
-            Pause.initialize();
+            Pause.Initialize();
 
             // Création du joueur
             player = new Player(new Vector2(64, 128));
@@ -82,7 +82,7 @@ namespace mono
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("Test");
+            font = Content.Load<SpriteFont>("Fonts/bird_seed");
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);

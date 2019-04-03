@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.RenderEngine;
 using System;
-using System.Collections.Generic;
 
 namespace mono.core.States
 {
@@ -14,7 +13,7 @@ namespace mono.core.States
         private static Vector2 _size = new Vector2(300, 150);
         private static int _activatedButton = 0;
 
-        public static void initialize()
+        public static void Initialize()
         {
 
             string[] nameButtons = new string[] { "test1", "test2", "test3", "test4", "test5" };
@@ -23,7 +22,7 @@ namespace mono.core.States
             else
                 _listButton = new ButtonList(nameButtons, nameButtons.Length, _size);
 
-            Button.ActionButton[] actions = new Button.ActionButton[] { ActionButton1, ActionButton2, ActionButton3, ActionButton4, ActionButton5 };
+            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton3, ActionButton4, ActionButton5 };
 
             for (int i = 0; i < actions.Length; i++)
             {

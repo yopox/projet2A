@@ -100,7 +100,7 @@ namespace mono.core
             spritebatch.DrawString(font, 
                 stringToDraw, 
                 positionStr, 
-                Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
+                Color.White, 0.0f, Vector2.Zero, 4f, new SpriteEffects(), 0.0f);
         }
 
         /// <summary>

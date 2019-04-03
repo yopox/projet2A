@@ -16,8 +16,7 @@ namespace mono.core.States
 
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
                 return State.Pause;
-            else
-                return State.Main;
+            return State.Main;
         }
 
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)

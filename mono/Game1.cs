@@ -43,9 +43,8 @@ namespace mono
             am = new AssetManager(Content);
 
             // Affichage
-            // TODO: Taille d'écran réelle dans Util
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(1280, 720);
+            Rendering.SetResolution(Util.width, Util.height);
             Rendering.SetVirtualResolution(Util.virtualWidth, Util.virtualHeight);
         }
 

@@ -48,6 +48,7 @@
     <Compile Include="core\PhysicsEngine\CollisionSolver.cs" />
     <Compile Include="core\PlayerControl.cs" />
     <Compile Include="core\RenderEngine\BackgroundImage.cs" />
+    <Compile Include="core\States\Cutscene.cs" />
     <Compile Include="core\States\Loading.cs" />
     <Compile Include="core\States\Main.cs" />
     <Compile Include="core\States\Pause.cs" />

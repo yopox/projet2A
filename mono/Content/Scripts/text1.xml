@@ -1,7 +1,6 @@
 <background intro>
-<color white>
 <text>
-Cela va faire quoi, Neuf ans ?
+[w]Cela va faire quoi, Neuf ans ?
 
 J'ai l'impression de devenir cinglée à force de tourner en rond !
 
@@ -49,26 +48,15 @@ Adieu le monde, tu étais bien trop cruel pour moi !
 <text>
 Hmm !?
 
-</text>
-<color green>
-<text>
-All... A...Lô... Quelqu'... Tend ?
+[g]All... A...Lô... Quelqu'... Tend ?
 
-</text>
-<color white>
-<text>
-Pas Possible ? Je deviens folle ?
+[w]Pas Possible ? Je deviens folle ?
 
-</text>
-<color green>
-<text>
-Sara... Tu ...çois ?
-
+[g]Sara... Tu ...çois ?
 </text>
 <newpage>
-<color white>
 <text>
-Attend ! Sue ? Sue c'est toi ?
+[w]Attend ! Sue ? Sue c'est toi ?
 Allô ?  Ici le laboratoire sous-marin HS314 ! Vous me recevez ? 
 Sue dis-moi que c'est toi ?
 
@@ -82,6 +70,6 @@ FAIS CHIER !
 
 C'est bon univers ! J'ai compris !
 </text>
-<sfx fin_intro>
+<sfx finIntro>
 <wait 600>
 <state Main>

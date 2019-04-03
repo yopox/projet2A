@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework.Graphics;
 using mono.RenderEngine;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace mono.core
 {
@@ -33,12 +36,11 @@ namespace mono.core
     public enum CutsceneActionType
     {
         Background,
-        Color,
         Text,
         NewPage,
         Wait,
         Sfx,
-        Gfx,
+        Bgm,
         State
     }
 
@@ -46,6 +48,12 @@ namespace mono.core
     {
         public CutsceneActionType type;
         public dynamic content;
+
+        public CutsceneAction(CutsceneActionType type, dynamic content) : this()
+        {
+            this.type = type;
+            this.content = content;
+        }
     }
 
     public static class Util
@@ -156,5 +164,102 @@ namespace mono.core
             else
                 return m;
         }
+
+        public static Queue<CutsceneAction> ParseScript(string path)
+        {
+            Queue<CutsceneAction> queue = new Queue<CutsceneAction>();
+
+            // Lecture du fichier
+            StreamReader stream = File.OpenText(path);
+            string[] script = stream.ReadToEnd().Split('\n');
+            stream.Close();
+
+            int pos = 0;
+
+            while (pos < script.Length)
+            {
+                // TEXT
+                if (script[pos] == "<text>")
+                {
+                    string text = "";
+                    pos++;
+                    while (script[pos] != "</text>")
+                    {
+                        if (script[pos] == "")
+                        {
+                            text += "\n";
+                        }
+                        else
+                        {
+                            text += script[pos] + "\n";
+                        }
+                        pos++;
+                    }
+                    pos++;
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Text, text));
+                }
+            
+                else if (script[pos] == "<newpage>")
+                {
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.NewPage, false));
+                    pos++;
+                }
+
+                else if (script[pos].Contains("wait"))
+                {
+                    string regex = "<wait ([0-9]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Wait, matches[1]));
+                    pos++;
+                }
+
+                else if (script[pos].Contains("background"))
+                {
+                    string regex = "<background ([a-zA-Z]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Background, matches[1]));
+                    pos++;
+                }
+
+                else if (script[pos].Contains("sfx"))
+                {
+                    string regex = "<sfx ([a-zA-Z]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Sfx, matches[1]));
+                    pos++;
+                }
+
+
+                else if (script[pos].Contains("bgm"))
+                {
+                    string regex = "<bgm ([a-zA-Z]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Bgm, matches[1]));
+                    pos++;
+                }
+
+                else if (script[pos].Contains("state"))
+                {
+                    string regex = "<state ([a-zA-Z]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.State, matches[1]));
+                    pos++;
+                }
+            }
+
+            return queue;
+        }
+
+        static public void PrintQueue(Queue<CutsceneAction> queue)
+        {
+            while (queue.Count > 0)
+            {
+                var elem = queue.Dequeue();
+                Console.WriteLine("Type : " + elem.type.ToString());
+                Console.WriteLine("Content : " + elem.content);
+                Console.WriteLine("");
+            }
+        }
+
     }
 }

@@ -30,6 +30,24 @@ namespace mono.core
         Pause
     }
 
+    public enum CutsceneActionType
+    {
+        Background,
+        Color,
+        Text,
+        NewPage,
+        Wait,
+        Sfx,
+        Gfx,
+        State
+    }
+
+    public struct CutsceneAction
+    {
+        public CutsceneActionType type;
+        public dynamic content;
+    }
+
     public static class Util
     {
         // Screen
@@ -53,6 +71,9 @@ namespace mono.core
         // Unité du monde
         static public int baseUnit = 200;
         static public Vector2 gravity = new Vector2(0, 11);
+
+        // Font
+        static public int fontSize = 8;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
@@ -127,7 +148,7 @@ namespace mono.core
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static int mod(int a, int b)
+        public static int Mod(int a, int b)
         {
             int m = a % b;
             if (m < 0)

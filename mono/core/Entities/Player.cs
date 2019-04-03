@@ -6,7 +6,6 @@ using System;
 namespace mono.core
 {
 
-
     public class Player : Actor
     {
         public bool CanJump = true;

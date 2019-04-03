@@ -1,0 +1,87 @@
+<background intro>
+<color white>
+<text>
+Cela va faire quoi, Neuf ans ?
+
+J'ai l'impression de devenir cinglée à force de tourner en rond !
+
+Les mois passent et je suis toujours bloquée ici, sous l'océan.
+
+Ils disaient que notre mission était primordiale. Que nous étions le salut de l'humanité !
+Et pendant un temps, nous y avons vraiment cru. 
+</text>
+<newpage>
+<text>
+Mais à peine avions nous commencé à travailler que les bombes se sont mises à pleuvoir. 
+Depuis ce jour, nous n'avions plus reçu de nouvelle de la surface.
+
+C'est devenu très dur pour nous. L’isolement, le manque de soleil et bien sûr les morts.
+Certains ne l'ont pas supporté et se sont suicidés. Beaucoup au début puis de temps en temps on retrouvait un corps pendu.
+
+Bien sûr, certains se sont comporté en héros et ont décidé de mener des explorations à l'extérieur. Aucun n'est revenu. Très vite, le nombre de résidents s’est mis à chûter. 
+</text>
+<newpage>
+<text>
+Un jour, il ne resta plus que Sue et moi. 
+Elle voulait remonter à la surface. Moi je voulais finir notre vie sous l'eau. 
+On s’est souvent disputé à ce sujet. 
+Un jour j'ai trouvé une note. Elle disait qu'elle ne voulait pas renoncer. 
+Qu'elle reviendrait très vite me chercher.
+
+C'était il y a un an maintenant.  
+</text>
+<newpage>
+<text>
+Aujourd'hui, je n’ai plus de café, plus de clopes et plus d'envie de vivre. 
+Alors il me reste une dernière question à régler. 
+
+Sur la tente ? Ou dans la bouche ?
+
+Je pourrais aller me noyer comme les autres, mais si Sue revient, je ne veux pas qu'elle ait de faux espoirs. 
+
+Allez sur la tente, c'est bien !
+
+Adieu le monde, tu étais bien trop cruel pour moi !
+</text>
+<newpage>
+<bgm radio>
+<wait 30>
+<text>
+Hmm !?
+
+</text>
+<color green>
+<text>
+All... A...Lô... Quelqu'... Tend ?
+
+</text>
+<color white>
+<text>
+Pas Possible ? Je deviens folle ?
+
+</text>
+<color green>
+<text>
+Sara... Tu ...çois ?
+
+</text>
+<newpage>
+<color white>
+<text>
+Attend ! Sue ? Sue c'est toi ?
+Allô ?  Ici le laboratoire sous-marin HS314 ! Vous me recevez ? 
+Sue dis-moi que c'est toi ?
+
+Il ne doit pas me recevoir ! Le micro est en trop mauvais état.
+Tout ce qui fonctionne c'est la sortie son, le récepteur et... Le géo-localisateur...
+Je connais sa position...
+</text>
+<newpage>
+<text>
+FAIS CHIER !
+
+C'est bon univers ! J'ai compris !
+</text>
+<sfx fin_intro>
+<wait 600>
+<state Main>

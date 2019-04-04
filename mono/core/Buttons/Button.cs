@@ -6,7 +6,7 @@ namespace mono.core
     class Button
     {
 
-        private string _name;
+        private readonly string _name;
         private Vector2 _size;
         private ActionButton _action;
 
@@ -20,7 +20,7 @@ namespace mono.core
 
         public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, SpriteFont font, Vector2 position, Color color)
         {
-            Util.DrawString(GraphicsDevice, 
+            Util.DrawTextRectangle(GraphicsDevice, 
                 spriteBatch, 
                 font, 
                 _name, 

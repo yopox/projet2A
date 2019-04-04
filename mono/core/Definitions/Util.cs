@@ -82,6 +82,7 @@ namespace mono.core
 
         // Font
         static public int fontSize = 8;
+        static public int buttonHeight = 64;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
@@ -106,30 +107,23 @@ namespace mono.core
         /// <param name="font"></param>
         /// <param name="stringToDraw">Dessin à afficher</param>
         /// <param name="boundaries">"boite" dans laquelle on va afficher le texte</param>
-        public static void DrawString(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, SpriteFont font, string stringToDraw, Rectangle boundaries, Color color)
+        public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, SpriteFont font, string stringToDraw, Rectangle boundaries, Color color)
         {
-            Vector2 size = font.MeasureString(stringToDraw);
-
-            float xscale = boundaries.Width / size.X;
-            float yscale = boundaries.Height / size.Y;
-
-            float scale = Math.Min(xscale, yscale);
-
-            int strWidth = (int)Math.Round(size.X * scale);
-            int strHeight = (int)Math.Round(size.Y * scale);
+            float scale = 4f;
+            Vector2 size = font.MeasureString(stringToDraw) * scale;
 
             Vector2 positionRect = new Vector2(boundaries.X, boundaries.Y);
-            Vector2 positionStr = new Vector2(boundaries.X + (boundaries.Width - strWidth) / 2,
-                boundaries.Y + (boundaries.Height - strHeight) / 2);
-            
-            spritebatch.Draw(GetRectangleTexture(GraphicsDevice, color, boundaries.Width, boundaries.Height), 
-                positionRect, 
+            Vector2 positionStr = new Vector2(boundaries.X + boundaries.Width / 2 - size.X / 2,
+                boundaries.Y + boundaries.Height / 2 - size.Y / 2);
+
+            spritebatch.Draw(GetRectangleTexture(GraphicsDevice, color, boundaries.Width, boundaries.Height),
+                positionRect,
                 Color.White);
 
-            spritebatch.DrawString(font, 
-                stringToDraw, 
-                positionStr, 
-                Color.White, 0.0f, Vector2.Zero, 4f, new SpriteEffects(), 0.0f);
+            spritebatch.DrawString(font,
+                stringToDraw,
+                positionStr,
+                Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
         }
 
         /// <summary>
@@ -198,7 +192,7 @@ namespace mono.core
                     pos++;
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.Text, text));
                 }
-            
+
                 else if (script[pos] == "<newpage>")
                 {
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.NewPage, false));

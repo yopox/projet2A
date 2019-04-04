@@ -159,6 +159,12 @@ namespace mono.core
                 return m;
         }
 
+        /// <summary>
+        /// Parses the script.
+        /// TODO: L'écrire de manière moins scandaleuse
+        /// </summary>
+        /// <returns>Une queue contenant les actions du script.</returns>
+        /// <param name="path">Lien du fichier script.</param>
         public static Queue<CutsceneAction> ParseScript(string path)
         {
             Queue<CutsceneAction> queue = new Queue<CutsceneAction>();
@@ -172,7 +178,6 @@ namespace mono.core
 
             while (pos < script.Length)
             {
-                // TEXT
                 if (script[pos] == "<text>")
                 {
                     string text = "";
@@ -244,6 +249,10 @@ namespace mono.core
             return queue;
         }
 
+        /// <summary>
+        /// Utile pour débugger une queue.
+        /// </summary>
+        /// <param name="queue">Queue.</param>
         static public void PrintQueue(Queue<CutsceneAction> queue)
         {
             while (queue.Count > 0)
@@ -253,6 +262,31 @@ namespace mono.core
                 Console.WriteLine("Content : " + elem.content);
                 Console.WriteLine("");
             }
+        }
+
+        /// <summary>
+        /// Splitte un dialogue selon la couleur des paragraphes.
+        /// </summary>
+        /// <returns>Liste de Tuple (string couleur, string paragraphe).</returns>
+        /// <param name="dialog">Dialog.</param>
+        static public List<Tuple<string, string>> ParseDialog(string dialog)
+        {
+            // Liste de Tuple (couleur, texte)
+            List<Tuple<string, string>> liste = new List<Tuple<string, string>>();
+
+            // Séparation du dialogue avec une regex
+            Regex regex = new Regex(@"(?:\[([a-z])\]([^\[]*))", RegexOptions.Singleline);
+            string[] results = regex.Split(dialog);
+
+            // Construction de la liste
+            for (int i = 0; i < results.Length; i++)
+            {
+                if (i % 3 == 0 && results.Length > i+2)
+                {
+                    liste.Add(new Tuple<string, string>(results[i + 1], results[i + 2]));
+                }
+            }
+            return liste;
         }
 
     }

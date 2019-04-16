@@ -9,14 +9,12 @@ namespace mono.core
     class ButtonList
     {
         //Tableau des chaines de caractères associées à chaque bouton
-        private string[] _names;
-        //Nombre maximal de boutons affiché sur l'écran
-        private int _maxPrinted;
+        private readonly string[] _names;
+        //Nombre maximal de boutons affichés sur l'écran
+        private readonly int _maxPrinted;
         //indice du premier bouton affiché sur l'écran
         private int _firstPrinted;
-
-        private List<Button> _buttonList;
-        public List<Button> Buttons { get => _buttonList; }
+        public List<Button> Buttons { get; }
         //Sélection du bouton
         private int _activatedButton;
 
@@ -33,17 +31,17 @@ namespace mono.core
             _firstPrinted = 0;
 
             //décalage selon Y entre chaque bouton
-            int shiftY = (int)(Rendering.VirtualHeight - maxPrinted * size.Y) / (maxPrinted + 1);
+            int shiftY = 32;
 
-            _buttonList = new List<Button>();
+            Buttons = new List<Button>();
             _positions = new List<Vector2>();
 
-            Vector2 position = new Vector2(Rendering.Center.X - size.X / 2, shiftY);
+            Vector2 position = new Vector2(Rendering.Center.X - size.X / 2, Rendering.Center.Y - _maxPrinted * (shiftY + size.Y) / 2);
 
             //création de la liste de boutons, ainsi que de la liste des positions
             for (int i = 0; i < names.Length; i++)
             {
-                _buttonList.Add(new Button(names[i], size));
+                Buttons.Add(new Button(names[i], size));
                 //on n'a qu'un nombre _maxPrinted de boutons à afficher sur un même écran
                 if(i < _maxPrinted)
                     _positions.Add(position);
@@ -60,11 +58,11 @@ namespace mono.core
             for (int i = _firstPrinted; i < _firstPrinted + _maxPrinted;i++)
             {
                 if(i != _activatedButton)
-                    color = new Color(150, 150, 50);
+                    color = new Color(89, 87, 87);
                 else
-                    color = new Color(150, 70, 50);
+                    color = new Color(178, 127, 73);
 
-                _buttonList[i].Draw(GraphicsDevice, spriteBatch, font, _positions[Util.Mod(i - _firstPrinted, _maxPrinted)], color);
+                Buttons[i].Draw(GraphicsDevice, spriteBatch, font, _positions[Util.Mod(i - _firstPrinted, _maxPrinted)], color);
             }
         }
 

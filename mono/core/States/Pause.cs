@@ -10,19 +10,19 @@ namespace mono.core.States
     {
         private static ButtonList _listButton;
         private static Texture2D _foregroundTexture;
-        private static Vector2 _size = new Vector2(300, 150);
-        private static int _activatedButton = 0;
+        private static Vector2 _size = new Vector2(256, 64);
+        private static int _activatedButton;
 
         public static void Initialize()
         {
-            string[] nameButtons = new string[] { "test1", "test2", "test3" };
+            string[] nameButtons = new string[] { "Continuer", "Options", "Quitter" };
 
             if (nameButtons.Length > 4)
                 _listButton = new ButtonList(nameButtons, 4, _size);
             else
                 _listButton = new ButtonList(nameButtons, nameButtons.Length, _size);
 
-            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton4 };
+            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton3 };
 
             for (int i = 0; i < actions.Length; i++)
             {
@@ -79,34 +79,11 @@ namespace mono.core.States
             return _foregroundTexture;
         }
 
-        private static State ActionButton1()
-        {
-            Console.WriteLine("test1");
-            return State.Pause;
-        }
+        private static State ActionButton1() => State.Main;
 
-        private static State ActionButton2()
-        {
-            Console.WriteLine("test2");
-            return State.Pause;
-        }
+        private static State ActionButton2() => State.Pause;
 
-        private static State ActionButton3()
-        {
-            Console.WriteLine("test3");
-            return State.Pause;
-        }
+        private static State ActionButton3() => State.Pause;
 
-        private static State ActionButton4()
-        {
-            Console.WriteLine("test4");
-            return State.Main;
-        }
-
-        private static State ActionButton5()
-        {
-            Console.WriteLine("test5");
-            return State.Pause;
-        }
     }
 }

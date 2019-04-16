@@ -161,13 +161,6 @@ namespace mono.core
                 return m;
         }
 
-<<<<<<< HEAD
-        public static void InitializeColorStringDictionary()
-        {
-            colorStringDictionary.Add("white", Color.White);
-            colorStringDictionary.Add("green", Color.Green);
-        }
-=======
         /// <summary>
         /// Parses the script.
         /// TODO: L'écrire de manière moins scandaleuse
@@ -298,6 +291,5 @@ namespace mono.core
             return liste;
         }
 
->>>>>>> d0fe572f134cb0f3362f0016e43bacc4ec41ce56
     }
 }

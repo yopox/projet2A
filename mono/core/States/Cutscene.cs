@@ -1,14 +1,53 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using mono.core.Definitions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace mono.core.States
 {
     static class Cutscene
     {
-        static int actions;
-        static Atlas bgAtlas;
+        static Queue<CutsceneAction> actions;
+        static Atlas bgImage;
+        static float fontZoom = 2f;
+        static CutsceneAction nextAction;
+        static bool activeAction;
+        static Color activeColor; 
+
+        static void Prepare(Queue<CutsceneAction> act, Atlas atlas)
+        {
+            actions = act;
+            bgImage = atlas;
+        }
+
+        static void Update()
+        {
+            if (!activeAction)
+            {
+                nextAction = actions.Dequeue();
+                switch (nextAction.type)
+                {
+                    case CutsceneActionType.Background:
+                        bgImage = Util.ParseEnum<AtlasName>(nextAction.content);
+                        break;
+                    case CutsceneActionType.Color:
+                        
+                        break;
+                    case CutsceneActionType.Text:
+                        break;
+                    case CutsceneActionType.NewPage:
+                        break;
+                    case CutsceneActionType.Wait:
+                        break;
+                    case CutsceneActionType.Sfx:
+                        break;
+                    case CutsceneActionType.Gfx:
+                        break;
+                    case CutsceneActionType.State:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
     }
 }

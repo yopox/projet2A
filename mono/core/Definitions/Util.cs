@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using mono.RenderEngine;
 using System;
+using System.Collections.Generic;
 
 namespace mono.core
 {
@@ -50,6 +51,8 @@ namespace mono.core
 
     public static class Util
     {
+        static public Dictionary<String, Color> colorStringDictionary = new Dictionary<string, Color>();
+
         // Screen
         static public int width = 1280;
         static public int height = 720;
@@ -155,6 +158,12 @@ namespace mono.core
                 return b + m;
             else
                 return m;
+        }
+
+        public static void InitializeColorStringDictionary()
+        {
+            colorStringDictionary.Add("white", Color.White);
+            colorStringDictionary.Add("green", Color.Green);
         }
     }
 }

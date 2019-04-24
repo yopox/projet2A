@@ -30,7 +30,7 @@ namespace mono.core
                 center.X = player.position.X + _wBox - offset.X;
             }
 
-            if (player.position.X - offset.X < Util.virtualWidth / 2)
+            if (player.position.X - offset.X +_wBox < Util.virtualWidth / 2)
             {
                 center.X = Util.virtualWidth / 2;
             }

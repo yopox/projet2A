@@ -54,7 +54,7 @@ namespace mono.core
         public static int[] movingGids = { 121 };
 
         readonly int height;
-        readonly int width;
+        public readonly int width;
         public List<ParallaxElement> parallaxElements = new List<ParallaxElement>();
 
         readonly int xTileRange = Util.width / Util.tileSize / 2 + 1;
@@ -266,6 +266,5 @@ namespace mono.core
                 }
             }
         }
-
     }
 }

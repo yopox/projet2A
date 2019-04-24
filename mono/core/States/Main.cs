@@ -12,7 +12,7 @@ namespace mono.core.States
         {
             Physics.UpdateAll(gameTime);
             player.Update(GameState, gameTime);
-            Camera.Update(player);
+            Camera.Update(player, GameState.map.width * Util.tileSize);
 
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
                 return State.Pause;

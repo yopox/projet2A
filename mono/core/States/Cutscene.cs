@@ -11,7 +11,7 @@ namespace mono.core.States
         static float fontZoom = 2f;
         static CutsceneAction nextAction;
         static bool activeAction;
-        static Color activeColor; 
+        static Color activeColor;
 
         static void Prepare(Queue<CutsceneAction> act, Atlas atlas)
         {
@@ -29,9 +29,6 @@ namespace mono.core.States
                     case CutsceneActionType.Background:
                         bgImage = Util.ParseEnum<AtlasName>(nextAction.content);
                         break;
-                    case CutsceneActionType.Color:
-                        
-                        break;
                     case CutsceneActionType.Text:
                         break;
                     case CutsceneActionType.NewPage:
@@ -40,11 +37,9 @@ namespace mono.core.States
                         break;
                     case CutsceneActionType.Sfx:
                         break;
-                    case CutsceneActionType.Gfx:
+                    case CutsceneActionType.Bgm:
                         break;
                     case CutsceneActionType.State:
-                        break;
-                    default:
                         break;
                 }
             }

@@ -128,6 +128,60 @@
 /processorParam:Quality=Best
 /build:Music/8_generik_2_f1.wav
 
+#begin Music/nanaep6_voix_radio.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio.wav
+
+#begin Music/nanaep6_voix_radio_1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_1.wav
+
+#begin Music/nanaep6_voix_radio_2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_2.wav
+
+#begin Music/nanaep6_voix_radio_3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_3.wav
+
+#begin Music/nanaep6_voix_radio_4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_4.wav
+
+#begin Music/nanaep6_voix_radio_5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_5.wav
+
+#begin Music/nanaep6_voix_radio_6.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_6.wav
+
+#begin Music/nanaep6_voix_radio_7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voix_radio_7.wav
+
+#begin Music/nanaep6_voixradio_4bit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/nanaep6_voixradio_4bit.wav
+
 #begin Scripts/text1.xml
 /copy:Scripts/text1.xml
 

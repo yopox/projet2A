@@ -17,17 +17,26 @@ namespace mono.core
         /// Change la position de la caméra selon la position du joueur.
         /// </summary>
         /// <param name="player">Player.</param>
-        public static void Update(Player player)
+        public static void Update(Player player, int worldWidth)
         {
 
             // Mouvement sans déplacement de caméra pour une largeur 2*wBox
-            if (player.position.X > center.X + _wBox - offset.X)
+            if (player.position.X > center.X + _wBox + offset.X)
             {
-                center.X = player.position.X - _wBox + offset.X;
+                center.X = player.position.X - _wBox - offset.X;
             }
-            else if (player.position.X < center.X - _wBox - offset.X)
+            else if (player.position.X < center.X - _wBox + offset.X)
             {
-                center.X = player.position.X + _wBox + offset.X;
+                center.X = player.position.X + _wBox - offset.X;
+            }
+
+            if (player.position.X - offset.X +_wBox < Util.virtualWidth / 2)
+            {
+                center.X = Util.virtualWidth / 2;
+            }
+            else if (player.position.X + offset.X > worldWidth - Util.virtualWidth / 2)
+            {
+                center.X = worldWidth - Util.virtualWidth / 2;
             }
 
             // Mouvement sans déplacement de caméra pour une hauteur 2*hBox

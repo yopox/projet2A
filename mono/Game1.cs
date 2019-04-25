@@ -40,6 +40,7 @@ namespace mono
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             am = new AssetManager(Content);
+            SoundManager.SetContent(Content);
 
             // Affichage
             Rendering.Init(ref graphics);
@@ -67,6 +68,8 @@ namespace mono
 
             // Rendering
             Rendering.setZoom(1f);
+
+            SoundManager.PlayBGM("7_retour_sous_surface_complet");
 
             base.Initialize();
         }

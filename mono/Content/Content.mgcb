@@ -74,6 +74,60 @@
 #begin maps/tilemap.json
 /copy:maps/tilemap.json
 
+#begin Music/0_menuchargement_done.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/0_menuchargement_done.mp3
+
+#begin Music/1_intro_radio_premiers_signaux.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/1_intro_radio_premiers_signaux.wav
+
+#begin Music/2_FOOT_BUBLES_OUT_done.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/2_FOOT_BUBLES_OUT_done.wav
+
+#begin Music/3_REMINISCENCE_OBJET_done.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/3_REMINISCENCE_OBJET_done.wav
+
+#begin Music/4_radio_grillee.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/4_radio_grillee.wav
+
+#begin Music/5_suicide_arme.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/5_suicide_arme.wav
+
+#begin Music/6_FANNY_MEETING_done.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/6_FANNY_MEETING_done.wav
+
+#begin Music/7_retour_sous_surface_complet.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/7_retour_sous_surface_complet.wav
+
+#begin Music/8_generik_2_f1.wav
+/importer:WavImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/8_generik_2_f1.wav
+
 #begin Scripts/text1.xml
 /copy:Scripts/text1.xml
 

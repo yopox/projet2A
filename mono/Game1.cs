@@ -84,6 +84,8 @@ namespace mono
 
             font = Content.Load<SpriteFont>("Fonts/bird_seed");
 
+            Util.PrintQueue(Util.ParseScript("Content/Scripts/text1.xml"));
+
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.position = GameState.map.GetStartingPosition();

@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.SplashScreen;
+        State state = State.Cutscene;
         readonly AssetManager am;
 
         private SpriteFont font;
@@ -77,6 +77,8 @@ namespace mono
         /// </summary>
         protected override void LoadContent()
         {
+            Cutscene.Load("text1.xml");
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             font = Content.Load<SpriteFont>("Fonts/bird_seed");
@@ -156,8 +158,10 @@ namespace mono
                 case State.Pause:
                     Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map, font);
                     break;
+                case State.Cutscene:
+                    Cutscene.Draw(spriteBatch, am, GraphicsDevice, font);
+                    break;
             }
-
 
             spriteBatch.End();
 

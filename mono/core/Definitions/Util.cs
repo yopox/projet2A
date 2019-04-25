@@ -30,7 +30,8 @@ namespace mono.core
         Loading,
         Title,
         Main,
-        Pause
+        Pause,
+        Cutscene
     }
 
     public enum CutsceneActionType
@@ -58,7 +59,11 @@ namespace mono.core
 
     public static class Util
     {
-        static public Dictionary<String, Color> colorStringDictionary = new Dictionary<string, Color>();
+        static public Dictionary<string, Color> ColorStringDictionary = new Dictionary<string, Color>()
+        {
+            {"w", Color.White},
+            {"g", Color.Green}
+        };
 
         // Screen
         static public int width = 1280;
@@ -172,7 +177,7 @@ namespace mono.core
             Queue<CutsceneAction> queue = new Queue<CutsceneAction>();
 
             // Lecture du fichier
-            StreamReader stream = File.OpenText(path);
+            StreamReader stream = File.OpenText("Content/Scripts/" + path);
             string[] script = stream.ReadToEnd().Split('\n');
             stream.Close();
 
@@ -247,7 +252,6 @@ namespace mono.core
                     pos++;
                 }
             }
-
             return queue;
         }
 

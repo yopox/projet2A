@@ -69,11 +69,11 @@
     <Compile Include="core\RenderEngine\Tilemap.cs" />
     <Compile Include="core\PhysicsEngine\CollisionTester.cs" />
     <Compile Include="core\PhysicsEngine\Polygon.cs" />
-    <Compile Include="core\Entities\MovingBox.cs" />
     <Compile Include="core\Definitions\AssetInfo.cs" />
     <Compile Include="core\Definitions\Util.cs" />
     <Compile Include="core\RenderEngine\AssetManager.cs" />
     <Compile Include="core\SoundManager.cs" />
+    <Compile Include="core\Entities\Source.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

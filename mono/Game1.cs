@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Cutscene;
+        State state = State.SplashScreen;
         readonly AssetManager am;
 
         public Game1()
@@ -83,6 +83,8 @@ namespace mono
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             Util.font = Content.Load<SpriteFont>("Fonts/bird_seed");
+
+            Util.PrintQueue(Util.ParseScript("text1.xml"));
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);

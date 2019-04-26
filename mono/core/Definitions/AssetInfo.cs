@@ -9,7 +9,8 @@ namespace mono.core.Definitions
         Player,
         Platform1,
         Parallax1,
-        Parallax2
+        Parallax2,
+        Start
     }
 
     public static class AssetInfo
@@ -20,7 +21,8 @@ namespace mono.core.Definitions
             {AtlasName.Tileset1, new AtlasInfo("Graphics/tileset", 32, 32, 0, 0)},
             {AtlasName.Player, new AtlasInfo("Graphics/player", 64, 128, 0, 0)},
             {AtlasName.Parallax1, new AtlasInfo("Graphics/test_parallaxe", 1280, 720, 0, 0)},
-            {AtlasName.Parallax2, new AtlasInfo("Graphics/backerground", 1280, 720, 0, 0)}
+            {AtlasName.Parallax2, new AtlasInfo("Graphics/backerground", 1280, 720, 0, 0)},
+            {AtlasName.Start, new AtlasInfo("Graphics/start", 1920, 1080, 0, 0)}
         };
     }
 }

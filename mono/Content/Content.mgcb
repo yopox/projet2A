@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin file:///Users/justineallmang/Documents/GitHub/projet2A/mono/Content/Music/8_radio_grillée.wav/Users/justineallmang/Documents/GitHub/projet2A/mono/Content/Music/8_radio_grillée.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:file:///Users/justineallmang/Documents/GitHub/projet2A/mono/Content/Music/8_radio_grillée.wav/Users/justineallmang/Documents/GitHub/projet2A/mono/Content/Music/8_radio_grillée.wav
+
 #begin Fonts/bird_seed.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -86,11 +92,29 @@
 #begin maps/tilemap.json
 /copy:maps/tilemap.json
 
+#begin Music/0.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/0.wav
+
 #begin Music/0_menuchargement_done.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/0_menuchargement_done.mp3
+
+#begin Music/0ERRANCE radiopschhhhh_bip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/0ERRANCE radiopschhhhh_bip.wav
+
+#begin Music/1.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/1.wav
 
 #begin Music/1_intro_radio_premiers_signaux.wav
 /importer:WavImporter
@@ -98,11 +122,23 @@
 /processorParam:Quality=Best
 /build:Music/1_intro_radio_premiers_signaux.wav
 
+#begin Music/2.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/2.wav
+
 #begin Music/2_FOOT_BUBLES_OUT_done.wav
 /importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/2_FOOT_BUBLES_OUT_done.wav
+
+#begin Music/3.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/3.wav
 
 #begin Music/3_REMINISCENCE_OBJET_done.wav
 /importer:WavImporter
@@ -110,11 +146,29 @@
 /processorParam:Quality=Best
 /build:Music/3_REMINISCENCE_OBJET_done.wav
 
+#begin Music/4.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/4.wav
+
 #begin Music/4_radio_grillee.wav
 /importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/4_radio_grillee.wav
+
+#begin Music/4_radio_grillee.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/4_radio_grillee.wav
+
+#begin Music/5.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/5.wav
 
 #begin Music/5_suicide_arme.wav
 /importer:WavImporter
@@ -122,11 +176,23 @@
 /processorParam:Quality=Best
 /build:Music/5_suicide_arme.wav
 
+#begin Music/6.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/6.wav
+
 #begin Music/6_FANNY_MEETING_done.wav
 /importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/6_FANNY_MEETING_done.wav
+
+#begin Music/7.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/7.wav
 
 #begin Music/7_retour_sous_surface_complet.wav
 /importer:WavImporter
@@ -139,6 +205,24 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Music/8_generik_2_f1.wav
+
+#begin Music/Audio 2_bip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/Audio 2_bip.wav
+
+#begin Music/audio_radio_bug_bip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/audio_radio_bug_bip.wav
+
+#begin Music/electric-sparks-sound-effect_bip.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Music/electric-sparks-sound-effect_bip.wav
 
 #begin Music/nanaep6_voix_radio.wav
 /importer:WavImporter

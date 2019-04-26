@@ -239,7 +239,7 @@ namespace mono.core
 
                 else if (script[pos].Contains("bgm"))
                 {
-                    string regex = "<bgm ([a-zA-Z]*)>";
+                    string regex = "<bgm ([a-zA-Z_0-9]*)>";
                     var matches = Regex.Split(script[pos], regex);
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.Bgm, matches[1]));
                     pos++;

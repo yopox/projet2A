@@ -31,15 +31,7 @@ namespace mono.core.States
         /// <param name="path">Chemin du script</param>
         public static void Load(string path)
         {
-            // actions = Util.ParseScript(path);
-            actions = new Queue<CutsceneAction>();
-            actions.Enqueue(new CutsceneAction(CutsceneActionType.Text,
-                "[w]Salut !"));
-            actions.Enqueue(new CutsceneAction(CutsceneActionType.NewPage, ""));
-            actions.Enqueue(new CutsceneAction(CutsceneActionType.Text,
-                "[w]Ligne 2"));
-            actions.Enqueue(new CutsceneAction(CutsceneActionType.Wait, "5000"));
-            actions.Enqueue(new CutsceneAction(CutsceneActionType.State, "Main"));
+            actions = Util.ParseScript(path);
 
             //On récupère la prochaine action
             nextAction = actions.Dequeue();
@@ -54,6 +46,7 @@ namespace mono.core.States
             {
                 case CutsceneActionType.Background:
                     bgImage = Util.ParseEnum<AtlasName>(nextAction.content);
+                    nextAction = actions.Dequeue();
                     break;
                 case CutsceneActionType.Text:
                     _text = Util.ParseDialog(nextAction.content);
@@ -64,6 +57,7 @@ namespace mono.core.States
                         //Calcul de la taille totale du texte à afficher
                         for (int i = 0; i < _text.Count; i++)
                         {
+                            Console.WriteLine(_text[i].Item2);
                             //Calcul hauteur
                             _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
 
@@ -103,6 +97,8 @@ namespace mono.core.States
                 case CutsceneActionType.Sfx:
                     break;
                 case CutsceneActionType.Bgm:
+                    SoundManager.PlayBGM(nextAction.content);
+                    nextAction = actions.Dequeue();
                     break;
                 case CutsceneActionType.State:
                     return Util.ParseEnum<State>(nextAction.content);
@@ -116,7 +112,7 @@ namespace mono.core.States
             spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, Color.Black, Rendering.VirtualWidth, Rendering.VirtualHeight),
                 Vector2.Zero, Color.Black);
             var texture = am.GetAtlas(bgImage).Texture;
-            //spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+            spriteBatch.Draw(texture, Vector2.Zero, Color.White);
 
             if (_text != null)
                 DrawDialog(spriteBatch, GraphicsDevice);

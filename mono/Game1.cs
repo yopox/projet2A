@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.SplashScreen;
+        State state = State.Cutscene;
         readonly AssetManager am;
 
         public Game1()
@@ -66,8 +66,6 @@ namespace mono
 
             // Rendering
             Rendering.setZoom(1f);
-
-            SoundManager.PlayBGM("7_retour_sous_surface_complet");
 
             base.Initialize();
         }

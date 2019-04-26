@@ -91,7 +91,6 @@ namespace mono
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.position = GameState.map.GetStartingPosition();
-            GameState.map.ActivateSources(player.position);
         }
 
         /// <summary>

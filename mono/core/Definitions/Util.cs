@@ -93,7 +93,7 @@ namespace mono.core
         static public SpriteFont font = null;
 
         // Fading et changement d'état
-        static public int fadingSpeed = 8;
+        static public int fadingSpeed = 5;
         static public int fadingOpacity = 0;
         static public bool fadingOut = false;
         static public bool fadingIn = false;

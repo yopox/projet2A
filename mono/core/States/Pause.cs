@@ -56,7 +56,7 @@ namespace mono.core.States
             return newState;
         }
 
-        public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map, SpriteFont font)
+        public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
             Rendering.BeginDraw(spriteBatch);
             map.DrawDecor(spriteBatch, am);
@@ -65,7 +65,7 @@ namespace mono.core.States
             map.DrawObjects(spriteBatch, am);
 
             spriteBatch.Draw(ForegroundTexture(GraphicsDevice), Vector2.Zero, Color.White);
-            _listButton.Draw(GraphicsDevice, spriteBatch, font);
+            _listButton.Draw(GraphicsDevice, spriteBatch);
         }
 
         private static Texture2D ForegroundTexture(GraphicsDevice GraphicsDevice)

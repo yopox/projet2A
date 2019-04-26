@@ -51,7 +51,7 @@ namespace mono.core
             numberButton = names.Length;
         }
 
-        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, SpriteFont font)
+        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
             Color color;
             //dessine les boutons suivant lequel est sélectionné
@@ -62,7 +62,7 @@ namespace mono.core
                 else
                     color = new Color(178, 127, 73);
 
-                Buttons[i].Draw(GraphicsDevice, spriteBatch, font, _positions[Util.Mod(i - _firstPrinted, _maxPrinted)], color);
+                Buttons[i].Draw(GraphicsDevice, spriteBatch, _positions[Util.Mod(i - _firstPrinted, _maxPrinted)], color);
             }
         }
 

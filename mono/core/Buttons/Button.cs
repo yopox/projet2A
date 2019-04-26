@@ -18,11 +18,10 @@ namespace mono.core
             _size = size;
         }
 
-        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, SpriteFont font, Vector2 position, Color color)
+        public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             Util.DrawTextRectangle(GraphicsDevice, 
-                spriteBatch, 
-                font, 
+                spriteBatch,
                 _name, 
                 new Rectangle((int)position.X, (int)position.Y, (int)_size.X, (int)_size.Y), color);
         }

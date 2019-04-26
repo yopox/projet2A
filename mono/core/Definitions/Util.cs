@@ -90,6 +90,7 @@ namespace mono.core
         // Font
         static public int fontSize = 8;
         static public int buttonHeight = 64;
+        static public SpriteFont font = null;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
@@ -114,10 +115,10 @@ namespace mono.core
         /// <param name="font"></param>
         /// <param name="stringToDraw">Dessin à afficher</param>
         /// <param name="boundaries">"boite" dans laquelle on va afficher le texte</param>
-        public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, SpriteFont font, string stringToDraw, Rectangle boundaries, Color color)
+        public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, string stringToDraw, Rectangle boundaries, Color color)
         {
             float scale = 4f;
-            Vector2 size = font.MeasureString(stringToDraw) * scale;
+            Vector2 size = Util.font.MeasureString(stringToDraw) * scale;
 
             Vector2 positionRect = new Vector2(boundaries.X, boundaries.Y);
             Vector2 positionStr = new Vector2(boundaries.X + boundaries.Width / 2 - size.X / 2,
@@ -127,7 +128,7 @@ namespace mono.core
                 positionRect,
                 Color.White);
 
-            spritebatch.DrawString(font,
+            spritebatch.DrawString(Util.font,
                 stringToDraw,
                 positionStr,
                 Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);

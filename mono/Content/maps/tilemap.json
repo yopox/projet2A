@@ -39,7 +39,7 @@
                         {
                          "name":"id",
                          "type":"string",
-                         "value":"0"
+                         "value":"Radio\/0"
                         }, 
                         {
                          "name":"radius",
@@ -56,7 +56,7 @@
                  "visible":true,
                  "width":32,
                  "x":402.027328638611,
-                 "y":420.678985110211
+                 "y":396.983672158699
                 }, 
                 {
                  "gid":19,
@@ -67,7 +67,7 @@
                         {
                          "name":"id",
                          "type":"string",
-                         "value":"1"
+                         "value":"Radio\/1"
                         }, 
                         {
                          "name":"radius",
@@ -84,7 +84,7 @@
                  "visible":true,
                  "width":32,
                  "x":846.716478394036,
-                 "y":461.809309047808
+                 "y":430.435312554314
                 }, 
                 {
                  "gid":19,
@@ -95,7 +95,7 @@
                         {
                          "name":"id",
                          "type":"string",
-                         "value":"2"
+                         "value":"Radio\/2"
                         }, 
                         {
                          "name":"radius",
@@ -111,8 +111,8 @@
                  "type":"source",
                  "visible":true,
                  "width":32,
-                 "x":1193.43505236871,
-                 "y":396.252503706479
+                 "x":1203.58546299896,
+                 "y":366.724036418484
                 }],
          "opacity":1,
          "type":"objectgroup",

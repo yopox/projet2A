@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using mono.core.Definitions;
+using mono.core.Entities;
 using mono.core.RenderEngine;
 using mono.RenderEngine;
 using Newtonsoft.Json.Linq;
@@ -50,6 +51,7 @@ namespace mono.core
         public AtlasName tilesetName;
 
         public static int[] warpGids = { 1 };
+        public static int[] sourceGids = { 19 };
 
         readonly int height;
         public readonly int width;
@@ -61,6 +63,7 @@ namespace mono.core
         List<Layer> layers = new List<Layer>();
         List<MapObject> objects = new List<MapObject>();
         List<Warp> warps = new List<Warp>();
+        List<Source> sources = new List<Source>();
 
         public Tilemap(string name, string path, AtlasName tilesetName)
         {
@@ -110,12 +113,36 @@ namespace mono.core
                             string type = obj.type;
                             warps.Add(new Warp(id, new Vector2(x, y), type));
                         }
+                        else if (sourceGids.Contains(id))
+                        {
+                            string sourceId = (string) obj.properties[0].value;
+                            int sourceRadius = (int) obj.properties[1].value;
+                            int sourceVolume = (int) obj.properties[2].value;
+                            sources.Add(new Source(sourceId, sourceRadius, sourceVolume, x + 16, y - 16));
+                        }
                         else
                         {
                             objects.Add(new MapObject(id, new Vector2(x, y)));
                         }
                     }
                 }
+            }
+        }
+
+        internal void ActivateSources(Vector2 position)
+        {
+            Console.WriteLine(sources.Count);
+            foreach (Source source in sources)
+            {
+                source.Activate(position);
+            }
+        }
+
+        internal void UpdateSources(Vector2 position)
+        {
+            foreach (Source source in sources)
+            {
+                source.SetVolume(position);
             }
         }
 

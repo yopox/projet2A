@@ -6,7 +6,7 @@ namespace mono.core
     public static class SoundManager
     {
         private static Song song;
-        private static Microsoft.Xna.Framework.Content.ContentManager Content;
+        public static Microsoft.Xna.Framework.Content.ContentManager Content;
 
         public static void SetContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {
@@ -17,6 +17,7 @@ namespace mono.core
         {
             song = Content.Load<Song>("Music/" + name);
             MediaPlayer.Play(song);
+            MediaPlayer.Volume = 0.1f;
             MediaPlayer.IsRepeating = true;
         }
 

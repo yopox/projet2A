@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Cutscene;
+        State state = State.SplashScreen;
         readonly AssetManager am;
 
         public Game1()
@@ -86,9 +86,12 @@ namespace mono
 
             Util.PrintQueue(Util.ParseScript("text1.xml"));
 
+            SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
+
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.position = GameState.map.GetStartingPosition();
+            GameState.map.ActivateSources(player.position);
         }
 
         /// <summary>

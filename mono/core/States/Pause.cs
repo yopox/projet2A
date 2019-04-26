@@ -9,7 +9,7 @@ namespace mono.core.States
     static class Pause
     {
         private static ButtonList _listButton;
-        private static Texture2D _foregroundTexture;
+        static Texture2D ForegroundTexture;
         private static Vector2 _size = new Vector2(256, 64);
         private static int _activatedButton;
 
@@ -64,19 +64,8 @@ namespace mono.core.States
             map.Draw(spriteBatch, am);
             map.DrawObjects(spriteBatch, am);
 
-            spriteBatch.Draw(ForegroundTexture(GraphicsDevice), Vector2.Zero, Color.White);
+            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(40, 40, 40, 150)), Vector2.Zero, Color.White);
             _listButton.Draw(GraphicsDevice, spriteBatch);
-        }
-
-        private static Texture2D ForegroundTexture(GraphicsDevice GraphicsDevice)
-        {
-            if (_foregroundTexture == null)
-            {
-                Color foregroundColor = new Color(40, 40, 40, 150);
-
-                _foregroundTexture = Util.GetRectangleTexture(GraphicsDevice, foregroundColor, (int)(Rendering.VirtualWidth / Rendering.zoomFactor), (int)(Rendering.VirtualHeight / Rendering.zoomFactor));
-            }
-            return _foregroundTexture;
         }
 
         private static State ActionButton1() => State.Main;

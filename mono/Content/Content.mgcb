@@ -13,15 +13,15 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Fonts/bird_seed.spritefont
+#begin Fonts/MatchupPro.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/bird_seed.spritefont
+/build:Fonts/MatchupPro.spritefont
 
-#begin Fonts/bird_seed.ttf
-/copy:Fonts/bird_seed.ttf
+#begin Fonts/MatchupPro.ttf
+/copy:Fonts/MatchupPro.ttf
 
 #begin Graphics/backerground.png
 /importer:TextureImporter

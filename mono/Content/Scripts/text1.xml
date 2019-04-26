@@ -1,4 +1,5 @@
-<background Player>
+<background Start>
+<bgm 1_intro_radio_premiers_signaux>
 <text>
 [w]Cela va faire quoi, Neuf ans ?
 
@@ -43,7 +44,6 @@ Allez sur la tente, c'est bien !
 Adieu le monde, tu étais bien trop cruel pour moi !
 </text>
 <newpage>
-<bgm radio>
 <wait 30>
 <text>
 [w]Hmm !?

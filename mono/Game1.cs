@@ -32,8 +32,6 @@ namespace mono
         State state = State.Cutscene;
         readonly AssetManager am;
 
-        private SpriteFont font;
-
         public Game1()
         {
             // Graphismes
@@ -69,8 +67,6 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
-            SoundManager.PlayBGM("7_retour_sous_surface_complet");
-
             base.Initialize();
         }
 
@@ -84,9 +80,9 @@ namespace mono
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("Fonts/bird_seed");
+            Util.font = Content.Load<SpriteFont>("Fonts/bird_seed");
 
-            Util.PrintQueue(Util.ParseScript("Content/Scripts/text1.xml"));
+            Util.PrintQueue(Util.ParseScript("text1.xml"));
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
@@ -130,6 +126,9 @@ namespace mono
                 case State.Pause:
                     state = Pause.Update(GameState);
                     break;
+                case State.Cutscene:
+                    state = Cutscene.Update(GameState, gameTime);
+                    break;
             }
 
             base.Update(gameTime);
@@ -161,10 +160,10 @@ namespace mono
                     Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     break;
                 case State.Pause:
-                    Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map, font);
+                    Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     break;
                 case State.Cutscene:
-                    Cutscene.Draw(spriteBatch, am, GraphicsDevice, font);
+                    Cutscene.Draw(spriteBatch, am, GraphicsDevice);
                     break;
             }
 

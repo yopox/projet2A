@@ -1,13 +1,13 @@
 <background Start>
 <bgm 1_intro_radio_premiers_signaux>
 <text>
-[w]Cela va faire quoi, Neuf ans ?
+[w]Cela va faire quoi, Neuf ans ?
 
-J'ai l'impression de devenir cinglée à force de tourner en rond !
+J'ai l'impression de devenir cinglée à force de tourner en rond !
 
 Les mois passent et je suis toujours bloquée ici, sous l'océan.
 
-Ils disaient que notre mission était primordiale. Que nous étions le salut de l'humanité !
+Ils disaient que notre mission était primordiale. Que nous étions le salut de l'humanité !
 Et pendant un temps, nous y avons vraiment cru. 
 </text>
 <newpage>
@@ -15,16 +15,18 @@ Et pendant un temps, nous y avons vraiment cru.
 [w]Mais à peine avions nous commencé à travailler que les bombes se sont mises à pleuvoir. 
 Depuis ce jour, nous n'avions plus reçu de nouvelle de la surface.
 
-C'est devenu très dur pour nous. L’isolement, le manque de soleil et bien sûr les morts.
-Certains ne l'ont pas supporté et se sont suicidés. Beaucoup au début puis de temps en temps on retrouvait un corps pendu.
+C'est devenu très dur pour nous. L'isolement, le manque de soleil et bien sûr les morts.
+Certains ne l'ont pas supporté et se sont suicidés. Beaucoup au début puis de temps en temps
+on retrouvait un corps pendu.
 
-Bien sûr, certains se sont comporté en héros et ont décidé de mener des explorations à l'extérieur. Aucun n'est revenu. Très vite, le nombre de résidents s’est mis à chûter. 
+Bien sûr, certains se sont comportés en héros et ont décidé de mener des explorations à
+l'extérieur. Aucun n'est revenu. Très vite, le nombre de résidents s'est mis à chûter. 
 </text>
 <newpage>
 <text>
 [w]Un jour, il ne resta plus que Sue et moi. 
 Elle voulait remonter à la surface. Moi je voulais finir notre vie sous l'eau. 
-On s’est souvent disputé à ce sujet. 
+On s'est souvent disputé à ce sujet. 
 Un jour j'ai trouvé une note. Elle disait qu'elle ne voulait pas renoncer. 
 Qu'elle reviendrait très vite me chercher.
 
@@ -32,43 +34,44 @@ C'était il y a un an maintenant.
 </text>
 <newpage>
 <text>
-[w]Aujourd'hui, je n’ai plus de café, plus de clopes et plus d'envie de vivre. 
+[w]Aujourd'hui, je n'ai plus de café, plus de clopes et plus d'envie de vivre. 
 Alors il me reste une dernière question à régler. 
 
-Sur la tente ? Ou dans la bouche ?
+Sur la tente ? Ou dans la bouche ?
 
-Je pourrais aller me noyer comme les autres, mais si Sue revient, je ne veux pas qu'elle ait de faux espoirs. 
+Je pourrais aller me noyer comme les autres, mais si Sue revient, je ne veux pas qu'elle
+ait de faux espoirs. 
 
-Allez sur la tente, c'est bien !
+Allez sur la tente, c'est bien !
 
-Adieu le monde, tu étais bien trop cruel pour moi !
+Adieu le monde, tu étais bien trop cruel pour moi !
 </text>
 <newpage>
 <wait 30>
 <text>
-[w]Hmm !?
+[w]Hmm !?
 
-[g]All... A...Lô... Quelqu'... Tend ?
+[g]All... A...Lô... Quelqu'... Tend ?
 
-[w]Pas Possible ? Je deviens folle ?
+[w]Pas Possible ? Je deviens folle ?
 
-[g]Sara... Tu ...çois ?
+[g]Sara... Tu ...çois ?
 </text>
 <newpage>
 <text>
-[w]Attend ! Sue ? Sue c'est toi ?
-Allô ?  Ici le laboratoire sous-marin HS314 ! Vous me recevez ? 
-Sue dis-moi que c'est toi ?
+[w]Attend ! Sue ? Sue c'est toi ?
+Allô ?  Ici le laboratoire sous-marin HS314 ! Vous me recevez ? 
+Sue dis-moi que c'est toi ?
 
-Il ne doit pas me recevoir ! Le micro est en trop mauvais état.
+Il ne doit pas me recevoir ! Le micro est en trop mauvais état.
 Tout ce qui fonctionne c'est la sortie son, le récepteur et... Le géo-localisateur...
 Je connais sa position...
 </text>
 <newpage>
 <text>
-[w]FAIS CHIER !
+[w]FAIS CHIER !
 
-C'est bon univers ! J'ai compris !
+C'est bon univers ! J'ai compris !
 </text>
 <sfx finIntro>
 <wait 600>

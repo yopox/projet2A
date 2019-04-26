@@ -6,7 +6,7 @@ namespace mono.core
     public static class SoundManager
     {
         private static Song song;
-        private static Microsoft.Xna.Framework.Content.ContentManager Content;
+        public static Microsoft.Xna.Framework.Content.ContentManager Content;
 
         public static void SetContent(Microsoft.Xna.Framework.Content.ContentManager content)
         {

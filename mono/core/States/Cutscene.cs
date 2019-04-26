@@ -13,7 +13,7 @@ namespace mono.core.States
         static Queue<CutsceneAction> actions; // File d'actions à effectuer
         static CutsceneAction nextAction; // Prochaine action à effectuer
 
-        static AtlasName bgImage; // Image de fond de la cinématique
+        static AtlasName bgImage = AtlasName.NoAtlas; // Image de fond de la cinématique
 
         static private List<Tuple<string, string>> _text; // Texte à afficher
         static float scale = 2f; // Niveau de zoom de la police d'écriture
@@ -127,10 +127,12 @@ namespace mono.core.States
                 Vector2.Zero, Color.Black);
 
             // Dessin de l'artwork
-            var texture = am.GetAtlas(bgImage).Texture;
-            spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-
-            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
+            if (bgImage != AtlasName.NoAtlas)
+            {
+                var texture = am.GetAtlas(bgImage).Texture;
+                spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+                spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
+            }
 
             if (_text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);

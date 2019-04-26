@@ -82,9 +82,11 @@ namespace mono
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Util.font = Content.Load<SpriteFont>("Fonts/bird_seed");
+            Util.font = Content.Load<SpriteFont>("Fonts/MatchupPro");
 
             Util.PrintQueue(Util.ParseScript("text1.xml"));
+
+            //SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);

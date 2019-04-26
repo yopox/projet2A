@@ -144,7 +144,7 @@ namespace mono.core.States
             spriteBatch.Draw(texture, Vector2.Zero, Color.White);
 
             // Dessin d'un foreground avec de l'opacité
-            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 80)), Vector2.Zero, Color.White);
+            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
 
             // On affiche un texte si il y en a
             if (_text.Count != 0)

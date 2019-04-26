@@ -130,7 +130,7 @@ namespace mono.core.States
             var texture = am.GetAtlas(bgImage).Texture;
             spriteBatch.Draw(texture, Vector2.Zero, Color.White);
 
-            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 80)), Vector2.Zero, Color.White);
+            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
 
             if (_text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);

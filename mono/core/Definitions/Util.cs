@@ -92,6 +92,12 @@ namespace mono.core
         static public int buttonHeight = 64;
         static public SpriteFont font = null;
 
+        // Fading et changement d'état
+        static public int fadingSpeed = 8;
+        static public int fadingOpacity = 0;
+        static public bool fadingOut = false;
+        static public bool fadingIn = false;
+
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
         /// </summary>
@@ -186,11 +192,11 @@ namespace mono.core
 
             while (pos < script.Length)
             {
-                if (script[pos] == "<text>")
+                if (script[pos].Contains("<text>"))
                 {
                     string text = "";
                     pos++;
-                    while (script[pos] != "</text>")
+                    while (!script[pos].Contains("</text>"))
                     {
                         if (script[pos] == "")
                         {
@@ -206,7 +212,7 @@ namespace mono.core
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.Text, text));
                 }
 
-                else if (script[pos] == "<newpage>")
+                else if (script[pos].Contains("<newpage>"))
                 {
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.NewPage, false));
                     pos++;
@@ -288,12 +294,40 @@ namespace mono.core
             // Construction de la liste
             for (int i = 0; i < results.Length; i++)
             {
-                if (i % 3 == 0 && results.Length > i+2)
+                if (i % 3 == 0 && results.Length > i + 2)
                 {
                     liste.Add(new Tuple<string, string>(results[i + 1], results[i + 2]));
                 }
             }
             return liste;
+        }
+
+        public static Texture2D GetTexture(GraphicsDevice GraphicsDevice, Texture2D texture, Color color)
+        {
+            if (texture == null)
+            {
+                texture = GetRectangleTexture(GraphicsDevice,
+                    color,
+                    (int)(Rendering.VirtualWidth / Rendering.zoomFactor),
+                    (int)(Rendering.VirtualHeight / Rendering.zoomFactor));
+            }
+            return texture;
+        }
+
+        public static void FadeOut(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        {
+            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
+                Vector2.Zero,
+                Color.Black);
+            fadingOpacity += fadingSpeed;
+        }
+
+        public static void FadeIn(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        {
+            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
+                Vector2.Zero,
+                Color.Black);
+            fadingOpacity -= fadingSpeed;
         }
 
     }

@@ -67,6 +67,8 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
+            SoundManager.PlayBGM("7_retour_sous_surface_complet");
+
             base.Initialize();
         }
 
@@ -113,6 +115,12 @@ namespace mono
 
             GameState.ksn = Keyboard.GetState();
             GameState.gsn = GamePad.GetState(PlayerIndex.One);
+
+            if(Util.fadingOpacity < 0)
+            {
+                Util.fadingOpacity = 0;
+                Util.fadingIn = false;
+            }
 
             switch (state)
             {
@@ -170,8 +178,12 @@ namespace mono
                     break;
             }
 
-            spriteBatch.End();
+            if (Util.fadingOut)
+                Util.FadeOut(spriteBatch, GraphicsDevice);
+            if (Util.fadingIn)
+                Util.FadeIn(spriteBatch, GraphicsDevice);
 
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

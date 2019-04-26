@@ -23,7 +23,19 @@ namespace mono.core.States
         static private int _counter = 0; // Compteur d'affichage des lettres
         static private int _frameRefresh = 4; // Vitesse d'affichage des lettres en frame
 
+        // Temps d'attente pour le wait
         static private int _deltaTime = 0;
+
+        // Texture d'affichage
+        static Texture2D BackgroundTexture;
+        static Texture2D ForegroundTexture;
+
+        // Gestion du fondu noir de sortie de cutscene
+        static private bool _fadingOut = false;
+        static private bool _isFadingOutOver = false;
+        static private int _fadingColorOpacity = 0;
+        static private int _fadingSpeed = 8;
+
 
         /// <summary>
         /// On récupère le script
@@ -57,7 +69,6 @@ namespace mono.core.States
                         //Calcul de la taille totale du texte à afficher
                         for (int i = 0; i < _text.Count; i++)
                         {
-                            Console.WriteLine(_text[i].Item2);
                             //Calcul hauteur
                             _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
 
@@ -67,12 +78,8 @@ namespace mono.core.States
                         }
                     }
 
-                    if(_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
-                    {
-                        //TODO : enlever le compte
-                        if(actions.Count != 0)
-                            nextAction = actions.Dequeue();
-                    }
+                    if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
+                        nextAction = actions.Dequeue();
 
                     break;
                 case CutsceneActionType.NewPage:
@@ -82,16 +89,15 @@ namespace mono.core.States
                         _indString = 0;
                         _indCharacter = 0;
                         nextAction = actions.Dequeue();
+                        _text.Clear();
                     }
                     break;
                 case CutsceneActionType.Wait:
                     _deltaTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if(_deltaTime > Int32.Parse(nextAction.content))
+                    if (_deltaTime > Int32.Parse(nextAction.content))
                     {
                         _deltaTime = 0;
-                        //TODO : enlever le compte
-                        if (actions.Count != 0)
-                            nextAction = actions.Dequeue();
+                        nextAction = actions.Dequeue();
                     }
                     break;
                 case CutsceneActionType.Sfx:
@@ -101,7 +107,13 @@ namespace mono.core.States
                     nextAction = actions.Dequeue();
                     break;
                 case CutsceneActionType.State:
-                    return Util.ParseEnum<State>(nextAction.content);
+                    Util.fadingOut = true;
+                    if (Util.fadingOpacity > 240)
+                    {
+                        Reset();
+                        return Util.ParseEnum<State>(nextAction.content);
+                    }
+                    break;
             }
             return State.Cutscene;
         }
@@ -109,20 +121,25 @@ namespace mono.core.States
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice)
         {
             Rendering.BeginDraw(spriteBatch);
-            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, Color.Black, Rendering.VirtualWidth, Rendering.VirtualHeight),
+
+            // Dessin d'un fond noir
+            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, BackgroundTexture, Color.Black),
                 Vector2.Zero, Color.Black);
+
+            // Dessin de l'artwork
             var texture = am.GetAtlas(bgImage).Texture;
             spriteBatch.Draw(texture, Vector2.Zero, Color.White);
 
-            if (_text != null)
+            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 80)), Vector2.Zero, Color.White);
+
+            if (_text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);
         }
 
         static void DrawDialog(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
         {
-
             Vector2 positionStr = new Vector2(Rendering.VirtualWidth / 2 - _size.X / 2,
-                Rendering.VirtualHeight / 2 - _size.Y / 2);
+            Rendering.VirtualHeight / 2 - _size.Y / 2);
 
             Vector2 offset = Vector2.Zero;
 
@@ -137,8 +154,6 @@ namespace mono.core.States
                 offset.Y += Util.font.MeasureString(_text[i].Item2).Y * scale;
             }
 
-            Console.WriteLine(_indString);
-            Console.WriteLine(_indCharacter);
             spriteBatch.DrawString(Util.font,
             _text[_indString].Item2.Substring(0, _indCharacter),
             positionStr + offset,
@@ -160,6 +175,17 @@ namespace mono.core.States
                 }
                 _counter = 0;
             }
+        }
+
+        private static void Reset()
+        {
+            _deltaTime = 0;
+            _indString = 0;
+            _indCharacter = 0;
+            _text.Clear();
+
+            Util.fadingIn = true;
+            Util.fadingOut = false;
         }
     }
 }

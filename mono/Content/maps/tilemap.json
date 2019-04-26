@@ -44,7 +44,7 @@
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":130
+                         "value":250
                         }, 
                         {
                          "name":"volume",
@@ -55,8 +55,8 @@
                  "type":"source",
                  "visible":true,
                  "width":32,
-                 "x":402.387741505663,
-                 "y":474.36109260493
+                 "x":402.027328638611,
+                 "y":420.678985110211
                 }, 
                 {
                  "gid":19,
@@ -83,8 +83,8 @@
                  "type":"source",
                  "visible":true,
                  "width":32,
-                 "x":833.096211436804,
-                 "y":510.842270093845
+                 "x":846.716478394036,
+                 "y":461.809309047808
                 }, 
                 {
                  "gid":19,
@@ -111,8 +111,8 @@
                  "type":"source",
                  "visible":true,
                  "width":32,
-                 "x":1183.90086549865,
-                 "y":448.009518143962
+                 "x":1193.43505236871,
+                 "y":396.252503706479
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -135,7 +135,7 @@
          "value":"2;Parallax2"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.2.3",
+ "tiledversion":"1.2.0",
  "tileheight":32,
  "tilesets":[
         {

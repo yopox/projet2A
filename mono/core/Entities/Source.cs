@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Media;
 
 namespace mono.core.Entities
 {
@@ -21,7 +20,7 @@ namespace mono.core.Entities
             this.radius = radius;
             this.volume = volume;
             position = new Vector2(x, y);
-            var sound = SoundManager.Content.Load<SoundEffect>(id);
+            var sound = SoundManager.Content.Load<SoundEffect>("Music/" + id);
             sfx = sound.CreateInstance();
             sfx.IsLooped = true;
         }
@@ -34,14 +33,16 @@ namespace mono.core.Entities
 
         public void SetVolume(Vector2 pos)
         {
-            var dist = Vector2.Distance(position, pos);
+            var dist = Vector2.Distance(position, pos + new Vector2(16f, 32f));
             if (dist > radius)
             {
                 sfx.Volume = 0f;
             }
             else
             {
-                sfx.Volume = volume / 100f * (radius - dist) / radius;
+                var vol = volume / 100f * (radius - dist) / radius;
+                sfx.Volume = vol;
+                Console.WriteLine(dist);
             }
         }
     }

@@ -118,7 +118,7 @@ namespace mono.core
                             string sourceId = (string) obj.properties[0].value;
                             int sourceRadius = (int) obj.properties[1].value;
                             int sourceVolume = (int) obj.properties[2].value;
-                            sources.Add(new Source(sourceId, sourceRadius, sourceVolume, x, y));
+                            sources.Add(new Source(sourceId, sourceRadius, sourceVolume, x + 16, y - 16));
                         }
                         else
                         {
@@ -131,6 +131,7 @@ namespace mono.core
 
         internal void ActivateSources(Vector2 position)
         {
+            Console.WriteLine(sources.Count);
             foreach (Source source in sources)
             {
                 source.Activate(position);

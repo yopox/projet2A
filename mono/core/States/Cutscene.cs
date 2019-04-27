@@ -14,6 +14,7 @@ namespace mono.core.States
         static CutsceneAction action; // Prochaine action à effectuer
 
         static AtlasName bgImage = AtlasName.NoAtlas; // Image de fond de la cinématique
+        static private bool _bgImageFading = false;
 
         static private List<Tuple<string, string>> _text; // Texte à afficher
         static float scale = 2f; // Niveau de zoom de la police d'écriture
@@ -30,13 +31,6 @@ namespace mono.core.States
         static Texture2D BackgroundTexture;
         static Texture2D ForegroundTexture;
 
-        // Gestion du fondu noir de sortie de cutscene
-        static private bool _fadingOut = false;
-        static private bool _isFadingOutOver = false;
-        static private int _fadingColorOpacity = 0;
-        static private int _fadingSpeed = 8;
-
-
         /// <summary>
         /// On récupère le script
         /// </summary>
@@ -48,62 +42,34 @@ namespace mono.core.States
             //On récupère la prochaine action
             action = actions.Dequeue();
         }
+
         /// <summary>
         /// On met à jour la prochaine action de la cutscene
         /// </summary>
         /// <param name="gstate">On récupère l'état des controleurs</param>
         public static State Update(GameState gstate, GameTime gameTime)
         {
+            // On update le fondu au blanc local si on a une nouvelle image
+            if (_bgImageFading)
+                Util.FadeIn(ref _bgImageFading);
+
             switch (action.type)
             {
                 // Récupération de l'image de fond
                 case CutsceneActionType.Background:
                     bgImage = Util.ParseEnum<AtlasName>(action.content);
+                    Util.FadeIn(ref _bgImageFading);
                     action = actions.Dequeue();
                     break;
                 // Récupération du texte à afficher
                 case CutsceneActionType.Text:
-                    _text = Util.ParseDialog(action.content);
-                    _size = Vector2.Zero;
-
-                    // On calcule la taille une seule fois lorsqu'on récupère le fichier
-                    if (_indString != 0 || _indCharacter != 0)
-                    {
-                        //Calcul de la taille totale du texte à afficher
-                        for (int i = 0; i < _text.Count; i++)
-                        {
-                            //Calcul hauteur
-                            _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
-
-                            //Calcul du maximum de la largeur
-                            if ((int)(Util.font.MeasureString(_text[i].Item2).X * scale) > _size.X)
-                                _size.X = (int)(Util.font.MeasureString(_text[i].Item2).X * scale);
-                        }
-                    }
-
-                    // Récupération de la prochaine action si tout le texte est affiché
-                    if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
-                        action = actions.Dequeue();
-
+                    UpdateText();
                     break;
                 case CutsceneActionType.NewPage:
-                    //Attente de l'appuie du boutton pour changer d'action
-                    if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
-                    {
-                        _indString = 0;
-                        _indCharacter = 0;
-                        action = actions.Dequeue();
-                        _text.Clear();
-                    }
+                    UpdatePage(gstate);
                     break;
                 case CutsceneActionType.Wait:
-                    // On attend le nombre de frame présent dans le wait
-                    _deltaFrame += 1;
-                    if (_deltaFrame == Int32.Parse(action.content))
-                    {
-                        _deltaFrame = 0;
-                        action = actions.Dequeue();
-                    }
+                    UpdateWait();
                     break;
                 case CutsceneActionType.Sfx:
                     break;
@@ -112,15 +78,7 @@ namespace mono.core.States
                     action = actions.Dequeue();
                     break;
                 case CutsceneActionType.State:
-                    // On lance le fading
-                    Util.fadingOut = true;
-                    // Lorsque le fading est fini, on change d'état
-                    if (Util.fadingOpacity > 240)
-                    {
-                        Reset();
-                        return Util.ParseEnum<State>(action.content);
-                    }
-                    break;
+                    return UpdateState();
             }
             return State.Cutscene;
         }
@@ -149,8 +107,15 @@ namespace mono.core.States
                 spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
             }
 
+            // On fait un fondu au noir si une nouvelle image est affichée
+            if (_bgImageFading)
+            {
+                Util.DrawFading(spriteBatch, GraphicsDevice);
+                Console.WriteLine("fondu local");
+            }
+
             // On affiche un texte si il y en a
-            if (_text.Count != 0)
+            if (_text != null && _text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);
         }
 
@@ -215,8 +180,84 @@ namespace mono.core.States
             _indCharacter = 0;
             _text.Clear();
 
-            Util.fadingIn = true;
-            Util.fadingOut = false;
+            Util.FadeIn();
+        }
+
+        /// <summary>
+        /// Update le texte de la cinématique
+        /// </summary>
+        private static void UpdateText()
+        {
+            _text = Util.ParseDialog(action.content);
+            _size = Vector2.Zero;
+
+            // On calcule la taille une seule fois lorsqu'on récupère le fichier
+            if (_indString != 0 || _indCharacter != 0)
+            {
+                //Calcul de la taille totale du texte à afficher
+                for (int i = 0; i < _text.Count; i++)
+                {
+                    //Calcul hauteur
+                    _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
+
+                    //Calcul du maximum de la largeur
+                    if ((int)(Util.font.MeasureString(_text[i].Item2).X * scale) > _size.X)
+                        _size.X = (int)(Util.font.MeasureString(_text[i].Item2).X * scale);
+                }
+            }
+
+            // Récupération de la prochaine action si tout le texte est affiché
+            if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
+                action = actions.Dequeue();
+        }
+
+        /// <summary>
+        /// Enlève le texte à l'écran
+        /// </summary>
+        /// <param name="gstate"></param>
+        private static void UpdatePage(GameState gstate)
+        {
+            //Attente de l'appuie du boutton pour changer d'action
+            if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
+            {
+                _indString = 0;
+                _indCharacter = 0;
+                action = actions.Dequeue();
+                _text.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Update l'état du jeu après un fading
+        /// </summary>
+        /// <returns></returns>
+        private static State UpdateState()
+        {
+            // On lance le fading
+            bool over = Util.FadeOut();
+            // Lorsque le fading est fini, on change d'état
+            if (over)
+            {
+                Reset();
+                Util.newState = true;
+                return Util.ParseEnum<State>(action.content);
+            }
+
+            return State.Cutscene;
+        }
+
+        /// <summary>
+        /// Mets en pause la cutscene
+        /// </summary>
+        private static void UpdateWait()
+        {
+            // On attend le nombre de frame présent dans le wait
+            _deltaFrame += 1;
+            if (_deltaFrame == Int32.Parse(action.content))
+            {
+                _deltaFrame = 0;
+                action = actions.Dequeue();
+            }
         }
     }
 }

@@ -67,7 +67,7 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
-            //SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
+            SoundManager.PlayBGM("7_retour_sous_surface_complet");
 
             base.Initialize();
         }
@@ -85,8 +85,6 @@ namespace mono
             Util.font = Content.Load<SpriteFont>("Fonts/MatchupPro");
 
             Util.PrintQueue(Util.ParseScript("text1.xml"));
-
-            //SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
@@ -114,12 +112,6 @@ namespace mono
 
             GameState.ksn = Keyboard.GetState();
             GameState.gsn = GamePad.GetState(PlayerIndex.One);
-
-            if(Util.fadingOpacity < 0)
-            {
-                Util.fadingOpacity = 0;
-                Util.fadingIn = false;
-            }
 
             switch (state)
             {
@@ -177,10 +169,8 @@ namespace mono
                     break;
             }
 
-            if (Util.fadingOut)
-                Util.FadeOut(spriteBatch, GraphicsDevice);
-            if (Util.fadingIn)
-                Util.FadeIn(spriteBatch, GraphicsDevice);
+            if (Util.fadingOut || Util.fadingIn)
+                Util.DrawFading(spriteBatch, GraphicsDevice);
 
             spriteBatch.End();
             base.Draw(gameTime);

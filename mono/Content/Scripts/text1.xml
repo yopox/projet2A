@@ -1,4 +1,3 @@
-<background Start>
 <bgm 1_intro_radio_premiers_signaux>
 <text>
 [w]Cela va faire quoi, Neuf ans ?
@@ -11,6 +10,7 @@ Ils disaient que notre mission était primordiale. Que nous étions le salut de 
 Et pendant un temps, nous y avons vraiment cru. 
 </text>
 <newpage>
+<background Start>
 <text>
 [w]Mais à peine avions nous commencé à travailler que les bombes se sont mises à pleuvoir. 
 Depuis ce jour, nous n'avions plus reçu de nouvelle de la surface.

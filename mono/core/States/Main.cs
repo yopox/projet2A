@@ -10,8 +10,18 @@ namespace mono.core.States
     {
         public static State Update(Player player, GameTime gameTime, GameState GameState)
         {
-            Physics.UpdateAll(gameTime);
-            player.Update(GameState, gameTime);
+            if (Util.newState)
+            {
+                bool over = Util.FadeIn();
+
+                if (over)
+                    Util.newState = false;
+            }
+            else
+            {
+                Physics.UpdateAll(gameTime);
+                player.Update(GameState, gameTime);
+            }
             Camera.Update(player, GameState.map.width * Util.tileSize);
             GameState.map.UpdateSources(player.position);
 

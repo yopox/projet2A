@@ -93,10 +93,12 @@ namespace mono.core
         static public SpriteFont font = null;
 
         // Fading et changement d'état
-        static public int fadingSpeed = 8;
-        static public int fadingOpacity = 0;
+        static private int _fadingSpeed = 4;
+        static private int _fadingOpacity = 0;
+        static private int _maxFadingOpacity = 255;
         static public bool fadingOut = false;
         static public bool fadingIn = false;
+        static public bool newState = false;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
@@ -302,8 +304,16 @@ namespace mono.core
             return liste;
         }
 
+        /// <summary>
+        /// Crée une texture si elle n'existe pas, et la renvoie telle quelle si elle existe
+        /// </summary>
+        /// <param name="GraphicsDevice"></param>
+        /// <param name="texture">Texture</param>
+        /// <param name="color">Couleur de la texture</param>
+        /// <returns></returns>
         public static Texture2D GetTexture(GraphicsDevice GraphicsDevice, Texture2D texture, Color color)
         {
+            // On vérifie si la texture existe déjà
             if (texture == null)
             {
                 texture = GetRectangleTexture(GraphicsDevice,
@@ -314,21 +324,79 @@ namespace mono.core
             return texture;
         }
 
-        public static void FadeOut(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        /// <summary>
+        /// Fondu au blanc général sur toute l'image affichée
+        /// </summary>
+        /// <returns></returns>
+        public static bool FadeOut()
         {
-            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
-                Vector2.Zero,
-                Color.Black);
-            fadingOpacity += fadingSpeed;
+            if (!fadingOut)
+            {
+                fadingOut = true;
+                _fadingOpacity = 0;
+            }
+
+            _fadingOpacity += _fadingSpeed;
+
+            if (_fadingOpacity >= _maxFadingOpacity)
+            {
+                fadingOut = false;
+            }
+            return !fadingOut;
         }
 
-        public static void FadeIn(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        /// <summary>
+        /// Fondu au noir général sur toute l'image affichée
+        /// </summary>
+        /// <returns></returns>
+        public static bool FadeIn()
         {
-            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
-                Vector2.Zero,
-                Color.Black);
-            fadingOpacity -= fadingSpeed;
+            if (!fadingIn)
+            {
+                fadingIn = true;
+                _fadingOpacity = _maxFadingOpacity;
+            }
+
+            _fadingOpacity -= _fadingSpeed;
+
+            if (Util._fadingOpacity <= 0)
+            {
+                Util.fadingIn = false;
+            }
+            return !fadingIn;
+        }
+        
+        /// <summary>
+        /// Fondu au noir sans passer par la variable globale fadingIn
+        /// </summary>
+        /// <param name="localFading">booléen de l'état du fade in local</param>
+        public static void FadeIn(ref bool localFading)
+        {
+            if (!localFading)
+            {
+                localFading = true;
+                _fadingOpacity = _maxFadingOpacity;
+            }
+
+            _fadingOpacity -= _fadingSpeed;
+            Console.WriteLine(_fadingOpacity);
+
+            if (_fadingOpacity <= 0)
+            {
+                localFading = false;
+            }
         }
 
+        /// <summary>
+        /// Affichage du fondu au noir
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="GraphicsDevice"></param>
+        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        {
+            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, _fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
+                Vector2.Zero,
+                Color.Black);
+        }
     }
 }

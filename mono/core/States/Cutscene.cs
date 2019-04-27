@@ -11,9 +11,10 @@ namespace mono.core.States
     static class Cutscene
     {
         static Queue<CutsceneAction> actions; // File d'actions à effectuer
-        static CutsceneAction nextAction; // Prochaine action à effectuer
+        static CutsceneAction action; // Prochaine action à effectuer
 
-        static AtlasName bgImage; // Image de fond de la cinématique
+        static AtlasName bgImage = AtlasName.NoAtlas; // Image de fond de la cinématique
+        static private bool _bgImageFading = false;
 
         static private List<Tuple<string, string>> _text; // Texte à afficher
         static float scale = 2f; // Niveau de zoom de la police d'écriture
@@ -24,18 +25,11 @@ namespace mono.core.States
         static private int _frameRefresh = 4; // Vitesse d'affichage des lettres en frame
 
         // Temps d'attente pour le wait
-        static private int _deltaTime = 0;
+        static private int _deltaFrame = 0;
 
         // Texture d'affichage
         static Texture2D BackgroundTexture;
         static Texture2D ForegroundTexture;
-
-        // Gestion du fondu noir de sortie de cutscene
-        static private bool _fadingOut = false;
-        static private bool _isFadingOutOver = false;
-        static private int _fadingColorOpacity = 0;
-        static private int _fadingSpeed = 8;
-
 
         /// <summary>
         /// On récupère le script
@@ -46,78 +40,55 @@ namespace mono.core.States
             actions = Util.ParseScript(path);
 
             //On récupère la prochaine action
-            nextAction = actions.Dequeue();
+            action = actions.Dequeue();
         }
+
         /// <summary>
         /// On met à jour la prochaine action de la cutscene
         /// </summary>
         /// <param name="gstate">On récupère l'état des controleurs</param>
         public static State Update(GameState gstate, GameTime gameTime)
         {
-            switch (nextAction.type)
+            // On update le fondu au blanc local si on a une nouvelle image
+            if (_bgImageFading)
+                Util.FadeIn(ref _bgImageFading);
+
+            switch (action.type)
             {
+                // Récupération de l'image de fond
                 case CutsceneActionType.Background:
-                    bgImage = Util.ParseEnum<AtlasName>(nextAction.content);
-                    nextAction = actions.Dequeue();
+                    bgImage = Util.ParseEnum<AtlasName>(action.content);
+                    Util.FadeIn(ref _bgImageFading);
+                    action = actions.Dequeue();
                     break;
+                // Récupération du texte à afficher
                 case CutsceneActionType.Text:
-                    _text = Util.ParseDialog(nextAction.content);
-                    _size = Vector2.Zero;
-
-                    if (_indString != 0 || _indCharacter != 0)
-                    {
-                        //Calcul de la taille totale du texte à afficher
-                        for (int i = 0; i < _text.Count; i++)
-                        {
-                            //Calcul hauteur
-                            _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
-
-                            //Calcul du maximum de la largeur
-                            if ((int)(Util.font.MeasureString(_text[i].Item2).X * scale) > _size.X)
-                                _size.X = (int)(Util.font.MeasureString(_text[i].Item2).X * scale);
-                        }
-                    }
-
-                    if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
-                        nextAction = actions.Dequeue();
-
+                    UpdateText();
                     break;
                 case CutsceneActionType.NewPage:
-                    //Attente de l'appuie du boutton pour changer d'action
-                    if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
-                    {
-                        _indString = 0;
-                        _indCharacter = 0;
-                        nextAction = actions.Dequeue();
-                        _text.Clear();
-                    }
+                    UpdatePage(gstate);
                     break;
                 case CutsceneActionType.Wait:
-                    _deltaTime += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                    if (_deltaTime > Int32.Parse(nextAction.content))
-                    {
-                        _deltaTime = 0;
-                        nextAction = actions.Dequeue();
-                    }
+                    UpdateWait();
                     break;
                 case CutsceneActionType.Sfx:
                     break;
                 case CutsceneActionType.Bgm:
-                    SoundManager.PlayBGM(nextAction.content);
-                    nextAction = actions.Dequeue();
+                    SoundManager.PlayBGM(action.content);
+                    action = actions.Dequeue();
                     break;
                 case CutsceneActionType.State:
-                    Util.fadingOut = true;
-                    if (Util.fadingOpacity > 240)
-                    {
-                        Reset();
-                        return Util.ParseEnum<State>(nextAction.content);
-                    }
-                    break;
+                    return UpdateState();
             }
             return State.Cutscene;
         }
 
+        /// <summary>
+        /// Affichage de la cutscene
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="am"></param>
+        /// <param name="GraphicsDevice"></param>
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice)
         {
             Rendering.BeginDraw(spriteBatch);
@@ -127,22 +98,41 @@ namespace mono.core.States
                 Vector2.Zero, Color.Black);
 
             // Dessin de l'artwork
-            var texture = am.GetAtlas(bgImage).Texture;
-            spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+            if (bgImage != AtlasName.NoAtlas)
+            {
+                var texture = am.GetAtlas(bgImage).Texture;
+                spriteBatch.Draw(texture, Vector2.Zero, Color.White);
+                
+                // Dessin d'un foreground avec de l'opacité
+                spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
+            }
 
-            spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
+            // On fait un fondu au noir si une nouvelle image est affichée
+            if (_bgImageFading)
+            {
+                Util.DrawFading(spriteBatch, GraphicsDevice);
+                Console.WriteLine("fondu local");
+            }
 
-            if (_text.Count != 0)
+            // On affiche un texte si il y en a
+            if (_text != null && _text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);
         }
 
+        /// <summary>
+        /// Affichage du dialogue
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="GraphicsDevice"></param>
         static void DrawDialog(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
         {
+            // Récupère la position pour centrer le dialogue
             Vector2 positionStr = new Vector2(Rendering.VirtualWidth / 2 - _size.X / 2,
             Rendering.VirtualHeight / 2 - _size.Y / 2);
 
             Vector2 offset = Vector2.Zero;
 
+            // Affichage des blocs de textes complets
             for (int i = 0; i < _indString; i++)
             {
                 spriteBatch.DrawString(Util.font,
@@ -151,9 +141,11 @@ namespace mono.core.States
                 Util.ColorStringDictionary[_text[i].Item1],
                 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
 
+                // On modifie l'offset en fonction de la taille du texte déjà affiché
                 offset.Y += Util.font.MeasureString(_text[i].Item2).Y * scale;
             }
 
+            // On affiche le texte du bloc non complet
             spriteBatch.DrawString(Util.font,
             _text[_indString].Item2.Substring(0, _indCharacter),
             positionStr + offset,
@@ -162,6 +154,7 @@ namespace mono.core.States
 
             _counter++;
 
+            // On incrémente les indices de charactères et de chaines
             if (_counter == _frameRefresh)
             {
                 if (_indCharacter == _text[_indString].Item2.Length && _indString < _text.Count - 1)
@@ -177,15 +170,94 @@ namespace mono.core.States
             }
         }
 
+        /// <summary>
+        /// Remise à zéro des variables
+        /// </summary>
         private static void Reset()
         {
-            _deltaTime = 0;
+            _deltaFrame = 0;
             _indString = 0;
             _indCharacter = 0;
             _text.Clear();
 
-            Util.fadingIn = true;
-            Util.fadingOut = false;
+            Util.FadeIn();
+        }
+
+        /// <summary>
+        /// Update le texte de la cinématique
+        /// </summary>
+        private static void UpdateText()
+        {
+            _text = Util.ParseDialog(action.content);
+            _size = Vector2.Zero;
+
+            // On calcule la taille une seule fois lorsqu'on récupère le fichier
+            if (_indString != 0 || _indCharacter != 0)
+            {
+                //Calcul de la taille totale du texte à afficher
+                for (int i = 0; i < _text.Count; i++)
+                {
+                    //Calcul hauteur
+                    _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
+
+                    //Calcul du maximum de la largeur
+                    if ((int)(Util.font.MeasureString(_text[i].Item2).X * scale) > _size.X)
+                        _size.X = (int)(Util.font.MeasureString(_text[i].Item2).X * scale);
+                }
+            }
+
+            // Récupération de la prochaine action si tout le texte est affiché
+            if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
+                action = actions.Dequeue();
+        }
+
+        /// <summary>
+        /// Enlève le texte à l'écran
+        /// </summary>
+        /// <param name="gstate"></param>
+        private static void UpdatePage(GameState gstate)
+        {
+            //Attente de l'appuie du boutton pour changer d'action
+            if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
+            {
+                _indString = 0;
+                _indCharacter = 0;
+                action = actions.Dequeue();
+                _text.Clear();
+            }
+        }
+
+        /// <summary>
+        /// Update l'état du jeu après un fading
+        /// </summary>
+        /// <returns></returns>
+        private static State UpdateState()
+        {
+            // On lance le fading
+            bool over = Util.FadeOut();
+            // Lorsque le fading est fini, on change d'état
+            if (over)
+            {
+                Reset();
+                Util.newState = true;
+                return Util.ParseEnum<State>(action.content);
+            }
+
+            return State.Cutscene;
+        }
+
+        /// <summary>
+        /// Mets en pause la cutscene
+        /// </summary>
+        private static void UpdateWait()
+        {
+            // On attend le nombre de frame présent dans le wait
+            _deltaFrame += 1;
+            if (_deltaFrame == Int32.Parse(action.content))
+            {
+                _deltaFrame = 0;
+                action = actions.Dequeue();
+            }
         }
     }
 }

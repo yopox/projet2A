@@ -5,6 +5,7 @@ namespace mono.core.Definitions
 
     public enum AtlasName
     {
+        NoAtlas,
         Tileset1,
         Player,
         Platform1,

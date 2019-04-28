@@ -16,13 +16,15 @@ namespace mono.core.States
         static AtlasName BGImage = AtlasName.NoAtlas; // Image de fond de la cinématique
         static private bool bgImageFading = false;
 
-        static private List<Tuple<string, string>> text; // Texte à afficher
+        static private List<Tuple<string, string>> text = new List<Tuple<string, string>>(); // Texte à afficher
         static private float scale = 2f; // Niveau de zoom de la police d'écriture
-        static private Vector2 size; // Taille du texte à afficher
+        static private Vector2 size = Vector2.Zero; // Taille du texte à afficher
         static private int indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
         static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
         static private int counter = 0; // Compteur d'affichage des lettres
         static private int frameRefresh = 4; // Vitesse d'affichage des lettres en frame
+        static private bool calculusSize = false;
+        static private bool newText = true;
 
         // Temps d'attente pour le wait
         static private int deltaFrame = 0;
@@ -145,6 +147,7 @@ namespace mono.core.States
                 offset.Y += Util.Font.MeasureString(text[i].Item2).Y * scale;
             }
 
+            
             // On affiche le texte du bloc non complet
             spriteBatch.DrawString(Util.Font,
             text[indString].Item2.Substring(0, indCharacter),
@@ -180,6 +183,10 @@ namespace mono.core.States
             indCharacter = 0;
             text.Clear();
 
+            calculusSize = false;
+            newText = true;
+            size = Vector2.Zero;
+
             Util.FadeIn();
         }
 
@@ -188,42 +195,81 @@ namespace mono.core.States
         /// </summary>
         private static void UpdateText()
         {
-            text = Util.ParseDialog(action.Content);
-            size = Vector2.Zero;
-
-            // On calcule la taille une seule fois lorsqu'on récupère le fichier
-            if (indString != 0 || indCharacter != 0)
+            if (newText)
             {
-                //Calcul de la taille totale du texte à afficher
-                for (int i = 0; i < text.Count; i++)
-                {
-                    //Calcul hauteur
-                    size.Y += (int)(Util.Font.MeasureString(text[i].Item2).Y * scale);
-
-                    //Calcul du maximum de la largeur
-                    if ((int)(Util.Font.MeasureString(text[i].Item2).X * scale) > size.X)
-                        size.X = (int)(Util.Font.MeasureString(text[i].Item2).X * scale);
-                }
+                text.AddRange(Util.ParseDialog(action.Content));
+                newText = false;
+                Console.WriteLine(text);
             }
+
+            // Calcul de la taille du texte
+            SizeCalculus();
 
             // Récupération de la prochaine action si tout le texte est affiché
             if (indCharacter == text[indString].Item2.Length && indString == text.Count - 1)
+            {
                 action = actions.Dequeue();
+                newText = true;
+            }
         }
 
         /// <summary>
-        /// Enlève le texte à l'écran
+        /// Calcule la taille du texte à afficher jusqu'au prochain newpage ou jusqu'à la fin du script
         /// </summary>
-        /// <param name="gstate"></param>
-        private static void UpdatePage(GameState gstate)
+        private static void SizeCalculus()
+        {
+            // On calcule la taille une seule fois lorsqu'on récupère le fichier
+            if (!calculusSize)
+            {
+                calculusSize = true;
+
+                // On récupère toutes les actions depuis cette action texte comprise
+                CutsceneAction[] listActions = new CutsceneAction[actions.Count + 1];
+                listActions[0] = action;
+                actions.CopyTo(listActions, 1);
+
+                List<Tuple<string, string>> totalText = new List<Tuple<string, string>>();
+
+                int j = 0;
+
+                // On récupère tout le texte jusqu'au prochain newpage
+                while (j < listActions.Length && listActions[j].Type != CutsceneActionType.NewPage)
+                {
+                    if (listActions[j].Type == CutsceneActionType.Text)
+                    {
+                        totalText.AddRange(Util.ParseDialog(listActions[j].Content));
+                    }
+                    j++;
+                }
+
+                //Calcul de la taille totale du texte à afficher
+                for (int i = 0; i < totalText.Count; i++)
+                {
+                    //Calcul hauteur
+                    size.Y += (int)(Util.Font.MeasureString(totalText[i].Item2).Y * scale);
+
+                    //Calcul du maximum de la largeur
+                    if ((int)(Util.Font.MeasureString(totalText[i].Item2).X * scale) > size.X)
+                        size.X = (int)(Util.Font.MeasureString(totalText[i].Item2).X * scale);
+                }
+            }
+        }
+
+            /// <summary>
+            /// Enlève le texte à l'écran
+            /// </summary>
+            /// <param name="gstate"></param>
+            private static void UpdatePage(GameState gstate)
         {
             //Attente de l'appuie du boutton pour changer d'action
             if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
             {
                 indString = 0;
                 indCharacter = 0;
-                action = actions.Dequeue();
                 text.Clear();
+                calculusSize = false;
+                size = Vector2.Zero;
+                action = actions.Dequeue();
             }
         }
 

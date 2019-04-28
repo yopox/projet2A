@@ -14,7 +14,7 @@ namespace mono.core
 
         public Player(Vector2 size) : base(AtlasName.Player, Vector2.Zero, size)
         {
-            facing = Face.Right;
+            Facing = Face.Right;
             AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, 12, true);
             AddAnimation(PlayerState.Walking, new[] { 0 }, 0, true);
         }
@@ -22,7 +22,7 @@ namespace mono.core
         public void Idle()
         {
             NewState = PlayerState.Idle;
-            speed.X = 0;
+            Speed.X = 0;
         }
 
         public void Walk(Face face)
@@ -32,18 +32,18 @@ namespace mono.core
 
             if (face == Face.Left)
             {
-                speed.X -= 1.5f;
+                Speed.X -= 1.5f;
             }
             else
             {
-                speed.X += 1.5f;
+                Speed.X += 1.5f;
             }
         }
 
         public void Jump()
         {
-            forces.Y = -15000;
-            speed.Y -= 0.8f;
+            Forces.Y = -15000;
+            Speed.Y -= 0.8f;
             //speed.Y -= 1.5f;
         }
 
@@ -57,7 +57,7 @@ namespace mono.core
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
 
-            if (Math.Abs(speed.Y) < 0.2 && Math.Abs(acceleration.Y) < 0.2)
+            if (Math.Abs(Speed.Y) < 0.2 && Math.Abs(Acceleration.Y) < 0.2)
             {
                 CanJump = true;
             }
@@ -72,11 +72,11 @@ namespace mono.core
 
 
             // Reset de l'ancienne animation si on change d'état ou de direction
-            if (NewState != State || NewFacing != facing)
+            if (NewState != State || NewFacing != Facing)
             {
-                Animations[State].Reset();
+                animations[State].Reset();
                 State = NewState;
-                facing = NewFacing;
+                Facing = NewFacing;
             }
         }
     }

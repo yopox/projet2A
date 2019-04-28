@@ -1,17 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
-using mono.RenderEngine;
 
 namespace mono.core
 {
     public static class Camera
     {
 
-        public static Vector2 center = new Vector2(0, 0);
-        public static Vector2 offset = new Vector2((float)-Util.playerWidth / 2, Util.playerHeight / 2);
+        public static Vector2 Center = new Vector2(0, 0);
+        public static Vector2 Offset = new Vector2((float)-Util.PlayerWidth / 2, Util.PlayerHeight / 2);
 
         // (2*wBox, 2*hBox) est la dimension de la boîte de mouvement libre
-        static readonly int _wBox = 64;
-        static readonly int _hBox = 32;
+        static readonly int wBox = 64;
+        static readonly int hBox = 32;
 
         /// <summary>
         /// Change la position de la caméra selon la position du joueur.
@@ -21,38 +20,38 @@ namespace mono.core
         {
 
             // Mouvement sans déplacement de caméra pour une largeur 2*wBox
-            if (player.position.X > center.X + _wBox + offset.X)
+            if (player.Position.X > Center.X + wBox + Offset.X)
             {
-                center.X = player.position.X - _wBox - offset.X;
+                Center.X = player.Position.X - wBox - Offset.X;
             }
-            else if (player.position.X < center.X - _wBox + offset.X)
+            else if (player.Position.X < Center.X - wBox + Offset.X)
             {
-                center.X = player.position.X + _wBox - offset.X;
+                Center.X = player.Position.X + wBox - Offset.X;
             }
 
-            if (player.position.X - offset.X +_wBox < Util.virtualWidth / 2)
+            if (player.Position.X - Offset.X +wBox < Util.VirtualWidth / 2)
             {
-                center.X = Util.virtualWidth / 2;
+                Center.X = Util.VirtualWidth / 2;
             }
-            else if (player.position.X + offset.X > worldWidth - Util.virtualWidth / 2)
+            else if (player.Position.X + Offset.X > worldWidth - Util.VirtualWidth / 2)
             {
-                center.X = worldWidth - Util.virtualWidth / 2;
+                Center.X = worldWidth - Util.VirtualWidth / 2;
             }
 
             // Mouvement sans déplacement de caméra pour une hauteur 2*hBox
-            if (player.position.Y > center.Y + _hBox - offset.Y)
+            if (player.Position.Y > Center.Y + hBox - Offset.Y)
             {
-                center.Y = player.position.Y - _hBox + offset.Y;
+                Center.Y = player.Position.Y - hBox + Offset.Y;
             }
-            else if (player.position.Y < center.Y - _hBox - offset.Y)
+            else if (player.Position.Y < Center.Y - hBox - Offset.Y)
             {
-                center.Y = player.position.Y + _hBox + offset.Y;
+                Center.Y = player.Position.Y + hBox + Offset.Y;
             }
         }
 
         public static Vector2 GetScreenPosition(Vector2 absPos)
         {
-            return Util.center + (absPos - center);
+            return Util.Center + (absPos - Center);
         }
 
     }

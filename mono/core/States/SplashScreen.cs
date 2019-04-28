@@ -5,13 +5,13 @@ namespace mono.core.States
 {
     static class SplashScreen
     {
-        private static float _time;
+        private static float time;
 
         public static State Update(GameTime gameTime)
         {
-            _time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Console.WriteLine(_time);
-            if (_time > 0f)
+            time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            Console.WriteLine(time);
+            if (time > 0f)
             {
                 return State.Main;
             }

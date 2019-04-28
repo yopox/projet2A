@@ -10,20 +10,20 @@ namespace mono.core.States
     {
         public static State Update(Player player, GameTime gameTime, GameState GameState)
         {
-            if (Util.newState)
+            if (Util.NewState)
             {
                 bool over = Util.FadeIn();
 
                 if (over)
-                    Util.newState = false;
+                    Util.NewState = false;
             }
             else
             {
                 Physics.UpdateAll(gameTime);
                 player.Update(GameState, gameTime);
             }
-            Camera.Update(player, GameState.map.width * Util.tileSize);
-            GameState.map.UpdateSources(player.position);
+            Camera.Update(player, GameState.map.width * Util.TileSize);
+            GameState.map.UpdateSources(player.Position);
 
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
                 return State.Pause;

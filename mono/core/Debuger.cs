@@ -7,9 +7,8 @@ namespace mono.core
 {
     class Debuger
     {
-        public static bool debugActors;
-        public static bool debugTiles;
-        public static int radius = 4;
+        public static bool DebugingActors;
+        public static int Radius = 4;
 
         /// <summary>
         /// Affiche la hitbox autour des acteurs
@@ -18,7 +17,7 @@ namespace mono.core
         /// <param name="spriteBatch"></param>
         public static void DebugActors(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch)
         {
-            if (debugActors)
+            if (DebugingActors)
             {
                 foreach (var actor in Physics.Actors)
                 {

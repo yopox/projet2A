@@ -10,22 +10,22 @@ namespace mono.core.States
 {
     static class Cutscene
     {
-        static Queue<CutsceneAction> actions; // File d'actions à effectuer
-        static CutsceneAction action; // Prochaine action à effectuer
+        static private Queue<CutsceneAction> actions; // File d'actions à effectuer
+        static private CutsceneAction action; // Prochaine action à effectuer
 
-        static AtlasName bgImage = AtlasName.NoAtlas; // Image de fond de la cinématique
-        static private bool _bgImageFading = false;
+        static AtlasName BGImage = AtlasName.NoAtlas; // Image de fond de la cinématique
+        static private bool bgImageFading = false;
 
-        static private List<Tuple<string, string>> _text; // Texte à afficher
-        static float scale = 2f; // Niveau de zoom de la police d'écriture
-        static private Vector2 _size; // Taille du texte à afficher
-        static private int _indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
-        static private int _indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
-        static private int _counter = 0; // Compteur d'affichage des lettres
-        static private int _frameRefresh = 4; // Vitesse d'affichage des lettres en frame
+        static private List<Tuple<string, string>> text; // Texte à afficher
+        static private float scale = 2f; // Niveau de zoom de la police d'écriture
+        static private Vector2 size; // Taille du texte à afficher
+        static private int indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
+        static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
+        static private int counter = 0; // Compteur d'affichage des lettres
+        static private int frameRefresh = 4; // Vitesse d'affichage des lettres en frame
 
         // Temps d'attente pour le wait
-        static private int _deltaFrame = 0;
+        static private int deltaFrame = 0;
 
         // Texture d'affichage
         static Texture2D BackgroundTexture;
@@ -50,15 +50,15 @@ namespace mono.core.States
         public static State Update(GameState gstate, GameTime gameTime)
         {
             // On update le fondu au blanc local si on a une nouvelle image
-            if (_bgImageFading)
-                Util.FadeIn(ref _bgImageFading);
+            if (bgImageFading)
+                Util.FadeIn(ref bgImageFading);
 
-            switch (action.type)
+            switch (action.Type)
             {
                 // Récupération de l'image de fond
                 case CutsceneActionType.Background:
-                    bgImage = Util.ParseEnum<AtlasName>(action.content);
-                    Util.FadeIn(ref _bgImageFading);
+                    BGImage = Util.ParseEnum<AtlasName>(action.Content);
+                    Util.FadeIn(ref bgImageFading);
                     action = actions.Dequeue();
                     break;
                 // Récupération du texte à afficher
@@ -74,7 +74,7 @@ namespace mono.core.States
                 case CutsceneActionType.Sfx:
                     break;
                 case CutsceneActionType.Bgm:
-                    SoundManager.PlayBGM(action.content);
+                    SoundManager.PlayBGM(action.Content);
                     action = actions.Dequeue();
                     break;
                 case CutsceneActionType.State:
@@ -98,9 +98,9 @@ namespace mono.core.States
                 Vector2.Zero, Color.Black);
 
             // Dessin de l'artwork
-            if (bgImage != AtlasName.NoAtlas)
+            if (BGImage != AtlasName.NoAtlas)
             {
-                var texture = am.GetAtlas(bgImage).Texture;
+                var texture = am.GetAtlas(BGImage).Texture;
                 spriteBatch.Draw(texture, Vector2.Zero, Color.White);
                 
                 // Dessin d'un foreground avec de l'opacité
@@ -108,14 +108,14 @@ namespace mono.core.States
             }
 
             // On fait un fondu au noir si une nouvelle image est affichée
-            if (_bgImageFading)
+            if (bgImageFading)
             {
                 Util.DrawFading(spriteBatch, GraphicsDevice);
                 Console.WriteLine("fondu local");
             }
 
             // On affiche un texte si il y en a
-            if (_text != null && _text.Count != 0)
+            if (text != null && text.Count != 0)
                 DrawDialog(spriteBatch, GraphicsDevice);
         }
 
@@ -127,46 +127,46 @@ namespace mono.core.States
         static void DrawDialog(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
         {
             // Récupère la position pour centrer le dialogue
-            Vector2 positionStr = new Vector2(Rendering.VirtualWidth / 2 - _size.X / 2,
-            Rendering.VirtualHeight / 2 - _size.Y / 2);
+            Vector2 positionStr = new Vector2(Rendering.VirtualWidth / 2 - size.X / 2,
+            Rendering.VirtualHeight / 2 - size.Y / 2);
 
             Vector2 offset = Vector2.Zero;
 
             // Affichage des blocs de textes complets
-            for (int i = 0; i < _indString; i++)
+            for (int i = 0; i < indString; i++)
             {
-                spriteBatch.DrawString(Util.font,
-                _text[i].Item2,
+                spriteBatch.DrawString(Util.Font,
+                text[i].Item2,
                 positionStr + offset,
-                Util.ColorStringDictionary[_text[i].Item1],
+                Util.ColorStringDictionary[text[i].Item1],
                 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
 
                 // On modifie l'offset en fonction de la taille du texte déjà affiché
-                offset.Y += Util.font.MeasureString(_text[i].Item2).Y * scale;
+                offset.Y += Util.Font.MeasureString(text[i].Item2).Y * scale;
             }
 
             // On affiche le texte du bloc non complet
-            spriteBatch.DrawString(Util.font,
-            _text[_indString].Item2.Substring(0, _indCharacter),
+            spriteBatch.DrawString(Util.Font,
+            text[indString].Item2.Substring(0, indCharacter),
             positionStr + offset,
-            Util.ColorStringDictionary[_text[_indString].Item1],
+            Util.ColorStringDictionary[text[indString].Item1],
             0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
 
-            _counter++;
+            counter++;
 
             // On incrémente les indices de charactères et de chaines
-            if (_counter == _frameRefresh)
+            if (counter == frameRefresh)
             {
-                if (_indCharacter == _text[_indString].Item2.Length && _indString < _text.Count - 1)
+                if (indCharacter == text[indString].Item2.Length && indString < text.Count - 1)
                 {
-                    _indString++;
-                    _indCharacter = 0;
+                    indString++;
+                    indCharacter = 0;
                 }
-                else if (_indCharacter != _text[_indString].Item2.Length)
+                else if (indCharacter != text[indString].Item2.Length)
                 {
-                    _indCharacter++;
+                    indCharacter++;
                 }
-                _counter = 0;
+                counter = 0;
             }
         }
 
@@ -175,10 +175,10 @@ namespace mono.core.States
         /// </summary>
         private static void Reset()
         {
-            _deltaFrame = 0;
-            _indString = 0;
-            _indCharacter = 0;
-            _text.Clear();
+            deltaFrame = 0;
+            indString = 0;
+            indCharacter = 0;
+            text.Clear();
 
             Util.FadeIn();
         }
@@ -188,26 +188,26 @@ namespace mono.core.States
         /// </summary>
         private static void UpdateText()
         {
-            _text = Util.ParseDialog(action.content);
-            _size = Vector2.Zero;
+            text = Util.ParseDialog(action.Content);
+            size = Vector2.Zero;
 
             // On calcule la taille une seule fois lorsqu'on récupère le fichier
-            if (_indString != 0 || _indCharacter != 0)
+            if (indString != 0 || indCharacter != 0)
             {
                 //Calcul de la taille totale du texte à afficher
-                for (int i = 0; i < _text.Count; i++)
+                for (int i = 0; i < text.Count; i++)
                 {
                     //Calcul hauteur
-                    _size.Y += (int)(Util.font.MeasureString(_text[i].Item2).Y * scale);
+                    size.Y += (int)(Util.Font.MeasureString(text[i].Item2).Y * scale);
 
                     //Calcul du maximum de la largeur
-                    if ((int)(Util.font.MeasureString(_text[i].Item2).X * scale) > _size.X)
-                        _size.X = (int)(Util.font.MeasureString(_text[i].Item2).X * scale);
+                    if ((int)(Util.Font.MeasureString(text[i].Item2).X * scale) > size.X)
+                        size.X = (int)(Util.Font.MeasureString(text[i].Item2).X * scale);
                 }
             }
 
             // Récupération de la prochaine action si tout le texte est affiché
-            if (_indCharacter == _text[_indString].Item2.Length && _indString == _text.Count - 1)
+            if (indCharacter == text[indString].Item2.Length && indString == text.Count - 1)
                 action = actions.Dequeue();
         }
 
@@ -220,10 +220,10 @@ namespace mono.core.States
             //Attente de l'appuie du boutton pour changer d'action
             if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
             {
-                _indString = 0;
-                _indCharacter = 0;
+                indString = 0;
+                indCharacter = 0;
                 action = actions.Dequeue();
-                _text.Clear();
+                text.Clear();
             }
         }
 
@@ -239,8 +239,8 @@ namespace mono.core.States
             if (over)
             {
                 Reset();
-                Util.newState = true;
-                return Util.ParseEnum<State>(action.content);
+                Util.NewState = true;
+                return Util.ParseEnum<State>(action.Content);
             }
 
             return State.Cutscene;
@@ -252,10 +252,10 @@ namespace mono.core.States
         private static void UpdateWait()
         {
             // On attend le nombre de frame présent dans le wait
-            _deltaFrame += 1;
-            if (_deltaFrame == Int32.Parse(action.content))
+            deltaFrame += 1;
+            if (deltaFrame == Int32.Parse(action.Content))
             {
-                _deltaFrame = 0;
+                deltaFrame = 0;
                 action = actions.Dequeue();
             }
         }

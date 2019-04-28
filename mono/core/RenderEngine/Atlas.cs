@@ -6,19 +6,19 @@ namespace mono.core
 
     public struct AtlasInfo
     {
-        public string location;
-        public int width;
-        public int height;
-        public int padding;
-        public int border;
+        public string Location;
+        public int Width;
+        public int Height;
+        public int Padding;
+        public int Border;
 
         public AtlasInfo(string location, int width, int height, int padding, int border)
         {
-            this.location = location;
-            this.width = width;
-            this.height = height;
-            this.padding = padding;
-            this.border = border;
+            this.Location = location;
+            this.Width = width;
+            this.Height = height;
+            this.Padding = padding;
+            this.Border = border;
         }
     }
 

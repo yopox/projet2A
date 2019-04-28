@@ -50,15 +50,15 @@ namespace mono.core.PhysicsEngine
         {
             if (id == 33 || id == 14)
             {
-                return new Tri(new Vector2(x + Util.tileSize, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleR);
+                return new Tri(new Vector2(x + Util.TileSize, y + Util.TileSize), Util.TileSize, Util.TileSize, PolygonType.TriangleR);
             }
             if (id == 36 || id == 15)
             {
-                return new Tri(new Vector2(x, y + Util.tileSize), Util.tileSize, Util.tileSize, PolygonType.TriangleL);
+                return new Tri(new Vector2(x, y + Util.TileSize), Util.TileSize, Util.TileSize, PolygonType.TriangleL);
             }
             if (id != 0)
             {
-                return new Rect(x, y, Util.tileSize, Util.tileSize);
+                return new Rect(x, y, Util.TileSize, Util.TileSize);
             }
             return new Polygon();
         }

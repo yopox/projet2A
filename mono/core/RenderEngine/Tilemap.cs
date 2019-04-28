@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -20,22 +19,22 @@ namespace mono.core
     /// </summary>
     public class Layer
     {
-        public readonly string name;
-        public int[][] tiles;
+        public readonly string Name;
+        public int[][] Tiles;
 
         public Layer(dynamic layer, int width, int height)
         {
-            name = layer.name;
+            Name = layer.name;
 
             // On construit le tableau de tiles
             int[] tiles1 = layer.data.ToObject(typeof(int[]));
-            tiles = new int[height][];
+            Tiles = new int[height][];
 
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
                 {
-                    tiles[i] = tiles1.Skip(i * width).Take(width).ToArray();
+                    Tiles[i] = tiles1.Skip(i * width).Take(width).ToArray();
                 }
             }
         }
@@ -48,17 +47,17 @@ namespace mono.core
     {
 
         readonly string regex = "(.*);(.*)";
-        public AtlasName tilesetName;
+        public AtlasName TilesetName;
 
-        public static int[] warpGids = { 1 };
-        public static int[] sourceGids = { 19 };
+        public static int[] WarpGids = { 1 };
+        public static int[] SourceGids = { 19 };
 
         readonly int height;
         public readonly int width;
-        public List<ParallaxElement> parallaxElements = new List<ParallaxElement>();
+        public List<ParallaxElement> ParallaxElements = new List<ParallaxElement>();
 
-        readonly int xTileRange = Util.width / Util.tileSize / 2 + 1;
-        readonly int yTileRange = Util.height / Util.tileSize / 2 + 2;
+        readonly int xTileRange = Util.Width / Util.TileSize / 2 + 1;
+        readonly int yTileRange = Util.Height / Util.TileSize / 2 + 2;
 
         List<Layer> layers = new List<Layer>();
         List<MapObject> objects = new List<MapObject>();
@@ -67,7 +66,7 @@ namespace mono.core
 
         public Tilemap(string name, string path, AtlasName tilesetName)
         {
-            this.tilesetName = tilesetName;
+            this.TilesetName = tilesetName;
 
             // On récupère le JSON
             StreamReader stream = File.OpenText(path);
@@ -83,15 +82,15 @@ namespace mono.core
 
             foreach (var element in map.properties)
             {
-                var matches = Regex.Split((string)element.value, regex);
+                var matches = System.Text.RegularExpressions.Regex.Split((string)element.value, regex);
 
                 ParallaxElement p = new ParallaxElement
                 {
-                    factor = (float)Convert.ToDouble(matches[1]),
-                    name = Util.ParseEnum<AtlasName>(matches[2])
+                    Factor = (float)Convert.ToDouble(matches[1]),
+                    Name = Util.ParseEnum<AtlasName>(matches[2])
                 };
 
-                parallaxElements.Add(p);
+                ParallaxElements.Add(p);
             }
 
             // Couches
@@ -108,12 +107,12 @@ namespace mono.core
                         int x = obj.x;
                         int y = obj.y;
                         int id = obj.gid;
-                        if (warpGids.Contains(id))
+                        if (WarpGids.Contains(id))
                         {
                             string type = obj.type;
                             warps.Add(new Warp(id, new Vector2(x, y), type));
                         }
-                        else if (sourceGids.Contains(id))
+                        else if (SourceGids.Contains(id))
                         {
                             string sourceId = (string) obj.properties[0].value;
                             int sourceRadius = (int) obj.properties[1].value;
@@ -153,9 +152,9 @@ namespace mono.core
         {
             foreach (Warp warp in warps)
             {
-                if (warp.type == "starting")
+                if (warp.Type == "starting")
                 {
-                    return warp.position - new Vector2(0, Util.playerHeight);
+                    return warp.Position - new Vector2(0, Util.PlayerHeight);
                 }
             }
             return new Vector2(0, 0);
@@ -169,9 +168,9 @@ namespace mono.core
         {
             foreach (Layer layer in layers)
             {
-                if (layer.name == layerName)
+                if (layer.Name == layerName)
                 {
-                    return layer.tiles;
+                    return layer.Tiles;
                 }
             }
 
@@ -188,10 +187,10 @@ namespace mono.core
         {
             int diameter = 2 * radius + 1;
             int[][] tiles = new int[diameter][];
-            int[][] terrain = GetTiles(Util.solidLayerName);
+            int[][] terrain = GetTiles(Util.SolidLayerName);
 
-            int x = (int)Math.Floor(position.X / Util.tileSize);
-            int y = (int)Math.Floor(position.Y / Util.tileSize);
+            int x = (int)Math.Floor(position.X / Util.TileSize);
+            int y = (int)Math.Floor(position.Y / Util.TileSize);
 
             for (int i = 0; i < diameter; i++)
             {
@@ -225,16 +224,16 @@ namespace mono.core
         public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("terrain");
-            int centerTileX = (int)Camera.center.X / Util.tileSize;
-            int centerTileY = (int)Camera.center.Y / Util.tileSize;
-            var atlas = am.GetAtlas(tilesetName);
+            int centerTileX = (int)Camera.Center.X / Util.TileSize;
+            int centerTileY = (int)Camera.Center.Y / Util.TileSize;
+            var atlas = am.GetAtlas(TilesetName);
 
-            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
+            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.ZoomFactor); i++)
             {
-                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
+                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.ZoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.ZoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - Camera.center + Rendering.zoomOffset,
+                        spriteBatch.Draw(atlas.Texture, Util.Center + new Vector2(j * Util.TileSize, i * Util.TileSize) - Camera.Center + Rendering.ZoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -250,21 +249,21 @@ namespace mono.core
         public void DrawDecor(SpriteBatch spriteBatch, AssetManager am)
         {
             var terrain = GetTiles("decor");
-            int centerTileX = (int)Camera.center.X / Util.tileSize;
-            int centerTileY = (int)Camera.center.Y / Util.tileSize;
-            var atlas = am.GetAtlas(tilesetName);
+            int centerTileX = (int)Camera.Center.X / Util.TileSize;
+            int centerTileY = (int)Camera.Center.Y / Util.TileSize;
+            var atlas = am.GetAtlas(TilesetName);
 
-            foreach (var parallaxElement in parallaxElements)
+            foreach (var parallaxElement in ParallaxElements)
             {
                 BackgroundImage.Draw(spriteBatch, parallaxElement, am);
             }
 
-            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.zoomFactor); i++)
+            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i++)
             {
-                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.zoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.zoomFactor) + 1; j++)
+                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.ZoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.ZoomFactor) + 1; j++)
                 {
                     if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.center + new Vector2(j * Util.tileSize, i * Util.tileSize) - Camera.center + Rendering.zoomOffset,
+                        spriteBatch.Draw(atlas.Texture, Util.Center + new Vector2(j * Util.TileSize, i * Util.TileSize) - Camera.Center + Rendering.ZoomOffset,
                                      atlas.GetSourceRectangle(terrain[i][j] - 1),
                                      Color.White, 0f, new Vector2(0, 0), 1f,
                                      SpriteEffects.None, 0f);
@@ -274,14 +273,14 @@ namespace mono.core
 
         public void DrawObjects(SpriteBatch spriteBatch, AssetManager am)
         {
-            int centerTileX = (int)Camera.center.X / Util.tileSize;
-            int centerTileY = (int)Camera.center.Y / Util.tileSize;
+            int centerTileX = (int)Camera.Center.X / Util.TileSize;
+            int centerTileY = (int)Camera.Center.Y / Util.TileSize;
 
             foreach (MapObject mobj in objects)
             {
                 // Condition sur la position de l'objet
-                if (Math.Abs(mobj.position.X - Camera.center.X) < (int)(xTileRange / Rendering.zoomFactor) * Util.tileSize &&
-                    Math.Abs(mobj.position.Y - Camera.center.Y) < (int)(yTileRange / Rendering.zoomFactor) * Util.tileSize)
+                if (Math.Abs(mobj.Position.X - Camera.Center.X) < (int)(xTileRange / Rendering.ZoomFactor) * Util.TileSize &&
+                    Math.Abs(mobj.Position.Y - Camera.Center.Y) < (int)(yTileRange / Rendering.ZoomFactor) * Util.TileSize)
                 {
                     mobj.Draw(spriteBatch, am);
                 }

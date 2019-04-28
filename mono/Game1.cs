@@ -42,8 +42,8 @@ namespace mono
 
             // Affichage
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(Util.width, Util.height);
-            Rendering.SetVirtualResolution(Util.virtualWidth, Util.virtualHeight);
+            Rendering.SetResolution(Util.Width, Util.Height);
+            Rendering.SetVirtualResolution(Util.VirtualWidth, Util.VirtualHeight);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace mono
             player = new Player(new Vector2(64, 128));
 
             // Gravité
-            Physics.Gravity = Util.gravity;
+            Physics.Gravity = Util.Gravity;
             Physics.addActor(player);
 
             // Rendering
@@ -82,13 +82,13 @@ namespace mono
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Util.font = Content.Load<SpriteFont>("Fonts/MatchupPro");
+            Util.Font = Content.Load<SpriteFont>("Fonts/MatchupPro");
 
             Util.PrintQueue(Util.ParseScript("text1.xml"));
 
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
-            player.position = GameState.map.GetStartingPosition();
+            player.Position = GameState.map.GetStartingPosition();
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace mono
                     break;
             }
 
-            if (Util.fadingOut || Util.fadingIn)
+            if (Util.FadingOut || Util.FadingIn)
                 Util.DrawFading(spriteBatch, GraphicsDevice);
 
             spriteBatch.End();

@@ -12,12 +12,12 @@ namespace mono.core
     public class AssetManager
     {
 
-        private Dictionary<AtlasName, Atlas> LoadedAtlas = new Dictionary<AtlasName, Atlas>();
-        private readonly Microsoft.Xna.Framework.Content.ContentManager Content;
+        private Dictionary<AtlasName, Atlas> loadedAtlas = new Dictionary<AtlasName, Atlas>();
+        private readonly Microsoft.Xna.Framework.Content.ContentManager content;
 
         public AssetManager(Microsoft.Xna.Framework.Content.ContentManager content)
         {
-            Content = content;
+            this.content = content;
         }
 
         /// <summary>
@@ -26,9 +26,9 @@ namespace mono.core
         /// <param name="an">An.</param>
         public void Prepare(AtlasName an)
         {
-            if (!LoadedAtlas.ContainsKey(an))
+            if (!loadedAtlas.ContainsKey(an))
             {
-                LoadedAtlas.Add(an, CreateAtlas(AssetInfo.infos[an]));
+                loadedAtlas.Add(an, CreateAtlas(AssetInfo.infos[an]));
             }
         }
 
@@ -38,7 +38,7 @@ namespace mono.core
         /// <param name="an">An.</param>
         public void Unload(AtlasName an)
         {
-            LoadedAtlas.Remove(an);
+            loadedAtlas.Remove(an);
         }
 
         /// <summary>
@@ -48,20 +48,20 @@ namespace mono.core
         /// <param name="ai">Ai.</param>
         public Atlas CreateAtlas(AtlasInfo ai)
         {
-            return new Atlas(Content.Load<Texture2D>(ai.location), ai.width, ai.height, ai.padding, ai.border);
+            return new Atlas(content.Load<Texture2D>(ai.Location), ai.Width, ai.Height, ai.Padding, ai.Border);
         }
 
         public Atlas GetAtlas(AtlasName an)
         {
             // Atlas chargé
-            if (LoadedAtlas.ContainsKey(an))
+            if (loadedAtlas.ContainsKey(an))
             {
-                return LoadedAtlas[an];
+                return loadedAtlas[an];
             }
 
             // Atlas non chargé
             Prepare(an);
-            return LoadedAtlas[an];
+            return loadedAtlas[an];
         }
     }
 }

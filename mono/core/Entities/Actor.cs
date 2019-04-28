@@ -12,27 +12,27 @@ namespace mono.core
     /// </summary>
     public class Actor
     {
-        public AtlasName atlasName; // Nom du spritesheet de l'acteur
+        public AtlasName AtlasName; // Nom du spritesheet de l'acteur
         public PlayerState State { get; set; } = PlayerState.Idle;
 
-        internal Dictionary<PlayerState, Animation> Animations { get; } = new Dictionary<PlayerState, Animation>();
+        internal Dictionary<PlayerState, Animation> animations { get; } = new Dictionary<PlayerState, Animation>();
 
-        public Face facing = Face.Right; // Direction à laquelle l'acteur fait face
-        public Vector2 size;
-        public Vector2 position;
-        public Vector2 center;
-        public Vector2 speed = new Vector2(0, 0);
-        public Vector2 acceleration = new Vector2(0, 0);
-        public Vector2 forces = new Vector2(0, 0);
+        public Face Facing = Face.Right; // Direction à laquelle l'acteur fait face
+        public Vector2 Size;
+        public Vector2 Position;
+        public Vector2 Center;
+        public Vector2 Speed = new Vector2(0, 0);
+        public Vector2 Acceleration = new Vector2(0, 0);
+        public Vector2 Forces = new Vector2(0, 0);
         public bool DebugMode;
 
         public Actor(AtlasName atlasName, Vector2 position, Vector2 size)
         {
-            this.atlasName = atlasName;
-            this.position = position;
-            this.size = size;
-            center = new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
-            Util.ToIntVector2(ref center);
+            AtlasName = atlasName;
+            Position = position;
+            Size = size;
+            Center = new Vector2(position.X + size.X / 2, position.Y + size.Y / 2);
+            Util.ToIntVector2(ref Center);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace mono.core
                 listPolygon = CollisionTester.CollidesWithTerrain(GetHitbox(), gstate.map);
             }
 
-            Animations[State].UpdateFrame();
+            animations[State].UpdateFrame();
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace mono.core
         /// <param name="isLooping">condition de répétition de l'animation</param>
         public void AddAnimation(PlayerState state, int[] frames,int duration, bool isLooping)
         {
-            Animations.Add(state, new Animation(state, frames, duration, isLooping));
+            animations.Add(state, new Animation(state, frames, duration, isLooping));
         }
 
         /// <summary>
@@ -69,27 +69,27 @@ namespace mono.core
         /// <param name="spriteBatch"></param>
         public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
-            var displayPos = Camera.GetScreenPosition(position);
-            Animations[State].Draw(spriteBatch, am.GetAtlas(atlasName), displayPos, facing);
+            var displayPos = Camera.GetScreenPosition(Position);
+            animations[State].Draw(spriteBatch, am.GetAtlas(AtlasName), displayPos, Facing);
         }
 
         public Rect GetHitbox()
         {
-            return new Rect((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
+            return new Rect((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
         }
 
         public void SetX(int positionX, int speedX, int accelerationX)
         {
-            position.X = positionX;
-            speed.X = speedX;
-            acceleration.X = accelerationX;
+            Position.X = positionX;
+            Speed.X = speedX;
+            Acceleration.X = accelerationX;
         }
 
         public void SetY(int positionY, float speedY, float accelerationY)
         {
-            position.Y = positionY;
-            speed.Y = speedY;
-            acceleration.Y = accelerationY;
+            Position.Y = positionY;
+            Speed.Y = speedY;
+            Acceleration.Y = accelerationY;
         }
     }
 }

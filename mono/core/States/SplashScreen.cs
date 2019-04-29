@@ -10,7 +10,6 @@ namespace mono.core.States
         public static State Update(GameTime gameTime)
         {
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Console.WriteLine(time);
             if (time > 0f)
             {
                 return State.Main;

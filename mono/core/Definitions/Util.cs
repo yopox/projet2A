@@ -93,7 +93,7 @@ namespace mono.core
         static public SpriteFont Font = null;
 
         // Fading et changement d'état
-        static private int fadingSpeed = 4;
+        static public readonly int FadingSpeed = 4;
         static private int fadingOpacity = 0;
         static private int maxFadingOpacity = 255;
         static public bool FadingOut = false;
@@ -336,8 +336,6 @@ namespace mono.core
                 fadingOpacity = 0;
             }
 
-            fadingOpacity += fadingSpeed;
-
             if (fadingOpacity >= maxFadingOpacity)
             {
                 FadingOut = false;
@@ -356,8 +354,6 @@ namespace mono.core
                 FadingIn = true;
                 fadingOpacity = maxFadingOpacity;
             }
-
-            fadingOpacity -= fadingSpeed;
 
             if (fadingOpacity <= 0)
             {
@@ -378,9 +374,6 @@ namespace mono.core
                 fadingOpacity = maxFadingOpacity;
             }
 
-            fadingOpacity -= fadingSpeed;
-            Console.WriteLine(fadingOpacity);
-
             if (fadingOpacity <= 0)
             {
                 localFading = false;
@@ -394,9 +387,24 @@ namespace mono.core
         /// <param name="GraphicsDevice"></param>
         public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
         {
+            if (FadingIn)
+            {
+                DrawFading(spriteBatch, GraphicsDevice, -1 * FadingSpeed);
+            }
+            else
+            {
+                DrawFading(spriteBatch, GraphicsDevice, FadingSpeed);
+            }
+        }
+
+        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice, int fadingSpeed)
+        {
             spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
                 Vector2.Zero,
                 Color.Black);
+            Console.WriteLine(fadingOpacity);
+
+            fadingOpacity += fadingSpeed;
         }
     }
 }

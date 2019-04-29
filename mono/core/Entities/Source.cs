@@ -42,7 +42,6 @@ namespace mono.core.Entities
             {
                 var vol = volume / 100f * (radius - dist) / radius;
                 sfx.Volume = vol;
-                Console.WriteLine(dist);
             }
         }
     }

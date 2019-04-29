@@ -14,7 +14,7 @@ namespace mono.core.States
         static private CutsceneAction action; // Prochaine action à effectuer
 
         static AtlasName BGImage = AtlasName.NoAtlas; // Image de fond de la cinématique
-        static private bool bgImageFading = false;
+        static private bool bgImageFading = false; // Etat du fondu de l'image de fond
 
         static private List<Tuple<string, string>> text = new List<Tuple<string, string>>(); // Texte à afficher
         static private float scale = 2f; // Niveau de zoom de la police d'écriture
@@ -23,8 +23,8 @@ namespace mono.core.States
         static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
         static private int counter = 0; // Compteur d'affichage des lettres
         static private int frameRefresh = 4; // Vitesse d'affichage des lettres en frame
-        static private bool calculusSize = false;
-        static private bool newText = true;
+        static private bool calculusSize = false; // état de finition du calcul de taille du texte
+        static private bool newText = true; // nouveau texte à afficher
 
         // Temps d'attente pour le wait
         static private int deltaFrame = 0;
@@ -104,7 +104,7 @@ namespace mono.core.States
             {
                 var texture = am.GetAtlas(BGImage).Texture;
                 spriteBatch.Draw(texture, Vector2.Zero, Color.White);
-                
+
                 // Dessin d'un foreground avec de l'opacité
                 spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(0, 0, 0, 120)), Vector2.Zero, Color.White);
             }
@@ -112,8 +112,7 @@ namespace mono.core.States
             // On fait un fondu au noir si une nouvelle image est affichée
             if (bgImageFading)
             {
-                Util.DrawFading(spriteBatch, GraphicsDevice);
-                Console.WriteLine("fondu local");
+                Util.DrawFading(spriteBatch, GraphicsDevice, -1 * Util.FadingSpeed);
             }
 
             // On affiche un texte si il y en a
@@ -138,22 +137,21 @@ namespace mono.core.States
             for (int i = 0; i < indString; i++)
             {
                 spriteBatch.DrawString(Util.Font,
-                text[i].Item2,
-                positionStr + offset,
-                Util.ColorStringDictionary[text[i].Item1],
-                0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
+                    text[i].Item2,
+                    positionStr + offset,
+                    Util.ColorStringDictionary[text[i].Item1],
+                    0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
 
                 // On modifie l'offset en fonction de la taille du texte déjà affiché
                 offset.Y += Util.Font.MeasureString(text[i].Item2).Y * scale;
             }
 
-            
             // On affiche le texte du bloc non complet
             spriteBatch.DrawString(Util.Font,
-            text[indString].Item2.Substring(0, indCharacter),
-            positionStr + offset,
-            Util.ColorStringDictionary[text[indString].Item1],
-            0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
+                text[indString].Item2.Substring(0, indCharacter),
+                positionStr + offset,
+                Util.ColorStringDictionary[text[indString].Item1],
+                0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
 
             counter++;
 
@@ -195,15 +193,15 @@ namespace mono.core.States
         /// </summary>
         private static void UpdateText()
         {
+            // Rajoute du texte à afficher si il y en a du nouveau
             if (newText)
             {
                 text.AddRange(Util.ParseDialog(action.Content));
+                SizeCalculus();
                 newText = false;
-                Console.WriteLine(text);
             }
 
             // Calcul de la taille du texte
-            SizeCalculus();
 
             // Récupération de la prochaine action si tout le texte est affiché
             if (indCharacter == text[indString].Item2.Length && indString == text.Count - 1)
@@ -219,7 +217,7 @@ namespace mono.core.States
         private static void SizeCalculus()
         {
             // On calcule la taille une seule fois lorsqu'on récupère le fichier
-            if (!calculusSize)
+            if (true)
             {
                 calculusSize = true;
 
@@ -255,11 +253,11 @@ namespace mono.core.States
             }
         }
 
-            /// <summary>
-            /// Enlève le texte à l'écran
-            /// </summary>
-            /// <param name="gstate"></param>
-            private static void UpdatePage(GameState gstate)
+        /// <summary>
+        /// Enlève le texte à l'écran
+        /// </summary>
+        /// <param name="gstate"></param>
+        private static void UpdatePage(GameState gstate)
         {
             //Attente de l'appuie du boutton pour changer d'action
             if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))

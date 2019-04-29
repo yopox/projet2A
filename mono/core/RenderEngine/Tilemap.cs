@@ -130,7 +130,6 @@ namespace mono.core
 
         internal void ActivateSources(Vector2 position)
         {
-            Console.WriteLine(sources.Count);
             foreach (Source source in sources)
             {
                 source.Activate(position);

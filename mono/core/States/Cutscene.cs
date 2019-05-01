@@ -217,7 +217,7 @@ namespace mono.core.States
         private static void SizeCalculus()
         {
             // On calcule la taille une seule fois lorsqu'on récupère le fichier
-            if (true)
+            if (!calculusSize)
             {
                 calculusSize = true;
 

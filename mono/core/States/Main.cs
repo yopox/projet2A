@@ -11,12 +11,7 @@ namespace mono.core.States
         public static State Update(Player player, GameTime gameTime, GameState GameState)
         {
             if (Util.NewState)
-            {
-                bool over = Util.FadeIn();
-
-                if (over)
-                    Util.NewState = false;
-            }
+                Util.NewState = !Util.FadeIn();
             else
             {
                 Physics.UpdateAll(gameTime);
@@ -26,7 +21,11 @@ namespace mono.core.States
             GameState.map.UpdateSources(player.Position);
 
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
+            {
+                // Démarrage du menu pause
+                SoundManager.PlayBGM("0_menuchargement_done");
                 return State.Pause;
+            }
             return State.Main;
         }
 

@@ -11,18 +11,31 @@ namespace mono.core
             if (gstate.ksn.IsKeyDown(Keys.D) && gstate.ksn.IsKeyDown(Keys.Q))
                 player.Speed.X = 0;
             else if (gstate.ksn.IsKeyDown(Keys.D))
-                player.Walk(Face.Right);
+            {
+                if (player.CanJump)
+                    player.Walk(Face.Right);
+                else
+                    player.Jumping(Face.Right);
+
+            }
             else if (gstate.ksn.IsKeyDown(Keys.Q))
-                player.Walk(Face.Left);
-            else if (Math.Abs(player.Speed.X) < 0.2)
+            {
+                if (player.CanJump)
+                    player.Walk(Face.Left);
+                else
+                    player.Jumping(Face.Left);
+            }
+            else
+            {
                 player.Idle();
+            }
 
             if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && player.CanJump)
-                player.Jump();
-            if (gstate.ksn.IsKeyDown(Keys.S) && gstate.kso.IsKeyUp(Keys.S))
             {
-                player.Speed.Y += 1.5f;
+                player.Jump();
             }
+
+            Console.WriteLine(player.State);
 
             // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
@@ -46,7 +59,7 @@ namespace mono.core
         }
 
         public static void ReadController(Player player, GameState gstate)
-        {
+        {/*
             player.Speed.X = gstate.gsn.ThumbSticks.Left.X * 1.5f;
 
             if (gstate.gsn.ThumbSticks.Left.X < 0)
@@ -57,7 +70,7 @@ namespace mono.core
                 player.Idle();
 
             if (((gstate.gsn.IsButtonDown(Buttons.A) && gstate.gso.IsButtonDown(Buttons.A)) || (gstate.gsn.IsButtonDown(Buttons.A) && gstate.gso.IsButtonDown(Buttons.A))) && player.CanJump)
-                player.Jump();
+                player.Jump();*/
         }
     }
 }

@@ -19,6 +19,7 @@ namespace mono.core
     public enum PlayerState
     {
         Idle,
+        StartJumping,
         Jumping,
         Falling,
         Walking
@@ -402,7 +403,6 @@ namespace mono.core
             spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
                 Vector2.Zero,
                 Color.Black);
-            Console.WriteLine(fadingOpacity);
 
             fadingOpacity += fadingSpeed;
         }

@@ -16,13 +16,19 @@ namespace mono.core
         {
             Facing = Face.Right;
             AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, 12, true);
-            AddAnimation(PlayerState.Walking, new[] { 0 }, 0, true);
+            AddAnimation(PlayerState.Walking, new[] { 5, 6, 7, 8, 9, 10, 11 }, 8, true);
+            AddAnimation(PlayerState.Jumping, new[] { 9 }, 10, true);
         }
 
         public void Idle()
         {
-            NewState = PlayerState.Idle;
             Speed.X = 0;
+            if (Math.Abs(Speed.X) == 0 && Math.Abs(Speed.Y) == 0)
+            {
+
+                NewState = PlayerState.Idle;
+            }
+
         }
 
         public void Walk(Face face)
@@ -32,19 +38,33 @@ namespace mono.core
 
             if (face == Face.Left)
             {
-                Speed.X -= 1.5f;
+                Speed.X = -1.3f;
             }
             else
             {
-                Speed.X += 1.5f;
+                Speed.X = 1.3f;
             }
+        }
+
+        public void Jumping(Face face)
+        {
+            NewFacing = face;
+            if (face == Face.Left)
+            {
+                Speed.X = -1.3f;
+            }
+            else
+            {
+                Speed.X = 1.3f;
+            }
+
         }
 
         public void Jump()
         {
             Forces.Y = -15000;
             Speed.Y -= 0.8f;
-            //speed.Y -= 1.5f;
+            NewState = PlayerState.Jumping;
         }
 
         /// <summary>

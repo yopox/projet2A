@@ -8,14 +8,14 @@ namespace mono.core
     class Animation
     {
 
-        public int[] frames; // Frames de l'animation
-        public bool isLooping = true; // Répétition de l'animation
-        public PlayerState state; // Etat que représente l'animation
+        public int[] Frames; // Frames de l'animation
+        public bool IsLooping = true; // Répétition de l'animation
+        public PlayerState State { get; private set; } // Etat que représente l'animation
 
-        private int _currentFrame;
-        private bool _isReversed; // Frame inversée
+        private int currentFrame;
+        private bool isReversed; // Frame inversée
         readonly int duration;
-        private int _currentDuration;
+        private int currentDuration;
 
         /// <summary>
         /// 
@@ -25,12 +25,12 @@ namespace mono.core
         /// <param name="isLooping">condition de répétition de l'animation</param>
         public Animation(PlayerState state, int[] frames, int duration, bool isLooping)
         {
-            this.frames = frames;
-            this.isLooping = isLooping;
-            this.state = state;
+            this.Frames = frames;
+            this.IsLooping = isLooping;
+            this.State = state;
             this.duration = duration;
-            _currentFrame = 0;
-            _currentDuration = 0;
+            currentFrame = 0;
+            currentDuration = 0;
         }
 
 
@@ -42,16 +42,16 @@ namespace mono.core
         /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
         public void Draw(SpriteBatch spriteBatch, Atlas atlas, Vector2 position, Face facing)
         {
-            Rectangle sourceRectangle = atlas.GetSourceRectangle(frames[_currentFrame]);
+            Rectangle sourceRectangle = atlas.GetSourceRectangle(Frames[currentFrame]);
 
             // On flip les sprites suivant la direction à laquelle le joueur fait face
             if (facing == Face.Left)
             {
-                spriteBatch.Draw(atlas.Texture, position + Rendering.zoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0f);
+                spriteBatch.Draw(atlas.Texture, position + Rendering.ZoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.FlipHorizontally, 0f);
             }
             else
             {
-                spriteBatch.Draw(atlas.Texture, position + Rendering.zoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(atlas.Texture, position + Rendering.ZoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
             }
         }
         /// <summary>
@@ -59,12 +59,12 @@ namespace mono.core
         /// </summary>
         public void UpdateFrame()
         {
-            _currentDuration++;
+            currentDuration++;
 
-            if (_currentDuration > duration)
+            if (currentDuration > duration)
             {
                 Next();// Appel du prochain sprite à afficher
-                _currentDuration = 0;
+                currentDuration = 0;
             }
         }
 
@@ -74,16 +74,16 @@ namespace mono.core
         /// </summary>
         public void Next()
         {
-            int lastIndex = frames.Length - 1;
-            if (_currentFrame != lastIndex)
+            int lastIndex = Frames.Length - 1;
+            if (currentFrame != lastIndex)
             {
-                _currentFrame++;
+                currentFrame++;
             }
-            else if (isLooping && _currentFrame == frames.Length - 1)
+            else if (IsLooping && currentFrame == Frames.Length - 1)
             {
-                Array.Reverse(frames);
-                _isReversed = !_isReversed;
-                _currentFrame = 0;
+                Array.Reverse(Frames);
+                isReversed = !isReversed;
+                currentFrame = 0;
             }
 
         }
@@ -94,10 +94,10 @@ namespace mono.core
         /// </summary>
         public void Reset()
         {
-            _currentFrame = 0;
-            if (_isReversed)
+            currentFrame = 0;
+            if (isReversed)
             {
-                Array.Reverse(frames);
+                Array.Reverse(Frames);
             }
         }
     }

@@ -47,13 +47,13 @@ namespace mono.core
 
     public struct CutsceneAction
     {
-        public CutsceneActionType type;
-        public dynamic content;
+        public CutsceneActionType Type;
+        public dynamic Content;
 
         public CutsceneAction(CutsceneActionType type, dynamic content) : this()
         {
-            this.type = type;
-            this.content = content;
+            Type = type;
+            Content = content;
         }
     }
 
@@ -66,37 +66,39 @@ namespace mono.core
         };
 
         // Screen
-        static public int width = 1280;
-        static public int height = 720;
-        static public int virtualWidth = 1280;
-        static public int virtualHeight = 720;
-        static public Vector2 center = new Vector2(width / 2, height / 2);
-        static public Color backgroundColor = Color.LightBlue;
-        static public Color screenBorderColor = Color.Black;
+        static public int Width = 1280;
+        static public int Height = 720;
+        static public int VirtualWidth = 1280;
+        static public int VirtualHeight = 720;
+        static public Vector2 Center = new Vector2(Width / 2, Height / 2);
+        static public Color BackgroundColor = Color.LightBlue;
+        static public Color ScreenBorderColor = Color.Black;
 
         // Tileset
-        static public int tileSize = 32;
-        static public string solidLayerName = "terrain";
+        static public int TileSize = 32;
+        static public string SolidLayerName = "terrain";
 
         // Player
-        static public int playerHeight = 128;
-        static public int playerWidth = 64;
-        static public int weight = 80;
+        static public int PlayerHeight = 128;
+        static public int PlayerWidth = 64;
+        static public int Weight = 80;
 
         // Unité du monde
-        static public int baseUnit = 200;
-        static public Vector2 gravity = new Vector2(0, 11);
+        static public int BaseUnit = 200;
+        static public Vector2 Gravity = new Vector2(0, 11);
 
         // Font
-        static public int fontSize = 8;
-        static public int buttonHeight = 64;
-        static public SpriteFont font = null;
+        static public int FontSize = 8;
+        static public int ButtonHeight = 64;
+        static public SpriteFont Font = null;
 
         // Fading et changement d'état
-        static public int fadingSpeed = 5;
-        static public int fadingOpacity = 0;
-        static public bool fadingOut = false;
-        static public bool fadingIn = false;
+        static public readonly int FadingSpeed = 4;
+        static private int fadingOpacity = 0;
+        static private int maxFadingOpacity = 255;
+        static public bool FadingOut = false;
+        static public bool FadingIn = false;
+        static public bool NewState = false;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
@@ -124,7 +126,7 @@ namespace mono.core
         public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, string stringToDraw, Rectangle boundaries, Color color)
         {
             float scale = 4f;
-            Vector2 size = Util.font.MeasureString(stringToDraw) * scale;
+            Vector2 size = Util.Font.MeasureString(stringToDraw) * scale;
 
             Vector2 positionRect = new Vector2(boundaries.X, boundaries.Y);
             Vector2 positionStr = new Vector2(boundaries.X + boundaries.Width / 2 - size.X / 2,
@@ -134,7 +136,7 @@ namespace mono.core
                 positionRect,
                 Color.White);
 
-            spritebatch.DrawString(Util.font,
+            spritebatch.DrawString(Util.Font,
                 stringToDraw,
                 positionStr,
                 Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
@@ -271,8 +273,8 @@ namespace mono.core
             while (queue.Count > 0)
             {
                 var elem = queue.Dequeue();
-                Console.WriteLine("Type : " + elem.type.ToString());
-                Console.WriteLine("Content : " + elem.content);
+                Console.WriteLine("Type : " + elem.Type.ToString());
+                Console.WriteLine("Content : " + elem.Content);
                 Console.WriteLine("");
             }
         }
@@ -302,33 +304,107 @@ namespace mono.core
             return liste;
         }
 
+        /// <summary>
+        /// Crée une texture si elle n'existe pas, et la renvoie telle quelle si elle existe
+        /// </summary>
+        /// <param name="GraphicsDevice"></param>
+        /// <param name="texture">Texture</param>
+        /// <param name="color">Couleur de la texture</param>
+        /// <returns></returns>
         public static Texture2D GetTexture(GraphicsDevice GraphicsDevice, Texture2D texture, Color color)
         {
+            // On vérifie si la texture existe déjà
             if (texture == null)
             {
                 texture = GetRectangleTexture(GraphicsDevice,
                     color,
-                    (int)(Rendering.VirtualWidth / Rendering.zoomFactor),
-                    (int)(Rendering.VirtualHeight / Rendering.zoomFactor));
+                    (int)(Rendering.VirtualWidth / Rendering.ZoomFactor),
+                    (int)(Rendering.VirtualHeight / Rendering.ZoomFactor));
             }
             return texture;
         }
 
-        public static void FadeOut(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        /// <summary>
+        /// Fondu au blanc général sur toute l'image affichée
+        /// </summary>
+        /// <returns></returns>
+        public static bool FadeOut()
+        {
+            if (!FadingOut)
+            {
+                FadingOut = true;
+                fadingOpacity = 0;
+            }
+
+            if (fadingOpacity >= maxFadingOpacity)
+            {
+                FadingOut = false;
+            }
+            return !FadingOut;
+        }
+
+        /// <summary>
+        /// Fondu au noir général sur toute l'image affichée
+        /// </summary>
+        /// <returns></returns>
+        public static bool FadeIn()
+        {
+            if (!FadingIn)
+            {
+                FadingIn = true;
+                fadingOpacity = maxFadingOpacity;
+            }
+
+            if (fadingOpacity <= 0)
+            {
+                FadingIn = false;
+            }
+            return !FadingIn;
+        }
+        
+        /// <summary>
+        /// Fondu au noir sans passer par la variable globale fadingIn
+        /// </summary>
+        /// <param name="localFading">booléen de l'état du fade in local</param>
+        public static void FadeIn(ref bool localFading)
+        {
+            if (!localFading)
+            {
+                localFading = true;
+                fadingOpacity = maxFadingOpacity;
+            }
+
+            if (fadingOpacity <= 0)
+            {
+                localFading = false;
+            }
+        }
+
+        /// <summary>
+        /// Affichage du fondu au noir
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="GraphicsDevice"></param>
+        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
+        {
+            if (FadingIn)
+            {
+                DrawFading(spriteBatch, GraphicsDevice, -1 * FadingSpeed);
+            }
+            else
+            {
+                DrawFading(spriteBatch, GraphicsDevice, FadingSpeed);
+            }
+        }
+
+        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice, int fadingSpeed)
         {
             spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
                 Vector2.Zero,
                 Color.Black);
+            Console.WriteLine(fadingOpacity);
+
             fadingOpacity += fadingSpeed;
         }
-
-        public static void FadeIn(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
-        {
-            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
-                Vector2.Zero,
-                Color.Black);
-            fadingOpacity -= fadingSpeed;
-        }
-
     }
 }

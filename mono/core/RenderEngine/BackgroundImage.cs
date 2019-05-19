@@ -10,9 +10,9 @@ namespace mono.core.RenderEngine
     /// </summary>
     public struct ParallaxElement
     {
-        public AtlasName name;
-        public Vector2 position;
-        public float factor;
+        public AtlasName Name;
+        public Vector2 Position;
+        public float Factor;
     }
     /// <summary>
     /// Affiche les images d'arrière plan avec la gestion de la parallaxe
@@ -28,24 +28,24 @@ namespace mono.core.RenderEngine
         public static void Draw(SpriteBatch spriteBatch, ParallaxElement parallaxElement, AssetManager am)
         {
             // On récupère la texture
-            var texture = am.GetAtlas(parallaxElement.name).Texture;
+            var texture = am.GetAtlas(parallaxElement.Name).Texture;
             var w = texture.Width;
 
             // Modification de la position
-            parallaxElement.position.X = -Camera.center.X / parallaxElement.factor % w;
-            parallaxElement.position += Rendering.zoomOffset;
-            var x = parallaxElement.position.X;
-            var y = parallaxElement.position.Y;
+            parallaxElement.Position.X = -Camera.Center.X / parallaxElement.Factor % w;
+            parallaxElement.Position += Rendering.ZoomOffset;
+            var x = parallaxElement.Position.X;
+            var y = parallaxElement.Position.Y;
 
             // Dessin
-            spriteBatch.Draw(texture, parallaxElement.position, Color.White);
+            spriteBatch.Draw(texture, parallaxElement.Position, Color.White);
             var newPos = new Vector2(x - w, y);
             spriteBatch.Draw(texture, newPos, Color.White);
 
-            if (x < Rendering.zoomOffset.X)
-                spriteBatch.Draw(texture, parallaxElement.position + new Vector2(w, 0), Color.White);
+            if (x < Rendering.ZoomOffset.X)
+                spriteBatch.Draw(texture, parallaxElement.Position + new Vector2(w, 0), Color.White);
             else
-                spriteBatch.Draw(texture, parallaxElement.position - new Vector2(w, 0), Color.White);
+                spriteBatch.Draw(texture, parallaxElement.Position - new Vector2(w, 0), Color.White);
         }
     }
 }

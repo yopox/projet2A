@@ -8,14 +8,12 @@ namespace mono.PhysicsEngine
 {
     static class Physics
     {
-        private static List<Actor> _actors = new List<Actor>();
-        public static List<Actor> Actors { get => _actors; }
-        private static Vector2 _gravity = Vector2.Zero;
-        public static Vector2 Gravity { get => _gravity; set => _gravity = value; }
+        public static List<Actor> Actors { get; } = new List<Actor>();
+        public static Vector2 Gravity { get; set; } = Vector2.Zero;
 
         public static void addActor(Actor actor)
         {
-            _actors.Add(actor);
+            Actors.Add(actor);
         }
 
 
@@ -27,16 +25,16 @@ namespace mono.PhysicsEngine
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            foreach (Actor actor in _actors)
+            foreach (Actor actor in Actors)
             {
 
-                actor.acceleration = _gravity + (actor.forces - 40 * actor.speed) / Util.weight;
-                actor.speed += deltaT * actor.acceleration;
-                actor.position += deltaT * actor.speed * Util.baseUnit;
-                actor.center += deltaT * actor.speed * Util.baseUnit;
-                Util.ToIntVector2(ref actor.position);
+                actor.Acceleration = Gravity + (actor.Forces - 40 * actor.Speed) / Util.Weight;
+                actor.Speed += deltaT * actor.Acceleration;
+                actor.Position += deltaT * actor.Speed * Util.BaseUnit;
+                actor.Center += deltaT * actor.Speed * Util.BaseUnit;
+                Util.ToIntVector2(ref actor.Position);
 
-                actor.forces = Vector2.Zero;
+                actor.Forces = Vector2.Zero;
             }
         }
 
@@ -49,12 +47,12 @@ namespace mono.PhysicsEngine
         {
             float deltaT = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            actor.acceleration = _gravity + (actor.forces - 40 * actor.speed) / Util.weight;
-            actor.speed += deltaT * actor.acceleration;
-            actor.position += deltaT * actor.speed;
-            Util.ToIntVector2(ref actor.position);
+            actor.Acceleration = Gravity + (actor.Forces - 40 * actor.Speed) / Util.Weight;
+            actor.Speed += deltaT * actor.Acceleration;
+            actor.Position += deltaT * actor.Speed;
+            Util.ToIntVector2(ref actor.Position);
 
-            actor.forces = Vector2.Zero;
+            actor.Forces = Vector2.Zero;
         }
     }
 }

@@ -8,8 +8,8 @@ namespace mono.core
     public class MapObject
     {
 
-        public Vector2 position;
-        public readonly int id;
+        public Vector2 Position;
+        public readonly int Id;
         // Tiles à dessiner pour cet objet
         private List<int> tilesToDraw = new List<int>();
 
@@ -22,8 +22,8 @@ namespace mono.core
         /// <param name="position">Position.</param>
         public MapObject(int id, Vector2 position)
         {
-            this.position = position;
-            this.id = id;
+            Position = position;
+            Id = id;
             tilesToDraw.Add(id - 1);
         }
 

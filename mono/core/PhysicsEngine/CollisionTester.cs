@@ -13,8 +13,8 @@ namespace mono.core.PhysicsEngine
 
             // On récupère les tiles autour de la hitbox
             int[][] tiles = map.GetTerrain(hitbox.Center, radius);
-            int x = (int)Math.Floor(hitbox.Center.X / Util.tileSize);
-            int y = (int)Math.Floor(hitbox.Center.Y / Util.tileSize);
+            int x = (int)Math.Floor(hitbox.Center.X / Util.TileSize);
+            int y = (int)Math.Floor(hitbox.Center.Y / Util.TileSize);
 
             for (int i = 0; i < tiles.Length; i++)
             {
@@ -25,7 +25,7 @@ namespace mono.core.PhysicsEngine
                     int y2 = y + i - radius;
 
                     // On récupère le polygone associé à tiles[i][j]
-                    Polygon p = Polygon.FromTile(tiles[i][j], x2 * Util.tileSize, y2 * Util.tileSize);
+                    Polygon p = Polygon.FromTile(tiles[i][j], x2 * Util.TileSize, y2 * Util.TileSize);
 
                     // S'il y a collision on ajoute le polygone à la liste
                     if (hitbox.CollidesWith(p))

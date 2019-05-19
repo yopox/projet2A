@@ -6,24 +6,24 @@ namespace mono.core
     class Button
     {
 
-        private readonly string _name;
-        private Vector2 _size;
-        private ActionButton _action;
+        private readonly string name;
+        private Vector2 size;
+        private ActionButton action;
 
         public delegate State ActionButton();
 
         public Button(string name, Vector2 size)
         {
-            _name = name;
-            _size = size;
+            this.name = name;
+            this.size = size;
         }
 
         public void Draw(GraphicsDevice GraphicsDevice, SpriteBatch spriteBatch, Vector2 position, Color color)
         {
             Util.DrawTextRectangle(GraphicsDevice, 
                 spriteBatch,
-                _name, 
-                new Rectangle((int)position.X, (int)position.Y, (int)_size.X, (int)_size.Y), color);
+                name, 
+                new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y), color);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace mono.core
         /// <param name="ab"></param>
         public void SetAction(ActionButton ab)
         {
-            _action = ab;
+            action = ab;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace mono.core
         /// <returns></returns>
         public State Action()
         {
-            return _action();
+            return action();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace mono.core
         static public Dictionary<string, Color> ColorStringDictionary = new Dictionary<string, Color>()
         {
             {"w", Color.White},
-            {"g", Color.Green}
+            {"g", Color.LightGreen}
         };
 
         // Screen
@@ -238,7 +238,7 @@ namespace mono.core
 
                 else if (script[pos].Contains("sfx"))
                 {
-                    string regex = "<sfx ([a-zA-Z]*)>";
+                    string regex = "<sfx ([a-zA-Z/0-9]*)>";
                     var matches = Regex.Split(script[pos], regex);
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.Sfx, matches[1]));
                     pos++;

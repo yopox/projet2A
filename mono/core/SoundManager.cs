@@ -17,7 +17,7 @@ namespace mono.core
         {
             song = Content.Load<Song>("Music/" + name);
             MediaPlayer.Play(song);
-            MediaPlayer.Volume = 0.1f;
+            MediaPlayer.Volume = 1f;
             MediaPlayer.IsRepeating = true;
         }
 

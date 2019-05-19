@@ -61,7 +61,7 @@ namespace mono.core
         {
             currentDuration++;
 
-            if (currentDuration > duration)
+            if (currentDuration >= duration)
             {
                 Next();// Appel du prochain sprite à afficher
                 currentDuration = 0;
@@ -81,8 +81,8 @@ namespace mono.core
             }
             else if (IsLooping && currentFrame == Frames.Length - 1)
             {
-                Array.Reverse(Frames);
-                isReversed = !isReversed;
+                //Array.Reverse(Frames);
+                //isReversed = !isReversed;
                 currentFrame = 0;
             }
 

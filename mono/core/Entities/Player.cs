@@ -26,7 +26,6 @@ namespace mono.core
         {
             Speed.X = 0;
 
-
             if (animations[State].canInterrupt() && Math.Abs(Speed.X) == 0 && Math.Abs(Speed.Y) == 0 && CanJump)
             {
                 NewState = PlayerState.Idle;
@@ -38,7 +37,11 @@ namespace mono.core
         public void Walk(Face face)
         {
             NewFacing = face;
-            NewState = PlayerState.Walking;
+
+            if(animations[State].canInterrupt())
+                NewState = PlayerState.Walking;
+            if (State == PlayerState.Jumping)
+                NewState = PlayerState.Landing;
 
             if (face == Face.Left)
             {

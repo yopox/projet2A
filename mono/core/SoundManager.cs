@@ -46,9 +46,6 @@ namespace mono.core
 
         public static void Update()
         {
-
-            Console.WriteLine(state);
-
             switch (state)
             {
                 case SoundState.NONE:

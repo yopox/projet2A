@@ -34,8 +34,6 @@ namespace mono.core
                 player.Jump();
             }
 
-            Console.WriteLine(player.State);
-
             // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))
             {

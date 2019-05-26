@@ -29,12 +29,17 @@ namespace mono.core.States
 
             if (Util.JustPressed(gameState, Keys.E) && (player.State == PlayerState.Idle || player.State == PlayerState.Walking))
             {
-                if (player.State == PlayerState.Walking)
+                var text = gameState.map.InteractionText(player);
+                if (text != null)
                 {
-                    player.NewState = PlayerState.Idle;
-                    player.Speed = Vector2.Zero;
+                    Textbox.SetText(text);
+                    if (player.State == PlayerState.Walking)
+                    {
+                        player.NewState = PlayerState.Idle;
+                        player.Speed = Vector2.Zero;
+                    }
+                    return State.Textbox;
                 }
-                return State.Textbox;
             }
             return State.Main;
         }
@@ -45,7 +50,6 @@ namespace mono.core.States
             map.DrawDecor(spriteBatch, am);
             player.Draw(spriteBatch, am);
             map.Draw(spriteBatch, am);
-            map.DrawObjects(spriteBatch, am);
             Debuger.DebugActors(GraphicsDevice, spriteBatch);
         }
     }

@@ -67,7 +67,7 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
-            //SoundManager.PlayBGM("7_retour_sous_surface_complet");
+            SoundManager.PlayBGM("7_retour_sous_surface_complet");
 
             base.Initialize();
         }

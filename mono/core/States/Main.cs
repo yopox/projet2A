@@ -23,8 +23,9 @@ namespace mono.core.States
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
             {
                 // Démarrage du menu pause
-                SoundManager.PlayBGM("0_menuchargement_done");
-                return State.Pause;
+                //SoundManager.PlayBGM("0_menuchargement_done");
+
+                return State.Textbox;
             }
             return State.Main;
         }

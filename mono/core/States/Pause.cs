@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.RenderEngine;
-using System;
 
 namespace mono.core.States
 {

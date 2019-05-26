@@ -32,7 +32,8 @@ namespace mono.core
         Title,
         Main,
         Pause,
-        Cutscene
+        Cutscene,
+        Textbox
     }
 
     public enum CutsceneActionType
@@ -91,7 +92,8 @@ namespace mono.core
         // Font
         static public int FontSize = 8;
         static public int ButtonHeight = 64;
-        static public SpriteFont Font = null;
+        static public SpriteFont Font;
+        static public float scale = 4f;
 
         // Fading et changement d'état
         static public readonly int FadingSpeed = 4;
@@ -126,8 +128,7 @@ namespace mono.core
         /// <param name="boundaries">"boite" dans laquelle on va afficher le texte</param>
         public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, string stringToDraw, Rectangle boundaries, Color color)
         {
-            float scale = 4f;
-            Vector2 size = Util.Font.MeasureString(stringToDraw) * scale;
+            Vector2 size = Font.MeasureString(stringToDraw) * scale;
 
             Vector2 positionRect = new Vector2(boundaries.X, boundaries.Y);
             Vector2 positionStr = new Vector2(boundaries.X + boundaries.Width / 2 - size.X / 2,
@@ -137,7 +138,7 @@ namespace mono.core
                 positionRect,
                 Color.White);
 
-            spritebatch.DrawString(Util.Font,
+            spritebatch.DrawString(Font,
                 stringToDraw,
                 positionStr,
                 Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);

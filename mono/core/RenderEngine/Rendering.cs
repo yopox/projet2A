@@ -64,8 +64,8 @@ namespace mono.RenderEngine
         /// <param name="height"></param>
         public static void SetResolution(int width, int height)
         {
-            Rendering.WindowHeight = height;
-            Rendering.WindowWidth = width;
+            WindowHeight = height;
+            WindowWidth = width;
             Center = new Vector2(width / 2, height / 2);
             ApplyResolution();
         }
@@ -137,8 +137,8 @@ namespace mono.RenderEngine
 
             Viewport realViewport = new Viewport
             {
-                X = Rendering.WindowWidth / 2 - width / 2,
-                Y = Rendering.WindowHeight / 2 - height / 2,
+                X = WindowWidth / 2 - width / 2,
+                Y = WindowHeight / 2 - height / 2,
                 Width = width,
                 Height = height
             };
@@ -196,8 +196,8 @@ namespace mono.RenderEngine
             {
                 if (WindowWidth == RealWidth)
                 {
-                    int width = Rendering.WindowWidth;
-                    int height = Rendering.WindowHeight / 2 - RealHeight / 2;
+                    int width = WindowWidth;
+                    int height = WindowHeight / 2 - RealHeight / 2;
                     Color[] data = new Color[width * height];
                     for (int i = 0; i < data.Length; ++i)
                         data[i] = Color.White;
@@ -207,8 +207,8 @@ namespace mono.RenderEngine
                 }
                 else
                 {
-                    int height = Rendering.WindowHeight;
-                    int width = Rendering.WindowWidth / 2 - RealWidth / 2;
+                    int height = WindowHeight;
+                    int width = WindowWidth / 2 - RealWidth / 2;
                     Color[] data = new Color[width * height];
                     for (int i = 0; i < data.Length; ++i)
                         data[i] = Color.White;

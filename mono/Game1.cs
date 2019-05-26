@@ -127,6 +127,9 @@ namespace mono
                 case State.Main:
                     state = Main.Update(player, gameTime, GameState);
                     break;
+                case State.Textbox:
+                    state = Textbox.Update(GameState, GraphicsDevice);
+                    break;
                 case State.Pause:
                     state = Pause.Update(GameState);
                     break;
@@ -162,6 +165,10 @@ namespace mono
                     break;
                 case State.Main:
                     Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
+                    break;
+                case State.Textbox:
+                    Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
+                    Textbox.Draw(spriteBatch, am, GraphicsDevice);
                     break;
                 case State.Pause:
                     Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);

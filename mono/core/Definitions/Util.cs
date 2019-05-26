@@ -413,5 +413,10 @@ namespace mono.core
         {
             return gameState.ksn.IsKeyDown(key) && gameState.kso.IsKeyUp(key);
         }
+
+        public static bool Pressed(GameState gameState, Keys key)
+        {
+            return gameState.ksn.IsKeyDown(key);
+        }
     }
 }

@@ -34,11 +34,19 @@ namespace mono.core
             }
         }
 
+        public void Move(Face face)
+        {
+            if (CanJump)
+                Walk(face);
+            else
+                Jumping(face);
+        }
+
         public void Walk(Face face)
         {
             NewFacing = face;
 
-            if(animations[State].canInterrupt())
+            if (animations[State].canInterrupt())
                 NewState = PlayerState.Walking;
             if (State == PlayerState.Jumping)
                 NewState = PlayerState.Landing;

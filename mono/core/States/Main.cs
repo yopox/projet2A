@@ -29,6 +29,11 @@ namespace mono.core.States
 
             if (Util.JustPressed(gameState, Keys.E) && (player.State == PlayerState.Idle || player.State == PlayerState.Walking))
             {
+                if (player.State == PlayerState.Walking)
+                {
+                    player.NewState = PlayerState.Idle;
+                    player.Speed = Vector2.Zero;
+                }
                 return State.Textbox;
             }
             return State.Main;

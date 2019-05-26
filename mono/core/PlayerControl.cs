@@ -8,31 +8,17 @@ namespace mono.core
     {
         public static void ReadKeypad(Player player, GameState gstate)
         {
-            if (gstate.ksn.IsKeyDown(Keys.D) && gstate.ksn.IsKeyDown(Keys.Q))
-                player.Speed.X = 0;
-            else if (gstate.ksn.IsKeyDown(Keys.D))
-            {
-                if (player.CanJump)
-                    player.Walk(Face.Right);
-                else
-                    player.Jumping(Face.Right);
-            }
-            else if (gstate.ksn.IsKeyDown(Keys.Q))
-            {
-                if (player.CanJump)
-                    player.Walk(Face.Left);
-                else
-                    player.Jumping(Face.Left);
-            }
-            else
-            {
+            if (Util.Pressed(gstate, Keys.D) && Util.Pressed(gstate, Keys.Q))
                 player.Idle();
-            }
+            else if (Util.Pressed(gstate, Keys.D))
+                player.Move(Face.Right);
+            else if (Util.Pressed(gstate, Keys.Q))
+                player.Move(Face.Left);
+            else
+                player.Idle();
 
-            if (((gstate.ksn.IsKeyDown(Keys.Z) && gstate.kso.IsKeyUp(Keys.Z)) || (gstate.ksn.IsKeyDown(Keys.Space) && gstate.kso.IsKeyUp(Keys.Space))) && player.CanJump)
-            {
+            if (player.CanJump && (Util.JustPressed(gstate, Keys.Z) || Util.JustPressed(gstate, Keys.Space)))
                 player.Jump();
-            }
 
             // Activation mode Debug
             if (gstate.ksn.IsKeyDown(Keys.M) && gstate.kso.IsKeyUp(Keys.M))

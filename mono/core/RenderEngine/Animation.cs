@@ -13,9 +13,9 @@ namespace mono.core
         public PlayerState State { get; private set; } // Etat que représente l'animation
 
         private int currentFrame;
-        private bool isReversed; // Frame inversée
-        readonly int duration;
+        readonly int Duration;
         private int currentDuration;
+        public bool IsOver = false;
 
         /// <summary>
         /// 
@@ -25,10 +25,10 @@ namespace mono.core
         /// <param name="isLooping">condition de répétition de l'animation</param>
         public Animation(PlayerState state, int[] frames, int duration, bool isLooping)
         {
-            this.Frames = frames;
-            this.IsLooping = isLooping;
-            this.State = state;
-            this.duration = duration;
+            Frames = frames;
+            IsLooping = isLooping;
+            State = state;
+            Duration = duration;
             currentFrame = 0;
             currentDuration = 0;
         }
@@ -61,7 +61,7 @@ namespace mono.core
         {
             currentDuration++;
 
-            if (currentDuration >= duration)
+            if (currentDuration >= Duration)
             {
                 Next();// Appel du prochain sprite à afficher
                 currentDuration = 0;
@@ -76,29 +76,33 @@ namespace mono.core
         {
             int lastIndex = Frames.Length - 1;
             if (currentFrame != lastIndex)
-            {
                 currentFrame++;
-            }
             else if (IsLooping && currentFrame == Frames.Length - 1)
-            {
-                //Array.Reverse(Frames);
-                //isReversed = !isReversed;
                 currentFrame = 0;
-            }
+            else
+                IsOver = true;
 
         }
-
 
         /// <summary>
         /// Reset de l'animation
         /// </summary>
         public void Reset()
         {
+            IsOver = false;
             currentFrame = 0;
-            if (isReversed)
-            {
-                Array.Reverse(Frames);
-            }
+        }
+
+        /// <summary>
+        /// Vérifie si on peut interrompre une animation
+        /// </summary>
+        /// <returns></returns>
+        public bool canInterrupt()
+        {
+            if (IsLooping)
+                return true;
+            else
+                return IsOver;
         }
     }
 }

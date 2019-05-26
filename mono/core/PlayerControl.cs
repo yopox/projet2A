@@ -16,7 +16,6 @@ namespace mono.core
                     player.Walk(Face.Right);
                 else
                     player.Jumping(Face.Right);
-
             }
             else if (gstate.ksn.IsKeyDown(Keys.Q))
             {

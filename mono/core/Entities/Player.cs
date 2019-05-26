@@ -17,18 +17,22 @@ namespace mono.core
             Facing = Face.Right;
             AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, 12, true);
             AddAnimation(PlayerState.Walking, new[] { 5, 6, 7, 8, 9, 10, 11 }, 8, true);
-            AddAnimation(PlayerState.Jumping, new[] { 9 }, 10, true);
+            AddAnimation(PlayerState.Jumping, new[] { 12, 13, 14, 15 }, 2, false);
+            AddAnimation(PlayerState.Landing, new[] { 16, 17, 18 }, 3, false);
+
         }
 
         public void Idle()
         {
             Speed.X = 0;
-            if (Math.Abs(Speed.X) == 0 && Math.Abs(Speed.Y) == 0)
+
+
+            if (animations[State].canInterrupt() && Math.Abs(Speed.X) == 0 && Math.Abs(Speed.Y) == 0 && CanJump)
             {
-
                 NewState = PlayerState.Idle;
+                if (State == PlayerState.Jumping)
+                    NewState = PlayerState.Landing;
             }
-
         }
 
         public void Walk(Face face)
@@ -77,7 +81,7 @@ namespace mono.core
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
 
-            if (Math.Abs(Speed.Y) < 0.2 && Math.Abs(Acceleration.Y) < 0.2)
+            if (Math.Abs(Speed.Y) < 0.1 && Math.Abs(Acceleration.Y) < 0.1)
             {
                 CanJump = true;
             }
@@ -90,13 +94,13 @@ namespace mono.core
             PlayerControl.ReadController(this, gstate);
             PlayerControl.ReadKeypad(this, gstate);
 
+            Facing = NewFacing;
 
             // Reset de l'ancienne animation si on change d'état ou de direction
-            if (NewState != State || NewFacing != Facing)
+            if (NewState != State)
             {
                 animations[State].Reset();
                 State = NewState;
-                Facing = NewFacing;
             }
         }
     }

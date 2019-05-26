@@ -19,8 +19,8 @@ namespace mono.core
     public enum PlayerState
     {
         Idle,
-        StartJumping,
         Jumping,
+        Landing,
         Falling,
         Walking
     }

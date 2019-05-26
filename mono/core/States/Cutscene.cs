@@ -173,7 +173,18 @@ namespace mono.core.States
                 {
                     indCharacter++;
                 }
-                counter = 0;
+                if (text[indString].Item2[indCharacter] == ' ' ||
+                    text[indString].Item2[indCharacter] == ',' || 
+                    text[indString].Item2[indCharacter] == '.' || 
+                    text[indString].Item2[indCharacter] == '!' || 
+                    text[indString].Item2[indCharacter] == '?' ||
+                    text[indString].Item2[indCharacter] == '\n')
+                {
+                    counter = -frameRefresh;
+                }
+                else
+                    counter = 0;
+
             }
         }
 

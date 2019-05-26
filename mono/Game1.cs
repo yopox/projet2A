@@ -128,6 +128,7 @@ namespace mono
                     state = Main.Update(player, gameTime, GameState);
                     break;
                 case State.Textbox:
+                    Main.Update(player, gameTime, GameState, true);
                     state = Textbox.Update(GameState, GraphicsDevice);
                     break;
                 case State.Pause:

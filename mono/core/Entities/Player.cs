@@ -72,7 +72,7 @@ namespace mono.core
         /// </summary>
         /// <param name="gstate">Etat du jeu</param>
         /// <param name="gameTime"></param>
-        public new void Update(GameState gstate, GameTime gameTime)
+        public new void Update(GameState gstate, GameTime gameTime, bool block = false)
         {
             // Update les animations et les collisions
             base.Update(gstate, gameTime);
@@ -86,9 +86,12 @@ namespace mono.core
                 CanJump = false;
             }
 
-            // Update le joueur en fonction des touches appuyées
-            PlayerControl.ReadController(this, gstate);
-            PlayerControl.ReadKeypad(this, gstate);
+            if (!block)
+            {
+                // Update le joueur en fonction des touches appuyées
+                PlayerControl.ReadController(this, gstate);
+                PlayerControl.ReadKeypad(this, gstate);
+            }
 
 
             // Reset de l'ancienne animation si on change d'état ou de direction

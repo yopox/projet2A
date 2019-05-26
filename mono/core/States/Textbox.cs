@@ -17,9 +17,11 @@ namespace mono.core.States
         private static TextboxState state = TextboxState.FADE_IN;
         private static string text = "This is an example text.\nWow second line ;o\nEven third line, this is so awesome.";
         private static string displayedText = string.Empty;
-        private static int frame = 0;
 
+        private static int frame = 0;
         private static readonly int MAX_FRAME = 12;
+        private static int charFrame = 0;
+        private static readonly int CHAR_SPEED = 2;
 
         private static double WIDTH = Util.Width * 0.8;
         private static double HEIGHT = Util.Height * 0.24;
@@ -52,12 +54,35 @@ namespace mono.core.States
                 case TextboxState.MAIN:
                     if (displayedText.Length < text.Length)
                     {
-                        displayedText += text[displayedText.Length];
+                        if (charFrame == 0)
+                        {
+                            var newChar = text[displayedText.Length];
+                            displayedText += newChar;
+                            switch (newChar)
+                            {
+                                case ',':
+                                    charFrame = 2 * CHAR_SPEED;
+                                    break;
+                                case '\n':
+                                case '.':
+                                case '!':
+                                case '?':
+                                    charFrame = 3 * CHAR_SPEED;
+                                    break;
+                                default:
+                                    charFrame = CHAR_SPEED;
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            charFrame--;
+                        }
                     }
                     else
                     {
                         // On attend un input
-                        if (gameState.ksn.IsKeyDown(Keys.Space) && gameState.kso.IsKeyUp(Keys.Space))
+                        if (Util.JustPressed(gameState, Keys.Space))
                         {
                             state = TextboxState.FADE_OUT;
                         }

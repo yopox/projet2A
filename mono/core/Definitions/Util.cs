@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework.Input;
 
 namespace mono.core
 {
@@ -406,6 +407,11 @@ namespace mono.core
                 Color.Black);
 
             fadingOpacity += fadingSpeed;
+        }
+
+        public static bool JustPressed(GameState gameState, Keys key)
+        {
+            return gameState.ksn.IsKeyDown(key) && gameState.kso.IsKeyUp(key);
         }
     }
 }

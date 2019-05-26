@@ -8,25 +8,29 @@ namespace mono.core.States
 {
     static class Main
     {
-        public static State Update(Player player, GameTime gameTime, GameState GameState)
+        public static State Update(Player player, GameTime gameTime, GameState gameState, bool block = false)
         {
             if (Util.NewState)
-            {
-                bool over = Util.FadeIn();
-
-                if (over)
-                    Util.NewState = false;
-            }
+                Util.NewState = !Util.FadeIn();
             else
             {
                 Physics.UpdateAll(gameTime);
-                player.Update(GameState, gameTime);
+                player.Update(gameState, gameTime, block);
             }
-            Camera.Update(player, GameState.map.width * Util.TileSize);
-            GameState.map.UpdateSources(player.Position);
+            Camera.Update(player, gameState.map.width * Util.TileSize);
+            gameState.map.UpdateSources(player.Position);
 
-            if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
+            if (Util.JustPressed(gameState, Keys.Tab))
+            {
+                // Démarrage du menu pause
+                SoundManager.PlayBGM("0_menuchargement_done");
                 return State.Pause;
+            }
+
+            if (Util.JustPressed(gameState, Keys.E) && (player.State == PlayerState.Idle || player.State == PlayerState.Walking))
+            {
+                return State.Textbox;
+            }
             return State.Main;
         }
 

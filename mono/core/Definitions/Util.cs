@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using Microsoft.Xna.Framework.Input;
 
 namespace mono.core
 {
@@ -32,7 +33,8 @@ namespace mono.core
         Title,
         Main,
         Pause,
-        Cutscene
+        Cutscene,
+        Textbox
     }
 
     public enum CutsceneActionType
@@ -63,7 +65,7 @@ namespace mono.core
         static public Dictionary<string, Color> ColorStringDictionary = new Dictionary<string, Color>()
         {
             {"w", Color.White},
-            {"g", Color.Green}
+            {"g", Color.LightGreen}
         };
 
         // Screen
@@ -91,7 +93,8 @@ namespace mono.core
         // Font
         static public int FontSize = 8;
         static public int ButtonHeight = 64;
-        static public SpriteFont Font = null;
+        static public SpriteFont Font;
+        static public float scale = 4f;
 
         // Fading et changement d'état
         static public readonly int FadingSpeed = 4;
@@ -126,8 +129,7 @@ namespace mono.core
         /// <param name="boundaries">"boite" dans laquelle on va afficher le texte</param>
         public static void DrawTextRectangle(GraphicsDevice GraphicsDevice, SpriteBatch spritebatch, string stringToDraw, Rectangle boundaries, Color color)
         {
-            float scale = 4f;
-            Vector2 size = Util.Font.MeasureString(stringToDraw) * scale;
+            Vector2 size = Font.MeasureString(stringToDraw) * scale;
 
             Vector2 positionRect = new Vector2(boundaries.X, boundaries.Y);
             Vector2 positionStr = new Vector2(boundaries.X + boundaries.Width / 2 - size.X / 2,
@@ -137,7 +139,7 @@ namespace mono.core
                 positionRect,
                 Color.White);
 
-            spritebatch.DrawString(Util.Font,
+            spritebatch.DrawString(Font,
                 stringToDraw,
                 positionStr,
                 Color.White, 0.0f, Vector2.Zero, scale, new SpriteEffects(), 0.0f);
@@ -239,7 +241,7 @@ namespace mono.core
 
                 else if (script[pos].Contains("sfx"))
                 {
-                    string regex = "<sfx ([a-zA-Z]*)>";
+                    string regex = "<sfx ([a-zA-Z/0-9]*)>";
                     var matches = Regex.Split(script[pos], regex);
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.Sfx, matches[1]));
                     pos++;
@@ -405,6 +407,11 @@ namespace mono.core
                 Color.Black);
 
             fadingOpacity += fadingSpeed;
+        }
+
+        public static bool JustPressed(GameState gameState, Keys key)
+        {
+            return gameState.ksn.IsKeyDown(key) && gameState.kso.IsKeyUp(key);
         }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.RenderEngine;
-using System;
 
 namespace mono.core.States
 {
@@ -34,7 +33,11 @@ namespace mono.core.States
         {
             State newState;
             if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
+            {
+                // Retour à la state main
+                SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
                 newState = State.Main;
+            }
             else if (GameState.ksn.IsKeyDown(Keys.S) && GameState.kso.IsKeyUp(Keys.S))
             {
                 activatedButton = (activatedButton + 1) % listButton.NumberButton;

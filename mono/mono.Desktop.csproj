@@ -74,6 +74,7 @@
     <Compile Include="core\RenderEngine\AssetManager.cs" />
     <Compile Include="core\SoundManager.cs" />
     <Compile Include="core\Entities\Source.cs" />
+    <Compile Include="core\States\Textbox.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

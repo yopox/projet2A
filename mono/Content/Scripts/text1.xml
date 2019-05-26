@@ -37,12 +37,12 @@ C'était il y a un an maintenant.
 [w]Aujourd'hui, je n'ai plus de café, plus de clopes et plus d'envie de vivre. 
 Alors il me reste une dernière question à régler. 
 
-Sur la tente ? Ou dans la bouche ?
+Sur la tempe ? Ou dans la bouche ?
 
 Je pourrais aller me noyer comme les autres, mais si Sue revient, je ne veux pas qu'elle
 ait de faux espoirs. 
 
-Allez sur la tente, c'est bien !
+Allez sur la tempe, c'est bien !
 
 Adieu le monde, tu étais bien trop cruel pour moi !
 </text>
@@ -73,6 +73,6 @@ Je connais sa position...
 
 C'est bon univers ! J'ai compris !
 </text>
-<sfx finIntro>
-<wait 600>
+<bgm 2_FOOT_BUBLES_OUT_done>
+<wait 4200>
 <state Main>

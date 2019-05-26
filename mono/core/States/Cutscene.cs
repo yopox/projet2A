@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.core.Definitions;
@@ -22,7 +23,7 @@ namespace mono.core.States
         static private int indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
         static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
         static private int counter = 0; // Compteur d'affichage des lettres
-        static private int frameRefresh = 4; // Vitesse d'affichage des lettres en frame
+        static private int frameRefresh = 3; // Vitesse d'affichage des lettres en frame
         static private bool calculusSize = false; // état de finition du calcul de taille du texte
         static private bool newText = true; // nouveau texte à afficher
 
@@ -74,6 +75,11 @@ namespace mono.core.States
                     UpdateWait();
                     break;
                 case CutsceneActionType.Sfx:
+                    var sound = SoundManager.Content.Load<SoundEffect>("Music/SoundEffects/" + action.Content);
+                    SoundEffectInstance sfx = sound.CreateInstance();
+                    sfx.IsLooped = false;
+                    sfx.Play();
+                    action = actions.Dequeue();
                     break;
                 case CutsceneActionType.Bgm:
                     SoundManager.PlayBGM(action.Content);
@@ -259,7 +265,7 @@ namespace mono.core.States
         /// <param name="gstate"></param>
         private static void UpdatePage(GameState gstate)
         {
-            //Attente de l'appuie du boutton pour changer d'action
+            //Attente de l'appui du bouton pour changer d'action
             if (gstate.ksn.IsKeyDown(Keys.Space) && gstate.ksn.IsKeyDown(Keys.Space))
             {
                 indString = 0;

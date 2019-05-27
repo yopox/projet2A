@@ -22,6 +22,7 @@ namespace mono.core.States
         private static Tuple<string, string> currentText;
         private static string erasedText = string.Empty;
         private static string displayedText = string.Empty;
+        private static string displayedName = string.Empty;
         private static int lineNb;
 
         private static int frame;
@@ -55,6 +56,7 @@ namespace mono.core.States
             // MAJ texte
             text = newText;
             currentText = text[cursor];
+            displayedName = currentText.Item1;
             cursor++;
         }
 
@@ -152,6 +154,7 @@ namespace mono.core.States
                         displayedText = string.Empty;
                         textAlpha = 1;
                         lineNb = 0;
+                        displayedName = currentText.Item1;
                         state = TextboxState.MAIN;
                     }
 
@@ -195,7 +198,7 @@ namespace mono.core.States
                 POS + new Vector2(48, 22),
                 Color.White * textAlpha, 0.0f, Vector2.Zero, 3f, new SpriteEffects(), 0.0f);
             spriteBatch.DrawString(Util.Font,
-                currentText.Item1,
+                displayedName,
                 POS + new Vector2(48, -42),
                 Color.White * nameAlpha, 0.0f, Vector2.Zero, 3f, new SpriteEffects(), 0.0f);
         }

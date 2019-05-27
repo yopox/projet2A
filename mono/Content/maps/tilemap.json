@@ -33,34 +33,6 @@
                 {
                  "gid":13,
                  "height":32,
-                 "id":24,
-                 "name":"",
-                 "properties":[
-                        {
-                         "name":"id",
-                         "type":"string",
-                         "value":"Radio\/0"
-                        }, 
-                        {
-                         "name":"radius",
-                         "type":"int",
-                         "value":250
-                        }, 
-                        {
-                         "name":"volume",
-                         "type":"int",
-                         "value":100
-                        }],
-                 "rotation":0,
-                 "type":"source",
-                 "visible":true,
-                 "width":32,
-                 "x":375.857881468182,
-                 "y":475.492013669985
-                }, 
-                {
-                 "gid":13,
-                 "height":32,
                  "id":31,
                  "name":"",
                  "properties":[
@@ -100,7 +72,7 @@
                         {
                          "name":"radius",
                          "type":"int",
-                         "value":200
+                         "value":300
                         }, 
                         {
                          "name":"volume",

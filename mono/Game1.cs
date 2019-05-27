@@ -84,8 +84,6 @@ namespace mono
 
             Util.Font = Content.Load<SpriteFont>("Fonts/MatchupPro");
 
-            Util.PrintQueue(Util.ParseScript("text1.xml"));
-
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.Position = GameState.map.GetStartingPosition();

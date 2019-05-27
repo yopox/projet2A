@@ -31,13 +31,14 @@ namespace mono.core
 
         internal void ParseContent(string content)
         {
-            Regex regex = new Regex(@"(\[([a-zA-Z? 0-9]*)\]([^\[]*))");
+            Regex regex = new Regex(@"(\[([a-zA-Z? 0-9]*)\]([^\[]*))", RegexOptions.Singleline);
             string[] results = regex.Split(content);
 
             // Construction de la liste
             for (int i = 0; i < results.Length; i++)
             {
-                if (i % 3 == 0 && results.Length > i + 3)
+                Console.WriteLine(results[i]);
+                if (i % 4 == 0 && results.Length > i + 3)
                 {
                     text.Add(new Tuple<string, string>(results[i + 2], results[i + 3]));
                 }

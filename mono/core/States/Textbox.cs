@@ -31,9 +31,14 @@ namespace mono.core.States
 
         private static double WIDTH = Util.Width * 0.8;
         private static double HEIGHT = Util.Height * 0.24;
-        private static Vector2 pos = new Vector2(Util.Width * 0.1f, Util.Height * 0.70f);
+        private static double NAME_WIDTH = Util.Width * 0.18;
+        private static double NAME_HEIGHT = 40;
+        private static Vector2 POS = new Vector2(Util.Width * 0.1f, Util.Height * 0.70f);
+        private static Vector2 NAME_POS = new Vector2(Util.Width * 0.1f, Util.Height * 0.70f - (float)NAME_HEIGHT);
         private static float textAlpha = 1f;
+        private static float nameAlpha = 0f;
         private static Texture2D background;
+        private static Texture2D name;
 
         public static void SetText(List<Tuple<string, string>> newText)
         {
@@ -42,6 +47,7 @@ namespace mono.core.States
             erasedText = string.Empty;
             frame = 0;
             textAlpha = 1f;
+            nameAlpha = 0f;
             state = TextboxState.FADE_IN;
             cursor = 0;
             lineNb = 0;
@@ -60,6 +66,8 @@ namespace mono.core.States
                     frame++;
                     // MAJ texture rectangle
                     background = Util.GetRectangleTexture(graphicsDevice, Color.Black * (frame / 20f), (int)WIDTH, (int)HEIGHT);
+                    name = Util.GetRectangleTexture(graphicsDevice, Color.Black * (frame / 20f), (int)NAME_WIDTH, (int)NAME_HEIGHT);
+                    nameAlpha = frame / (float)MAX_FRAME;
                     if (frame == MAX_FRAME)
                         state = TextboxState.MAIN;
                     break;
@@ -67,8 +75,10 @@ namespace mono.core.States
                 case TextboxState.FADE_OUT:
                     frame--;
                     textAlpha = frame / (float)MAX_FRAME;
+                    nameAlpha = textAlpha;
                     // MAJ texture rectangle
                     background = Util.GetRectangleTexture(graphicsDevice, Color.Black * (frame / 20f), (int)WIDTH, (int)HEIGHT);
+                    name = Util.GetRectangleTexture(graphicsDevice, Color.Black * (frame / 20f), (int)NAME_WIDTH, (int)NAME_HEIGHT);
                     if (frame == 0)
                         return State.Main;
                     break;
@@ -114,7 +124,7 @@ namespace mono.core.States
                         // On attend un input
                         if (Util.JustPressed(gameState, Keys.Space))
                         {
-                            if (text.Count < cursor)
+                            if (text.Count > cursor)
                             {
                                 currentText = text[cursor];
                                 cursor++;
@@ -174,13 +184,20 @@ namespace mono.core.States
 
             // Dessin de la boîte
             if (background != null)
-                spriteBatch.Draw(background, pos, Color.Black);
+            {
+                spriteBatch.Draw(background, POS, Color.Black);
+                spriteBatch.Draw(name, NAME_POS, Color.Black);
+            }
 
             // Dessin du texte
             spriteBatch.DrawString(Util.Font,
                 displayedText,
-                pos + new Vector2(48, 22),
+                POS + new Vector2(48, 22),
                 Color.White * textAlpha, 0.0f, Vector2.Zero, 3f, new SpriteEffects(), 0.0f);
+            spriteBatch.DrawString(Util.Font,
+                currentText.Item1,
+                POS + new Vector2(48, -42),
+                Color.White * nameAlpha, 0.0f, Vector2.Zero, 3f, new SpriteEffects(), 0.0f);
         }
 
     }

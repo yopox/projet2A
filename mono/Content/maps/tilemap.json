@@ -217,6 +217,24 @@
                  "width":32,
                  "x":1148.54039908407,
                  "y":456.685639515865
+                }, 
+                {
+                 "gid":14,
+                 "height":32,
+                 "id":38,
+                 "name":"",
+                 "properties":[
+                        {
+                         "name":"content",
+                         "type":"string",
+                         "value":"[???]\u00c0 l'aide !\n[Sarah]Que...\nQue se passe-t-il ?\n\nJe ferais mieux d'avancer plus loin pour\naller voir..."
+                        }],
+                 "rotation":0,
+                 "type":"text",
+                 "visible":true,
+                 "width":32,
+                 "x":1523.09061171083,
+                 "y":476.312724893686
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -225,7 +243,7 @@
          "y":0
         }],
  "nextlayerid":18,
- "nextobjectid":38,
+ "nextobjectid":39,
  "orientation":"orthogonal",
  "properties":[
         {

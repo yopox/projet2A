@@ -169,22 +169,24 @@ namespace mono.core.States
                     indString++;
                     indCharacter = 0;
                 }
-                else if (indCharacter != text[indString].Item2.Length)
+                else if (indCharacter != text[indString].Item2.Length - 1)
                 {
                     indCharacter++;
                 }
-                if (text[indString].Item2[indCharacter] == ' ' ||
-                    text[indString].Item2[indCharacter] == ',' || 
-                    text[indString].Item2[indCharacter] == '.' || 
-                    text[indString].Item2[indCharacter] == '!' || 
-                    text[indString].Item2[indCharacter] == '?' ||
-                    text[indString].Item2[indCharacter] == '\n')
-                {
-                    counter = -frameRefresh;
-                }
-                else
-                    counter = 0;
 
+                switch (text[indString].Item2[indCharacter])
+                {
+                    case '\n':
+                    case '.':
+                    case '!':
+                    case '?':
+                    case ',':
+                        counter = -frameRefresh;
+                        break;
+                    default:
+                        counter = 0;
+                        break;
+                }
             }
         }
 
@@ -221,7 +223,7 @@ namespace mono.core.States
             // Calcul de la taille du texte
 
             // Récupération de la prochaine action si tout le texte est affiché
-            if (indCharacter == text[indString].Item2.Length && indString == text.Count - 1)
+            if (indCharacter == text[indString].Item2.Length - 1 && indString == text.Count - 1)
             {
                 action = actions.Dequeue();
                 newText = true;

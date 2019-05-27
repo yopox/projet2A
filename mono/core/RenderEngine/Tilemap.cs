@@ -50,7 +50,8 @@ namespace mono.core
         public AtlasName TilesetName;
 
         public static int[] WarpGids = { 1 };
-        public static int[] SourceGids = { 19 };
+        public static int[] SourceGids = { 13 };
+        public static int[] TextGids = { 14 };
 
         readonly int height;
         public readonly int width;
@@ -60,7 +61,7 @@ namespace mono.core
         readonly int yTileRange = Util.Height / Util.TileSize / 2 + 2;
 
         List<Layer> layers = new List<Layer>();
-        List<MapObject> objects = new List<MapObject>();
+        List<Interaction> interactives = new List<Interaction>();
         List<Warp> warps = new List<Warp>();
         List<Source> sources = new List<Source>();
 
@@ -119,9 +120,9 @@ namespace mono.core
                             int sourceVolume = (int) obj.properties[2].value;
                             sources.Add(new Source(sourceId, sourceRadius, sourceVolume, x + 16, y - 16));
                         }
-                        else
+                        else if (TextGids.Contains(id))
                         {
-                            objects.Add(new MapObject(id, new Vector2(x, y)));
+                            interactives.Add(new Interaction(id, new Vector2(x, y), (string)obj.properties[0].value));
                         }
                     }
                 }
@@ -270,20 +271,16 @@ namespace mono.core
             }
         }
 
-        public void DrawObjects(SpriteBatch spriteBatch, AssetManager am)
+        internal List<Tuple<string, string>> InteractionText(Player player)
         {
-            int centerTileX = (int)Camera.Center.X / Util.TileSize;
-            int centerTileY = (int)Camera.Center.Y / Util.TileSize;
-
-            foreach (MapObject mobj in objects)
+            foreach (Interaction interactive in interactives)
             {
-                // Condition sur la position de l'objet
-                if (Math.Abs(mobj.Position.X - Camera.Center.X) < (int)(xTileRange / Rendering.ZoomFactor) * Util.TileSize &&
-                    Math.Abs(mobj.Position.Y - Camera.Center.Y) < (int)(yTileRange / Rendering.ZoomFactor) * Util.TileSize)
+                if (Vector2.Distance(player.Position, interactive.Position) < Interaction.RADIUS)
                 {
-                    mobj.Draw(spriteBatch, am);
+                    return interactive.text;
                 }
             }
+            return null;
         }
     }
 }

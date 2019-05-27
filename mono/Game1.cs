@@ -67,7 +67,7 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
-            //SoundManager.PlayBGM("7_retour_sous_surface_complet");
+            SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
 
             base.Initialize();
         }
@@ -84,11 +84,10 @@ namespace mono
 
             Util.Font = Content.Load<SpriteFont>("Fonts/MatchupPro");
 
-            Util.PrintQueue(Util.ParseScript("text1.xml"));
-
             // Chargement de la map
             GameState.map = new Tilemap("Map de test", "Content/maps/tilemap.json", AtlasName.Tileset1);
             player.Position = GameState.map.GetStartingPosition();
+            GameState.map.ActivateSources(player.Position);
         }
 
         /// <summary>

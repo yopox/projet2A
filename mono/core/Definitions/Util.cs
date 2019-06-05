@@ -34,7 +34,8 @@ namespace mono.core
         Main,
         Pause,
         Cutscene,
-        Textbox
+        Textbox,
+        Exit
     }
 
     public enum CutsceneActionType

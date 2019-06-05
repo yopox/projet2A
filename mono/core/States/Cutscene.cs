@@ -20,7 +20,7 @@ namespace mono.core.States
         static private List<Tuple<string, string>> text = new List<Tuple<string, string>>(); // Texte à afficher
         static private float scale = 2f; // Niveau de zoom de la police d'écriture
         static private Vector2 size = Vector2.Zero; // Taille du texte à afficher
-        static private int horizontalOffset = 128;
+        static private int horizontalOffset = 128; // Offset horizontal d'affichage du texte
         static private int indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
         static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
         static private int counter = 0; // Compteur d'affichage des lettres
@@ -118,9 +118,7 @@ namespace mono.core.States
 
             // On fait un fondu au noir si une nouvelle image est affichée
             if (bgImageFading)
-            {
                 Util.DrawFading(spriteBatch, GraphicsDevice, -1 * Util.FadingSpeed);
-            }
 
             // On affiche un texte si il y en a
             if (text != null && text.Count != 0)

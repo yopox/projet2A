@@ -14,14 +14,14 @@ namespace mono.core.States
 
         public static void Initialize()
         {
-            string[] nameButtons = new string[] { "Continuer", "Options", "Quitter" };
+            string[] nameButtons = new string[] { "Continuer", "Quitter" };
 
             if (nameButtons.Length > 4)
                 listButton = new ButtonList(nameButtons, 4, size);
             else
                 listButton = new ButtonList(nameButtons, nameButtons.Length, size);
 
-            Button.ActionButton[] actions = { ActionButton1, ActionButton2, ActionButton3 };
+            Button.ActionButton[] actions = { ActionButton1, ActionButton2 };
 
             for (int i = 0; i < actions.Length; i++)
             {
@@ -72,9 +72,6 @@ namespace mono.core.States
 
         private static State ActionButton1() => State.Main;
 
-        private static State ActionButton2() => State.Pause;
-
-        private static State ActionButton3() => State.Pause;
-
+        private static State ActionButton2() => State.Exit;
     }
 }

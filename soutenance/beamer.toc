@@ -1,0 +1,8 @@
+\babel@toc {french}{}
+\beamer@sectionintoc {1}{Informations}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Sub1}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Sub1}{5}{0}{1}
+\beamer@sectionintoc {2}{R\IeC {\'e}alisations}{6}{0}{2}
+\beamer@sectionintoc {3}{M\IeC {\'e}thodes de travail}{8}{0}{3}
+\beamer@sectionintoc {4}{Technique}{12}{0}{4}
+\beamer@sectionintoc {5}{Perspectives}{14}{0}{5}

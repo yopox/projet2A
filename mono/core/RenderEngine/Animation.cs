@@ -13,7 +13,7 @@ namespace mono.core
         public PlayerState State { get; private set; } // Etat que représente l'animation
 
         private int currentFrame;
-        readonly int Duration;
+        readonly int FrameDuration;
         private int currentDuration;
         public bool IsOver = false;
 
@@ -23,12 +23,13 @@ namespace mono.core
         /// <param name="state">Etat de l'acteur</param>
         /// <param name="frames">Frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
+        /// <param name="duration">durée de l'affichage des animations en frame</param>
         public Animation(PlayerState state, int[] frames, int duration, bool isLooping)
         {
             Frames = frames;
             IsLooping = isLooping;
             State = state;
-            Duration = duration;
+            FrameDuration = duration;
             currentFrame = 0;
             currentDuration = 0;
         }
@@ -38,6 +39,7 @@ namespace mono.core
         /// Dessine un sprite
         /// </summary>
         /// <param name="spriteBatch"></param>
+        /// <param name=""
         /// <param name="position">position de l'acteur</param>
         /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
         public void Draw(SpriteBatch spriteBatch, Atlas atlas, Vector2 position, Face facing)
@@ -61,7 +63,7 @@ namespace mono.core
         {
             currentDuration++;
 
-            if (currentDuration >= Duration)
+            if (currentDuration >= FrameDuration)
             {
                 Next();// Appel du prochain sprite à afficher
                 currentDuration = 0;

@@ -83,7 +83,7 @@ namespace mono.core
 
             foreach (var element in map.properties)
             {
-                var matches = System.Text.RegularExpressions.Regex.Split((string)element.value, regex);
+                var matches = Regex.Split((string)element.value, regex);
 
                 ParallaxElement p = new ParallaxElement
                 {

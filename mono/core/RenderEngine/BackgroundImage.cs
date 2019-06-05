@@ -29,11 +29,16 @@ namespace mono.core.RenderEngine
         {
             // On récupère la texture
             var texture = am.GetAtlas(parallaxElement.Name).Texture;
+            var offsetX = AssetInfo.infos[parallaxElement.Name].OffsetX;
+            var offsetY = AssetInfo.infos[parallaxElement.Name].OffsetY;
             var w = texture.Width;
+            var h = texture.Height;
 
             // Modification de la position
-            parallaxElement.Position.X = -Camera.Center.X / parallaxElement.Factor % w;
+            parallaxElement.Position.X = -Camera.Center.X / parallaxElement.Factor % w + offsetX;
             parallaxElement.Position += Rendering.ZoomOffset;
+            parallaxElement.Position.Y = offsetY - (Camera.Center.Y - 416);
+
             var x = parallaxElement.Position.X;
             var y = parallaxElement.Position.Y;
 

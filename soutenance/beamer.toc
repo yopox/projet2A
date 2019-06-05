@@ -1,8 +1,10 @@
 \babel@toc {french}{}
-\beamer@sectionintoc {1}{Informations}{3}{0}{1}
-\beamer@subsectionintoc {1}{1}{Sub1}{4}{0}{1}
-\beamer@subsectionintoc {1}{2}{Sub1}{5}{0}{1}
-\beamer@sectionintoc {2}{R\IeC {\'e}alisations}{6}{0}{2}
-\beamer@sectionintoc {3}{M\IeC {\'e}thodes de travail}{8}{0}{3}
-\beamer@sectionintoc {4}{Technique}{12}{0}{4}
-\beamer@sectionintoc {5}{Perspectives}{14}{0}{5}
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{D\IeC {\'e}marrage du projet}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Mise au point du cahier des charges et validation}{10}{0}{1}
+\beamer@subsectionintoc {1}{3}{Quelques images}{14}{0}{1}
+\beamer@sectionintoc {2}{M\IeC {\'e}thodes de travail}{14}{0}{2}
+\beamer@sectionintoc {3}{Technique}{18}{0}{3}
+\beamer@subsectionintoc {3}{1}{Outils}{19}{0}{3}
+\beamer@subsectionintoc {3}{2}{Fonctionnement du jeu}{22}{0}{3}
+\beamer@sectionintoc {4}{Perspectives}{29}{0}{4}

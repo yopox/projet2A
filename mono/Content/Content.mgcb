@@ -23,6 +23,18 @@
 #begin Fonts/MatchupPro.ttf
 /copy:Fonts/MatchupPro.ttf
 
+#begin Graphics/avantPlan.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/avantPlan.png
+
 #begin Graphics/backerground.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -34,6 +46,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Graphics/backerground.png
+
+#begin Graphics/paysage.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Graphics/paysage.png
 
 #begin Graphics/player.png
 /importer:TextureImporter

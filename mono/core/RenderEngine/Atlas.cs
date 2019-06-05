@@ -11,14 +11,18 @@ namespace mono.core
         public int Height;
         public int Padding;
         public int Border;
+        public int OffsetX;
+        public int OffsetY;
 
-        public AtlasInfo(string location, int width, int height, int padding, int border)
+        public AtlasInfo(string location, int width, int height, int padding, int border, int offsetY = 0, int offsetX = 0)
         {
-            this.Location = location;
-            this.Width = width;
-            this.Height = height;
-            this.Padding = padding;
-            this.Border = border;
+            Location = location;
+            Width = width;
+            Height = height;
+            Padding = padding;
+            Border = border;
+            OffsetX = offsetX;
+            OffsetY = offsetY;
         }
     }
 

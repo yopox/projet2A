@@ -20,6 +20,7 @@ namespace mono.core.States
         static private List<Tuple<string, string>> text = new List<Tuple<string, string>>(); // Texte à afficher
         static private float scale = 2f; // Niveau de zoom de la police d'écriture
         static private Vector2 size = Vector2.Zero; // Taille du texte à afficher
+        static private int horizontalOffset = 128; // Offset horizontal d'affichage du texte
         static private int indString = 0; // Indice du texte dans _text jusqu'au quel on affiche 
         static private int indCharacter = 0; // Indice du charactère jusqu'au quel on affiche dans _text
         static private int counter = 0; // Compteur d'affichage des lettres
@@ -117,9 +118,7 @@ namespace mono.core.States
 
             // On fait un fondu au noir si une nouvelle image est affichée
             if (bgImageFading)
-            {
                 Util.DrawFading(spriteBatch, GraphicsDevice, -1 * Util.FadingSpeed);
-            }
 
             // On affiche un texte si il y en a
             if (text != null && text.Count != 0)
@@ -134,7 +133,7 @@ namespace mono.core.States
         static void DrawDialog(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
         {
             // Récupère la position pour centrer le dialogue
-            Vector2 positionStr = new Vector2(Rendering.VirtualWidth / 2 - size.X / 2,
+            Vector2 positionStr = new Vector2(horizontalOffset,
             Rendering.VirtualHeight / 2 - size.Y / 2);
 
             Vector2 offset = Vector2.Zero;
@@ -164,7 +163,7 @@ namespace mono.core.States
             // On incrémente les indices de charactères et de chaines
             if (counter == frameRefresh)
             {
-                if (indCharacter == text[indString].Item2.Length && indString < text.Count - 1)
+                if (indCharacter == text[indString].Item2.Length - 1 && indString < text.Count - 1)
                 {
                     indString++;
                     indCharacter = 0;
@@ -219,7 +218,6 @@ namespace mono.core.States
                 SizeCalculus();
                 newText = false;
             }
-
             // Calcul de la taille du texte
 
             // Récupération de la prochaine action si tout le texte est affiché
@@ -264,10 +262,6 @@ namespace mono.core.States
                 {
                     //Calcul hauteur
                     size.Y += (int)(Util.Font.MeasureString(totalText[i].Item2).Y * scale);
-
-                    //Calcul du maximum de la largeur
-                    if ((int)(Util.Font.MeasureString(totalText[i].Item2).X * scale) > size.X)
-                        size.X = (int)(Util.Font.MeasureString(totalText[i].Item2).X * scale);
                 }
             }
         }

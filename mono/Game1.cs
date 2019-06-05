@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Cutscene;
+        State state = State.Main;
         readonly AssetManager am;
 
         public Game1()
@@ -135,6 +135,9 @@ namespace mono
                     break;
                 case State.Cutscene:
                     state = Cutscene.Update(GameState, gameTime);
+                    break;
+                case State.Exit:
+                    Exit();
                     break;
             }
 

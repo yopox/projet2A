@@ -47,9 +47,13 @@ namespace mono.core.States
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
             Rendering.BeginDraw(spriteBatch);
-            map.DrawDecor(spriteBatch, am);
+            map.DrawParallax(spriteBatch, am);
+            map.DrawLayer(spriteBatch, am, "decorB3");
+            map.DrawLayer(spriteBatch, am, "decorB2");
+            map.DrawLayer(spriteBatch, am, "decorB1");
             player.Draw(spriteBatch, am);
-            map.Draw(spriteBatch, am);
+            map.DrawLayer(spriteBatch, am, "terrain");
+            map.DrawLayer(spriteBatch, am, "decorF");
             Debuger.DebugActors(GraphicsDevice, spriteBatch);
         }
     }

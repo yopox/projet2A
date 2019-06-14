@@ -2,9 +2,9 @@
 \beamer@sectionintoc {1}{Introduction}{3}{0}{1}
 \beamer@subsectionintoc {1}{1}{D\IeC {\'e}marrage du projet}{4}{0}{1}
 \beamer@subsectionintoc {1}{2}{Mise au point du cahier des charges et validation}{10}{0}{1}
-\beamer@subsectionintoc {1}{3}{Quelques images}{14}{0}{1}
 \beamer@sectionintoc {2}{M\IeC {\'e}thodes de travail}{14}{0}{2}
-\beamer@sectionintoc {3}{Technique}{18}{0}{3}
-\beamer@subsectionintoc {3}{1}{Outils}{19}{0}{3}
-\beamer@subsectionintoc {3}{2}{Fonctionnement du jeu}{22}{0}{3}
-\beamer@sectionintoc {4}{Perspectives}{29}{0}{4}
+\beamer@sectionintoc {3}{Quelques images}{18}{0}{3}
+\beamer@sectionintoc {4}{Technique}{24}{0}{4}
+\beamer@subsectionintoc {4}{1}{Outils}{25}{0}{4}
+\beamer@subsectionintoc {4}{2}{Fonctionnement du jeu}{28}{0}{4}
+\beamer@sectionintoc {5}{Perspectives}{37}{0}{5}

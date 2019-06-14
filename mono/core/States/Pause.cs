@@ -62,9 +62,6 @@ namespace mono.core.States
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
             Rendering.BeginDraw(spriteBatch);
-            map.DrawDecor(spriteBatch, am);
-            player.Draw(spriteBatch, am);
-            map.Draw(spriteBatch, am);
 
             spriteBatch.Draw(Util.GetTexture(GraphicsDevice, ForegroundTexture, new Color(40, 40, 40, 150)), Vector2.Zero, Color.White);
             listButton.Draw(GraphicsDevice, spriteBatch);

@@ -21,10 +21,8 @@
 \headcommand {\beamer@framepages {10}{11}}
 \headcommand {\slideentry {1}{2}{2}{12/13}{Mise au point du cahier des charges et validation}{0}}
 \headcommand {\beamer@framepages {12}{13}}
-\headcommand {\beamer@subsectionpages {10}{13}}
-\headcommand {\beamer@subsectionentry {0}{1}{3}{14}{Quelques images}}
 \headcommand {\beamer@sectionpages {3}{13}}
-\headcommand {\beamer@subsectionpages {14}{13}}
+\headcommand {\beamer@subsectionpages {10}{13}}
 \headcommand {\sectionentry {2}{M\IeC {\'e}thodes de travail}{14}{M\IeC {\'e}thodes de travail}{0}}
 \headcommand {\slideentry {2}{0}{1}{14/14}{}{0}}
 \headcommand {\beamer@framepages {14}{14}}
@@ -36,42 +34,61 @@
 \headcommand {\beamer@framepages {17}{17}}
 \headcommand {\beamer@sectionpages {14}{17}}
 \headcommand {\beamer@subsectionpages {14}{17}}
-\headcommand {\sectionentry {3}{Technique}{18}{Technique}{0}}
+\headcommand {\sectionentry {3}{Quelques images}{18}{Quelques images}{0}}
 \headcommand {\slideentry {3}{0}{1}{18/18}{}{0}}
 \headcommand {\beamer@framepages {18}{18}}
-\headcommand {\beamer@subsectionpages {18}{18}}
-\headcommand {\beamer@subsectionentry {0}{3}{1}{19}{Outils}}
-\headcommand {\slideentry {3}{1}{1}{19/19}{Outils}{0}}
+\headcommand {\slideentry {3}{0}{2}{19/19}{}{0}}
 \headcommand {\beamer@framepages {19}{19}}
-\headcommand {\slideentry {3}{1}{2}{20/20}{Outils}{0}}
+\headcommand {\slideentry {3}{0}{3}{20/20}{}{0}}
 \headcommand {\beamer@framepages {20}{20}}
-\headcommand {\slideentry {3}{1}{3}{21/21}{Outils}{0}}
+\headcommand {\slideentry {3}{0}{4}{21/21}{}{0}}
 \headcommand {\beamer@framepages {21}{21}}
-\headcommand {\beamer@subsectionpages {19}{21}}
-\headcommand {\beamer@subsectionentry {0}{3}{2}{22}{Fonctionnement du jeu}}
-\headcommand {\slideentry {3}{2}{1}{22/22}{Fonctionnement du jeu}{0}}
+\headcommand {\slideentry {3}{0}{5}{22/22}{}{0}}
 \headcommand {\beamer@framepages {22}{22}}
-\headcommand {\slideentry {3}{2}{2}{23/23}{Fonctionnement du jeu}{0}}
+\headcommand {\slideentry {3}{0}{6}{23/23}{}{0}}
 \headcommand {\beamer@framepages {23}{23}}
-\headcommand {\slideentry {3}{2}{3}{24/24}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@sectionpages {18}{23}}
+\headcommand {\beamer@subsectionpages {18}{23}}
+\headcommand {\sectionentry {4}{Technique}{24}{Technique}{0}}
+\headcommand {\slideentry {4}{0}{1}{24/24}{}{0}}
 \headcommand {\beamer@framepages {24}{24}}
-\headcommand {\slideentry {3}{2}{4}{25/25}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@subsectionpages {24}{24}}
+\headcommand {\beamer@subsectionentry {0}{4}{1}{25}{Outils}}
+\headcommand {\slideentry {4}{1}{1}{25/25}{Outils}{0}}
 \headcommand {\beamer@framepages {25}{25}}
-\headcommand {\slideentry {3}{2}{5}{26/26}{Fonctionnement du jeu}{0}}
+\headcommand {\slideentry {4}{1}{2}{26/26}{Outils}{0}}
 \headcommand {\beamer@framepages {26}{26}}
-\headcommand {\slideentry {3}{2}{6}{27/27}{Fonctionnement du jeu}{0}}
+\headcommand {\slideentry {4}{1}{3}{27/27}{Outils}{0}}
 \headcommand {\beamer@framepages {27}{27}}
-\headcommand {\slideentry {3}{2}{7}{28/28}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@subsectionpages {25}{27}}
+\headcommand {\beamer@subsectionentry {0}{4}{2}{28}{Fonctionnement du jeu}}
+\headcommand {\slideentry {4}{2}{1}{28/28}{Fonctionnement du jeu}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\beamer@sectionpages {18}{28}}
-\headcommand {\beamer@subsectionpages {22}{28}}
-\headcommand {\sectionentry {4}{Perspectives}{29}{Perspectives}{0}}
-\headcommand {\slideentry {4}{0}{1}{29/29}{}{0}}
+\headcommand {\slideentry {4}{2}{2}{29/29}{Fonctionnement du jeu}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\slideentry {4}{0}{2}{30/30}{}{0}}
+\headcommand {\slideentry {4}{2}{3}{30/30}{Fonctionnement du jeu}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\beamer@partpages {1}{30}}
-\headcommand {\beamer@subsectionpages {29}{30}}
-\headcommand {\beamer@sectionpages {29}{30}}
-\headcommand {\beamer@documentpages {30}}
-\headcommand {\gdef \inserttotalframenumber {25}}
+\headcommand {\slideentry {4}{2}{4}{31/31}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {31}{31}}
+\headcommand {\slideentry {4}{2}{5}{32/32}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {32}{32}}
+\headcommand {\slideentry {4}{2}{6}{33/33}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\slideentry {4}{2}{7}{34/34}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {34}{34}}
+\headcommand {\slideentry {4}{2}{8}{35/35}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {35}{35}}
+\headcommand {\slideentry {4}{2}{9}{36/36}{Fonctionnement du jeu}{0}}
+\headcommand {\beamer@framepages {36}{36}}
+\headcommand {\beamer@sectionpages {24}{36}}
+\headcommand {\beamer@subsectionpages {28}{36}}
+\headcommand {\sectionentry {5}{Perspectives}{37}{Perspectives}{0}}
+\headcommand {\slideentry {5}{0}{1}{37/37}{}{0}}
+\headcommand {\beamer@framepages {37}{37}}
+\headcommand {\slideentry {5}{0}{2}{38/38}{}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\beamer@partpages {1}{38}}
+\headcommand {\beamer@subsectionpages {37}{38}}
+\headcommand {\beamer@sectionpages {37}{38}}
+\headcommand {\beamer@documentpages {38}}
+\headcommand {\gdef \inserttotalframenumber {33}}

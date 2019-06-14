@@ -174,6 +174,7 @@ namespace mono
                     Textbox.Draw(spriteBatch, am, GraphicsDevice);
                     break;
                 case State.Pause:
+                    Main.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     Pause.Draw(spriteBatch, am, GraphicsDevice, player, GameState.map);
                     break;
                 case State.Cutscene:

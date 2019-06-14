@@ -221,14 +221,14 @@ namespace mono.core
         /// </summary>
         /// <param name="spriteBatch">Sprite batch.</param>
         /// <param name="am">AssetManager.</param>
-        public void Draw(SpriteBatch spriteBatch, AssetManager am)
+        public void DrawLayer(SpriteBatch spriteBatch, AssetManager am, string name)
         {
-            var terrain = GetTiles("terrain");
+            var terrain = GetTiles(name);
             int centerTileX = (int)Camera.Center.X / Util.TileSize;
             int centerTileY = (int)Camera.Center.Y / Util.TileSize;
             var atlas = am.GetAtlas(TilesetName);
 
-            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i < centerTileY + Math.Ceiling(yTileRange / Rendering.ZoomFactor); i++)
+            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i++)
             {
                 for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.ZoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.ZoomFactor) + 1; j++)
                 {
@@ -241,33 +241,11 @@ namespace mono.core
             }
         }
 
-        /// <summary>
-        /// Dessine la tilemap.
-        /// </summary>
-        /// <param name="spriteBatch">Sprite batch.</param>
-        /// <param name="am">AssetManager.</param>
-        public void DrawDecor(SpriteBatch spriteBatch, AssetManager am)
+        public void DrawParallax(SpriteBatch spriteBatch, AssetManager am)
         {
-            var terrain = GetTiles("decor");
-            int centerTileX = (int)Camera.Center.X / Util.TileSize;
-            int centerTileY = (int)Camera.Center.Y / Util.TileSize;
-            var atlas = am.GetAtlas(TilesetName);
-
             foreach (var parallaxElement in ParallaxElements)
             {
                 BackgroundImage.Draw(spriteBatch, parallaxElement, am);
-            }
-
-            for (int i = centerTileY - (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i < centerTileY + (int)Math.Ceiling(yTileRange / Rendering.ZoomFactor); i++)
-            {
-                for (int j = centerTileX - (int)Math.Ceiling(xTileRange / Rendering.ZoomFactor); j < centerTileX + Math.Ceiling(xTileRange / Rendering.ZoomFactor) + 1; j++)
-                {
-                    if (0 <= i && i < height && 0 <= j && j < width && terrain[i][j] > 0)
-                        spriteBatch.Draw(atlas.Texture, Util.Center + new Vector2(j * Util.TileSize, i * Util.TileSize) - Camera.Center + Rendering.ZoomOffset,
-                                     atlas.GetSourceRectangle(terrain[i][j] - 1),
-                                     Color.White, 0f, new Vector2(0, 0), 1f,
-                                     SpriteEffects.None, 0f);
-                }
             }
         }
 

@@ -128,8 +128,6 @@ De plus, nous avions envie d'apprendre un nouveau langage pour gagner de nouvell
 
 Nous avons choisi d'utiliser un framework pour avoir des fonctions qui nous permettent de faire les tâches de base dans le code d'un jeu tel qu'afficher une image à l'écran ou jouer un son par exemple. Ainsi, on a plus de temps pour se concentrer sur les aspects intéressants du projet comme les collisions ou la gestion des sources sonores.
 
-
-
 ### UML
 
 Sur la figure \ref{uml}, on représente le diagramme UML simplifié (sans les attributs et fonctions des classes pour plus de lisibilité). Nous avons séparé le code en 5 packages :
@@ -148,6 +146,55 @@ Sur la figure \ref{uml}, on représente le diagramme UML simplifié (sans les at
 
 `Game1` est la classe principale du projet : la fonction `Update` et la fonction `Draw` de `Game1` sont appelées 60 fois par seconde. 
 
+Les classes représentant les états du jeu sont statiques car on a besoin que d'une instance unique de chaque état.
+
+L'attribut `state` (voir figure \ref{uml}) indique dans quel état le jeu est actuellement : il est initialisé à `State.Cutscene` pour que le jeu s'ouvre sur la cinématique d'introduction.
+
+Pour gérer l'affichage, on appelle la fonction `Draw` de l'état correspondant à la valeur de l'attribut `state` dans la fonction `Draw` de `Game1`. De même, pour gérer les mises à jour des autres composants du jeu comme les contrôles, on appelle la fonction `Update` de l'état correspondant dans la fonction `Update` de `Game1`. La fonction `Update` d'un état renvoie une variable de type `State`: c'est de cette manière que le jeu passe d'un état à un autre.
+
+## Mécaniques implémentées
+
+### `Tilemap`: affichage de l'environnement
+
+La réalisation d'un jeu de plates-formes nécessite un outil de création de niveaux. Nous avons utilisé le logiciel `Tiled`, un éditeur de cartes open source très populaire. Il est simple d'utilisation et permet d'exporter les cartes en `.json`, un format simple à lire ensuite.
+
+![Éditeur de cartes Tiled.\label{tiled}](soutenance/assets/tiledSon.png)
+
+Cet outil est central car il permet de relier plusieurs pans du jeu. Dans notre répertoire `git`, les cartes se trouvent dans `mono/Content/maps`.
+
+#### Level Design
+
+La première utilisation de Tiled est de faire le "mapping", c'est à dire placer les graphismes du jeu découpés en carreaux ("tiles") au bons endroits. Pour cela, chaque carte a 5 couches de tiles : `terrain` correspond aux blocs solides, `decorF` correspond au décor qui sera devant le joueur, et `decorB1` à `decorB3` correspondent à trois couches de décors derrière le joueur. Avoir plus de calques de décorations permet d'offrir plus de flexibilité aux graphistes pour jouer sur la profondeur.
+
+Au niveau du code, on récupère les données de la carte correspondant aux tiles dans un tableau où les ID des tiles sont lus de gauche à droite en partant du tile en haut à gauche.
+
+Les cartes comportent également un calque d'objets qui peuvent être de plusieurs natures.
+
+#### `starting`
+
+L'objet de type `starting` indique les coordonnées où le joueur apparait sur la carte.
+
+#### Sources
+
+Les objets de type `source` permettent de placer une source sonore invisible. On peut voir sur la figure \ref{tiled} les propriétés associées à ces objets : `id` indique la piste sonore de la source, `radius` indique le rayon au-delà duquel on n'entendra plus la source, et `volume` indique (de 0 à 100) le volume de la source au centre. Dans le code, on crée un objet `Source` pour chaque source. Dans la fonction `Update` de `Main`, on appelle la fonction `UpdateSources` de la `Tilemap` pour mettre à jour le volume des sources selon la position du joueur sur la carte. Ce système est intéressant car il permet de superposer plusieurs sources ainsi que de jouer sur le volume.
+
+#### Interactions
+
+Les objets de type `text` permettent de créer une interaction : si le joueur appuie sur `E` à proximité d'un tel objet, une boîte de dialogue s'affichera. La propriété `content` permet de mettre en page ce dialogue en indiquant entre crochets le nom du personnage qui parle, et en utilisant `\n` pour faire un retour à la ligne. Sur la figure \ref{text}, on montre le résultat de l'interaction associée au code suivant :
+
+`[Sarah]La plupart sont en piteux état.\nJe n'arrive qu'à lire les gros titres.`
+
+![Exemple de boîte de dialogue.\label{text}](soutenance/assets/text.png)
+
+L'intérêt de ce code est de pouvoir être utilisable facilement par les artistes, et dans le code on récupère les différentes parties grâce à une expression régulière : `(\[([a-zA-Z? 0-9]*)\]([^\[]*))`.
+
+### `Cutscene`: les cinématiques
+
+<!-- NICO -->
+
+![Cinématique d'introduction\label{cutscene}](soutenance/assets/cutscene.png)
+
+
 # Conclusion
 
 Travailler sur ce projet aura été très enrichissant, car cela nous a permis de nous ouvrir à de nouveaux fonctionnements que celui très cadré des ingénieurs. Travailler dans une équipe avec des profils variés a été indispensable pour arriver à un résultat unique.
@@ -157,3 +204,11 @@ Ce projet montre bien l'aspect "conception" car nous avons conçu l'architecture
 Le travail en groupe a permis d'avoir un projet complet comportant des graphismes et des sons, mais nous a parfois ralenti dans notre travail : nous avons préféré attendre de recevoir les graphismes liés à une fonctionnalité avant de l'ajouter en jeu, ce qui nous a fait fortement dépendre du travail graphique.
 
 # Annexes
+
+![Concept art d'ennemis](soutenance/assets/02.png){ width=70% }
+
+![Concept de la taille des différents éléments](soutenance/assets/002MAX.png)
+
+![Image de la cinématique d'introduction](mono/Content/Graphics/start.png)
+
+![Tileset du jeu](mono/Content/Graphics/tileset.png)

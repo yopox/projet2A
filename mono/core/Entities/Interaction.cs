@@ -37,7 +37,6 @@ namespace mono.core
             // Construction de la liste
             for (int i = 0; i < results.Length; i++)
             {
-                Console.WriteLine(results[i]);
                 if (i % 4 == 0 && results.Length > i + 3)
                 {
                     text.Add(new Tuple<string, string>(results[i + 2], results[i + 3]));

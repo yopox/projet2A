@@ -18,7 +18,7 @@ header-includes:
     - \usepackage{enumerate}
     - \usepackage[utf8]{inputenc}
     - \fancyhead[L]{\leftmark}
-    - \fancyhead[R]{Projet long}
+    - \fancyhead[R]{Projet long — Synthèse}
     - \makeatletter
     - \renewcommand{\@chapapp}{Partie}
     - \makeatother
@@ -86,8 +86,6 @@ Nous avons rédigé un tutoriel sur Discord pour que les artistes puissent insta
 
 ### Mise en place
 
-Le cahier des charges du projet a été établi en plusieurs étapes puis redéfini au cours du projet.
-
 Lors du démarrage du projet, nous avons fait valider un cahier des charges assez général dans le descriptif du projet en septembre 2018 :
 
 \begin{enumerate}[i]
@@ -116,6 +114,30 @@ Nous nous sommes rendus compte plus tard que ce cahier des charges était trop a
 
 ### Respect du cahier des charges
 
+La mise en place d'un cahier des charges revu en Mars a permis de booster l'avancée du projet car nous avons pu nous concentrer sur un objectif accessible : implémenter le début du jeu (cinématique d'introduction et environnement de départ). 
+
+!["La protagoniste est maintenant à la surface. [...] Elle porte une combinaison de plongeur et un casque de scaphandrier."](soutenance/assets/depart.png)
+
+Au cours du projet, nous avons implémenté les mécaniques suivantes:
+
+- Importation et affichage d'une carte au format `JSON`
+- Création d'un moteur physique (gravité, déplacements, collisions)
+- Gestion de la caméra (suit le joueur lorsqu'il quitte une "boîte" située au centre)
+- Gestion du zoom et de la résolution du jeu
+- Effet "parallaxe" sur le fond pour donner une impression de profondeur (le fond se déplace moins vite que la caméra)
+- Importation et lecture de cinématiques
+- Lecture de sons (une piste continue en fond et des sources ponctuelles qui peuvent s'ajouter)
+- Interactions avec l'environnement avec une boîte de dialogue
+- Menu pause
+- Gestion des animations
+- Gestions d'acteurs (comme le personnage) ayant une hitbox, des animations, et plusieurs états
+
+Cependant, comme il manque des ressources graphiques (comme les graphismes de l'antagoniste par exemple), ainsi que du mappinng, le jeu n'est pas fini. Pour autant, le projet est une réussite car chaque membre de l'équipe a vu comment son travail s'inscrit avec celui des autres. Comme le jeu est jouable, la collaboration entre les deux écoles est bien concrétisée. Par ailleurs, il faut garder à l'esprit que ce projet n'était pas valorisable pour tous les étudiants de l'ÉSAL dans leur cursus: il est normal que tout le monde n'ait pas pu travailler dessus en tant que projet de premier plan.
+
+Les outils de travail étant mis en place, nous pourrons continuer d'alimenter en contenu le jeu lorsque de nouvelles ressources seront disponibles. Audrey a prouvé que travailler sur ce projet était utile car elle a décroché un emploi dans le secteur du jeu vidéo après avoir montré des graphismes en pixel art réalisés pour ce jeu ! Au cours de la dernière réunion nous avons envisagé de faire une page web simple pour mettre en valeur le jeu et pouvoir le partager ainsi que le télécharger: le projet continuera à vivre après le rendu pour Supélec.
+
+Dans la partie suivante, nous détaillerons le fonctionnement des mécaniques principales.
+
 # Programmation
 
 ## Principe général
@@ -124,7 +146,7 @@ Nous nous sommes rendus compte plus tard que ce cahier des charges était trop a
 
 Nous avons choisi de programmer en `C#` avec le framework `MonoGame`. Il s'agit d'un framework open source avec une communauté d'utilisateurs et de développeurs très active. Plusieurs jeux 2D récents ont été codés avec ce framework (entre autres Celeste, Stardew Valley, Axiom Verge, Flinthook, Towerfall Ascention), ce qui nous a conforté dans notre choix.
 
-De plus, nous avions envie d'apprendre un nouveau langage pour gagner de nouvelles compétences : le `C#` nous a alors paru un très bon choix étant donné qu'il s'agit d'un langage plutôt récent (2003) par rapport au `C++` (années 80) et au `Java` (années 90).
+De plus, nous avions envie d'apprendre un nouveau langage pour gagner de nouvelles compétences: le `C#` nous a alors paru un très bon choix étant donné qu'il s'agit d'un langage plutôt récent (2003) par rapport au `C++` (années 80) et au `Java` (années 90).
 
 Nous avons choisi d'utiliser un framework pour avoir des fonctions qui nous permettent de faire les tâches de base dans le code d'un jeu tel qu'afficher une image à l'écran ou jouer un son par exemple. Ainsi, on a plus de temps pour se concentrer sur les aspects intéressants du projet comme les collisions ou la gestion des sources sonores.
 
@@ -190,10 +212,15 @@ L'intérêt de ce code est de pouvoir être utilisable facilement par les artist
 
 ### `Cutscene`: les cinématiques
 
-<!-- NICO -->
+<!-- Expliquer le fonctionnement général -->
 
 ![Cinématique d'introduction\label{cutscene}](soutenance/assets/cutscene.png)
 
+### La physique
+
+<!-- Expliquer un peu la gravité et les déplacements -->
+<!-- Expliquer qu'il y a des collisions entre rectangles -->
+<!-- Expliquer qu'on a implémenté les collisions avec des triangles pour les pentes mais que les artistes ont dit finalement non... -->
 
 # Conclusion
 

@@ -49,11 +49,9 @@
     <Compile Include="core\PlayerControl.cs" />
     <Compile Include="core\RenderEngine\BackgroundImage.cs" />
     <Compile Include="core\States\Cutscene.cs" />
-    <Compile Include="core\States\Loading.cs" />
     <Compile Include="core\States\Main.cs" />
     <Compile Include="core\States\Pause.cs" />
     <Compile Include="core\States\SplashScreen.cs" />
-    <Compile Include="core\States\Title.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

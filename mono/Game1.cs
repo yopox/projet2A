@@ -42,7 +42,7 @@ namespace mono
 
             // Affichage
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(Util.Width, Util.Height);
+            Rendering.SetResolution(1500, Util.Height);
             Rendering.SetVirtualResolution(Util.VirtualWidth, Util.VirtualHeight);
         }
 

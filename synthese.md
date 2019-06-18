@@ -132,7 +132,7 @@ Au cours du projet, nous avons implémenté les mécaniques suivantes:
 - Gestion des animations
 - Gestions d'acteurs (comme le personnage) ayant une hitbox, des animations, et plusieurs états
 
-Cependant, comme il manque des ressources graphiques (comme les graphismes de l'antagoniste par exemple), ainsi que du mappinng, le jeu n'est pas fini. Pour autant, le projet est une réussite car chaque membre de l'équipe a vu comment son travail s'inscrit avec celui des autres. Comme le jeu est jouable, la collaboration entre les deux écoles est bien concrétisée. Par ailleurs, il faut garder à l'esprit que ce projet n'était pas valorisable pour tous les étudiants de l'ÉSAL dans leur cursus: il est normal que tout le monde n'ait pas pu travailler dessus en tant que projet de premier plan.
+Cependant, comme il manque des ressources graphiques (comme les graphismes de l'antagoniste par exemple), ainsi que du mapping, le jeu n'est pas fini. Pour autant, le projet est une réussite car chaque membre de l'équipe a vu comment son travail s'inscrit avec celui des autres. Comme le jeu est jouable, la collaboration entre les deux écoles est bien concrétisée. Par ailleurs, il faut garder à l'esprit que ce projet n'était pas valorisable pour tous les étudiants de l'ÉSAL dans leur cursus: il est normal que tout le monde n'ait pas pu travailler dessus en tant que projet de premier plan.
 
 Les outils de travail étant mis en place, nous pourrons continuer d'alimenter en contenu le jeu lorsque de nouvelles ressources seront disponibles. Audrey a prouvé que travailler sur ce projet était utile car elle a décroché un emploi dans le secteur du jeu vidéo après avoir montré des graphismes en pixel art réalisés pour ce jeu ! Au cours de la dernière réunion nous avons envisagé de faire une page web simple pour mettre en valeur le jeu et pouvoir le partager ainsi que le télécharger: le projet continuera à vivre après le rendu pour Supélec.
 
@@ -176,6 +176,16 @@ Pour gérer l'affichage, on appelle la fonction `Draw` de l'état correspondant 
 
 ## Mécaniques implémentées
 
+### Affichage du rendu du jeu
+
+Le rendu est effectué grâce à la classe `Rendering`.
+
+Tout le jeu est rendu en $1280\times720\text{px}$. La résolution s'adapte ensuite à l'écran de l'utilisateur, en comblant le manque par des bandes noires (figure \ref{bonRes} et \ref{badRes}). On effectue un zoom sur les différents sprites pour avoir la taille voulue.
+
+![Rendu dans une résolution adaptée.\label{bonRes}](soutenance/assets/renderingBonneRes.png)
+
+![Rendu dans une résolution non adaptée.\label{badRes}](soutenance/assets/renderingMauvaiseRes.png)
+
 ### `Tilemap`: affichage de l'environnement
 
 La réalisation d'un jeu de plates-formes nécessite un outil de création de niveaux. Nous avons utilisé le logiciel `Tiled`, un éditeur de cartes open source très populaire. Il est simple d'utilisation et permet d'exporter les cartes en `.json`, un format simple à lire ensuite.
@@ -200,27 +210,89 @@ L'objet de type `starting` indique les coordonnées où le joueur apparait sur l
 
 Les objets de type `source` permettent de placer une source sonore invisible. On peut voir sur la figure \ref{tiled} les propriétés associées à ces objets : `id` indique la piste sonore de la source, `radius` indique le rayon au-delà duquel on n'entendra plus la source, et `volume` indique (de 0 à 100) le volume de la source au centre. Dans le code, on crée un objet `Source` pour chaque source. Dans la fonction `Update` de `Main`, on appelle la fonction `UpdateSources` de la `Tilemap` pour mettre à jour le volume des sources selon la position du joueur sur la carte. Ce système est intéressant car il permet de superposer plusieurs sources ainsi que de jouer sur le volume.
 
-#### Interactions
+#### Interactions \label{interactions}
 
-Les objets de type `text` permettent de créer une interaction : si le joueur appuie sur `E` à proximité d'un tel objet, une boîte de dialogue s'affichera. La propriété `content` permet de mettre en page ce dialogue en indiquant entre crochets le nom du personnage qui parle, et en utilisant `\n` pour faire un retour à la ligne. Sur la figure \ref{text}, on montre le résultat de l'interaction associée au code suivant :
+Les objets de type `text` permettent de créer une interaction : si le joueur appuie sur `E` à proximité d'un tel objet, une boîte de dialogue s'affichera. La propriété `content` permet de mettre en page ce dialogue en indiquant entre crochets le nom du personnage qui parle, et en utilisant `\n` pour faire un retour à la ligne. Sur la figure \ref{tiledTextBox}, on montre l'implémentation dans Tiled.
 
 `[Sarah]La plupart sont en piteux état.\nJe n'arrive qu'à lire les gros titres.`
 
-![Exemple de boîte de dialogue.\label{text}](soutenance/assets/text.png)
+![Placement des dialogues\label{tiledTextBox}](soutenance/assets/tiledTextBox.png)
 
 L'intérêt de ce code est de pouvoir être utilisable facilement par les artistes, et dans le code on récupère les différentes parties grâce à une expression régulière : `(\[([a-zA-Z? 0-9]*)\]([^\[]*))`.
 
-### `Cutscene`: les cinématiques
+### Les états
 
-<!-- Expliquer le fonctionnement général -->
+Le jeu est découpé en plusieurs états :
+
+- `main`
+- `pause`
+- `cutscene`
+- `TextBox`
+
+Chaque état est appelé par l'état précédent et se gère de manière autonome, jusqu'à ce que son action soit terminée et qu'il appelle le prochain état.
+
+#### `Main` : état principal
+
+Il correspond à l'état principal du jeu. C'est notamment dans cet état que le joueur pour se déplacer dans le décors, intéragir avec les éléments.
+
+![Etat `main`\label{etatMain}](soutenance/assets/ingame.png)
+
+#### `Pause` : menu pause
+
+On met ici les déplacements du joueur et la physique du jeu en pause, tout en gardant l'affichage, et on place en avant plan deux boutons : "continuer" et "quitter". Nous avons aussi mis en place un filtre gris sur l'arrière plan pour bien signifier la pause, tout en faisant ressortir l'affichage des boutons (figure \ref{etatPause}).
+
+![Etat pause\label{etatPause}](soutenance/assets/etatPause.png) {width=85%}
+
+De plus, pendant toute la durée où le menu pause est ouvert, une musique dédiée est jouée. et lors de la reprise du jeu dans l'état `main`, la musique reprend là où elle s'était arrêtée.
+
+#### `Cutscene`: les cinématiques
+
+L'environnement `Cutscene` correspond à l'affichage d'une image de fond, d'un texte et de la gestion de la musique, que ce soit une musique d'ambiance ou des effets sonores pour créer un environnement de cinématique cohérent (figure \ref{cutscene}).
 
 ![Cinématique d'introduction\label{cutscene}](soutenance/assets/cutscene.png)
 
+Pour ce faire, on récupère dans un script les différentes ressources que l'on va gérer (figure \ref{scriptCutscene}).
+
+![Script d'une cutscene\label{scriptCutscene}](soutenance/assets/scriptCutscene.png){ width=70% }
+
+Tout d'abord on récupère chaque action à effectuer et on les place dans une pile d'actions (figure \ref{pile_cutscene}). Chaque action sera ensuite dépilée en fonction de la précédente, il peut par exemple y avoir des actions bloquantes telles que `wait`.
+
+![Remplissage de la pile\label{pile_cutscene}](soutenance/assets/pile_cutscene.png){ width=70% }
+
+Nous pouvons gérer comme actions :
+
+- `background`, qui affiche une image de fond préchargé au lancement du jeu
+- `text`, qui affiche le texte entre les balises et le centre, de plus, on peut controler la couleur de chaque ligne
+- `newpage`, qui efface le texte à l'écran
+- `wait`, qui interrompt le dépilement des actions pendant un nombre de frame donné
+- `sfx`, qui joue un son sans le faire boucler
+- `bgm`, qui joue un son d'ambiance en le faisant boucler
+- `state`, qui change l'état actuel du jeu
+
+On peut noter qu'à chaque changement d'image de fond, on opère un fondu au noir suivi d'un fondu au blanc pour améliorer la qualité de la transition. De plus, on applique un filtre noir sur cette image pour faire ressortir le texte.
+
+#### `TextBox` : les dialogues
+
+![Etat `TextBox`\label{textBox}](soutenance/assets/textBox.png)
+
+Cet état permet l'affichage de l'interaction du joueur avec le décor (figure \ref{textBox}). On utilise ici l'implémentation faite dans la partie \ref{interaction}. 
+
 ### La physique
 
-<!-- Expliquer un peu la gravité et les déplacements -->
-<!-- Expliquer qu'il y a des collisions entre rectangles -->
-<!-- Expliquer qu'on a implémenté les collisions avec des triangles pour les pentes mais que les artistes ont dit finalement non... -->
+La physique est simulée par l'applications de forces et du principe fondamental de la dynamique :
+$$m\vec{a} = \sum_{}^{} \vec{F}$$
+
+A partir de là on en déduit sa prochaine position et vitesse.
+
+Le moteur physique dispose une liste de tous les acteurs du jeu. Dans l'état d'avancement de notre jeu, il n'y a que le joueur, mais on peut imaginer des ennemis, et d'autres protagonistes étant soumis à ce moteur physique.
+
+De plus, chaque acteur peut collisioner avec des polygones, qui peuvent être ici des triangles et des rectangles (figure \ref{polygon}).
+
+![Différents polygones\label{polygon}](soutenance/assets/polygon.png)
+
+La résolution des collisions avec les polygones se fait en deux étapes. D'abord on vérifie que l'acteur rentre en collision avec un objet, et on récupère la liste d'objet avec lesquels il collisionne. Ensuite on va prendre un de ces polygones et calculer la position la plus probable sans collisions. On effectue ensuite récursivement la détection de nouvelles collisions avec les polygones, puis la résolution. Dans des situations normales de jeu, l'algorithme arrive toujours à trouver une position cohérente où le joueur n'entre pas en collision avec un élément.
+
+Cependant, bien que les collisions avec les triangles fonctionnent, les artistes ont décidé de ne pas utiliser cet élément de jeu.
 
 # Conclusion
 

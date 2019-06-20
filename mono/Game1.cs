@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Main;
+        State state = State.Cutscene;
         readonly AssetManager am;
 
         public Game1()
@@ -42,7 +42,7 @@ namespace mono
 
             // Affichage
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(1500, Util.Height);
+            Rendering.SetResolution(Util.Width, Util.Height);
             Rendering.SetVirtualResolution(Util.VirtualWidth, Util.VirtualHeight);
         }
 

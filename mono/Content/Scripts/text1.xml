@@ -1,3 +1,19 @@
+<text>
+[g]Comment jouer ?
+
+[w]Pendant les cinématiques :
+- ESPACE pour passer au texte suivant
+
+En jeu :
+- Q et D pour se déplacer
+- Z ou ESPACE pour sauter
+- E pour interagir avec l'environnement
+- TAB pour le menu pause
+
+
+Appuyez sur ESPACE !
+</text>
+<newpage>
 <bgm 1_intro_radio_premiers_signaux>
 <text>
 [w]Cela va faire quoi, Neuf ans ?

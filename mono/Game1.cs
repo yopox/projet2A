@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.SplashScreen;
+        State state = State.Cutscene;
         readonly AssetManager am;
 
         public Game1()

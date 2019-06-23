@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Main;
+        State state = State.SplashScreen;
         readonly AssetManager am;
 
         public Game1()
@@ -42,7 +42,7 @@ namespace mono
 
             // Affichage
             Rendering.Init(ref graphics);
-            Rendering.SetResolution(1500, Util.Height);
+            Rendering.SetResolution(Util.Width, Util.Height);
             Rendering.SetVirtualResolution(Util.VirtualWidth, Util.VirtualHeight);
         }
 
@@ -56,6 +56,7 @@ namespace mono
         {
             //On initialise la pause
             Pause.Initialize();
+            SplashScreen.Initialize();
 
             // Création du joueur
             player = new Player(new Vector2(64, 128));
@@ -160,7 +161,7 @@ namespace mono
             switch (state)
             {
                 case State.SplashScreen:
-                    SplashScreen.Draw();
+                    SplashScreen.Draw(spriteBatch, am);
                     break;
                 case State.Loading:
                     break;
@@ -186,7 +187,7 @@ namespace mono
                 Util.DrawFading(spriteBatch, GraphicsDevice);
 
             spriteBatch.End();
-            base.Draw(gameTime);
+            //base.Draw(gameTime);
         }
     }
 }

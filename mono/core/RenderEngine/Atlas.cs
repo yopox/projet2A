@@ -85,7 +85,6 @@ namespace mono.core
 
             return new Rectangle(Border + (Width + Padding) * column, Border + (Height + Padding) * row, Width, Height);
         }
-
     }
 }
 

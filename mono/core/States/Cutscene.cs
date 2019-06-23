@@ -67,7 +67,7 @@ namespace mono.core.States
                     break;
                 // Récupération du texte à afficher
                 case CutsceneActionType.Text:
-                    UpdateText();
+                    UpdateText(gstate);
                     break;
                 case CutsceneActionType.NewPage:
                     UpdatePage(gstate);
@@ -209,7 +209,7 @@ namespace mono.core.States
         /// <summary>
         /// Update le texte de la cinématique
         /// </summary>
-        private static void UpdateText()
+        private static void UpdateText(GameState gstate)
         {
             // Rajoute du texte à afficher si il y en a du nouveau
             if (newText)
@@ -225,6 +225,12 @@ namespace mono.core.States
             {
                 action = actions.Dequeue();
                 newText = true;
+            }
+
+            if (Util.JustPressed(gstate, Keys.A))
+            {
+                indString = text.Count - 1;
+                indCharacter = text[indString].Item2.Length - 1;
             }
         }
 

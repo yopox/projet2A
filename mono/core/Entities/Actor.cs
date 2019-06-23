@@ -15,7 +15,7 @@ namespace mono.core
         public AtlasName AtlasName; // Nom du spritesheet de l'acteur
         public PlayerState State { get; set; } = PlayerState.Idle;
 
-        internal Dictionary<PlayerState, Animation> animations { get; } = new Dictionary<PlayerState, Animation>();
+        internal Dictionary<PlayerState, PlayerAnimation> animations { get; } = new Dictionary<PlayerState, PlayerAnimation>();
 
         public Face Facing = Face.Right; // Direction à laquelle l'acteur fait face
         public Vector2 Size;
@@ -60,7 +60,7 @@ namespace mono.core
         /// <param name="isLooping">condition de répétition de l'animation</param>
         public void AddAnimation(PlayerState state, int[] frames,int duration, bool isLooping)
         {
-            animations.Add(state, new Animation(state, frames, duration, isLooping));
+            animations.Add(state, new PlayerAnimation(state, frames, duration, isLooping));
         }
 
         /// <summary>

@@ -31,7 +31,7 @@ Ce projet est né de notre volonté de collaborer avec des étudiants de l'Écol
 
 La notion d'art dans le cursus Supélec est inexistante (mis à part dans l'électif cité précédemment), c'est pourquoi cette collaboration fait sens pour permettre de faire un projet pluridisciplinaire et abouti en s'éloignant d'un projet long "DIY".
 
-Le jeu vidéo est une forme d'art qui mélange plusieurs disciplines : une partie visuelle avec des dessinateurs, une partie sonore avec des compositeurs, une partie narrative avec des écrivains, et une partie technique avec des programmeurs. Au cours de notre cursus nous avons été formé à la partie technique à travers les cours de génie logiciel et d'algorithmes. Les autres parties correspondent aux formations proposées par l'ÉSAL.
+Le jeu vidéo est une forme d'art qui mélange plusieurs disciplines : une partie visuelle avec des dessinateurs, une partie sonore avec des compositeurs, une partie narrative avec des écrivains, et une partie technique avec des programmeurs. Au cours de notre cursus nous avons été formés à la partie technique à travers les cours de génie logiciel et d'algorithmes. Les autres parties correspondent aux formations proposées par l'ÉSAL.
 
 En moins d'un mois nous avons pu créer une équipe : quatre étudiants de l'ÉSAL ont été intéressés par notre proposition. L'équipe finale se compose de :
 
@@ -224,9 +224,9 @@ L'intérêt de ce code est de pouvoir être utilisable facilement par les artist
 
 Le jeu est découpé en plusieurs états :
 
-- `main`
-- `pause`
-- `cutscene`
+- `Main`
+- `Pause`
+- `Cutscene`
 - `TextBox`
 
 Chaque état est appelé par l'état précédent et se gère de manière autonome, jusqu'à ce que son action soit terminée et qu'il appelle le prochain état.
@@ -241,7 +241,7 @@ Il correspond à l'état principal du jeu. C'est notamment dans cet état que le
 
 On met ici les déplacements du joueur et la physique du jeu en pause, tout en gardant l'affichage, et on place en avant plan deux boutons : "continuer" et "quitter". Nous avons aussi mis en place un filtre gris sur l'arrière plan pour bien signifier la pause, tout en faisant ressortir l'affichage des boutons (figure \ref{etatPause}).
 
-![Etat pause\label{etatPause}](soutenance/assets/etatPause.png) {width=85%}
+![Etat pause\label{etatPause}](soutenance/assets/etatPause.png){ width=85% }
 
 De plus, pendant toute la durée où le menu pause est ouvert, une musique dédiée est jouée. et lors de la reprise du jeu dans l'état `main`, la musique reprend là où elle s'était arrêtée.
 
@@ -275,7 +275,7 @@ On peut noter qu'à chaque changement d'image de fond, on opère un fondu au noi
 
 ![Etat `TextBox`\label{textBox}](soutenance/assets/textBox.png)
 
-Cet état permet l'affichage de l'interaction du joueur avec le décor (figure \ref{textBox}). On utilise ici l'implémentation faite dans la partie \ref{interaction}. 
+Cet état permet l'affichage de l'interaction du joueur avec le décor (figure \ref{textBox}). On utilise ici l'implémentation faite dans la partie \ref{interactions}. 
 
 ### La physique
 

@@ -383,9 +383,14 @@
          "name":"Parallax2",
          "type":"string",
          "value":"2;Parallax2"
+        }, 
+        {
+         "name":"bgm",
+         "type":"string",
+         "value":"3_REMINISCENCE_OBJET_done"
         }],
  "renderorder":"right-down",
- "tiledversion":"1.2.1",
+ "tiledversion":"1.2.3",
  "tileheight":32,
  "tilesets":[
         {

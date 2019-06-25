@@ -56,6 +56,7 @@ namespace mono.core
         readonly int height;
         public readonly int width;
         public List<ParallaxElement> ParallaxElements = new List<ParallaxElement>();
+        public readonly string song;
 
         readonly int xTileRange = Util.Width / Util.TileSize / 2 + 1;
         readonly int yTileRange = Util.Height / Util.TileSize / 2 + 2;
@@ -81,17 +82,27 @@ namespace mono.core
             height = map.height;
             width = map.width;
 
+            var i = 0;
             foreach (var element in map.properties)
             {
-                var matches = Regex.Split((string)element.value, regex);
-
-                ParallaxElement p = new ParallaxElement
+                if (i < 2)
                 {
-                    Factor = (float)Convert.ToDouble(matches[1]),
-                    Name = Util.ParseEnum<AtlasName>(matches[2])
-                };
+                    var matches = Regex.Split((string)element.value, regex);
+                    
+                    ParallaxElement p = new ParallaxElement
+                    {
+                        Factor = (float)Convert.ToDouble(matches[1]),
+                        Name = Util.ParseEnum<AtlasName>(matches[2])
+                    };
+                    
+                    ParallaxElements.Add(p);
+                }
+                else
+                {
+                    song = (string)element.value;
+                }
 
-                ParallaxElements.Add(p);
+                i++;
             }
 
             // Couches

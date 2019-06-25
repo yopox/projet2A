@@ -11,7 +11,10 @@ namespace mono.core.States
         public static State Update(Player player, GameTime gameTime, GameState gameState, bool block = false)
         {
             if (Util.NewState)
+            {
                 Util.NewState = !Util.FadeIn();
+                SoundManager.PlayBGM(gameState.map.song);
+            }
             else
             {
                 Physics.UpdateAll(gameTime);

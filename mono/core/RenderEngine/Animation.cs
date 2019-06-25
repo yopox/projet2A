@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using mono.RenderEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,7 +81,7 @@ namespace mono.core.RenderEngine
         public void Draw(SpriteBatch spriteBatch, Atlas atlas)
         {
             Rectangle sourceRectangle = atlas.GetSourceRectangle(Frames[currentFrame]);
-            spriteBatch.Draw(atlas.Texture, Vector2.Zero, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(atlas.Texture, Rendering.ZoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
         }
     }
 }

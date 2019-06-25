@@ -73,7 +73,7 @@ namespace mono.core.States
                     UpdatePage(gstate);
                     break;
                 case CutsceneActionType.Wait:
-                    UpdateWait();
+                    UpdateWait(gstate);
                     break;
                 case CutsceneActionType.Sfx:
                     var sound = SoundManager.Content.Load<SoundEffect>("Music/SoundEffects/" + action.Content);
@@ -312,11 +312,11 @@ namespace mono.core.States
         /// <summary>
         /// Mets en pause la cutscene
         /// </summary>
-        private static void UpdateWait()
+        private static void UpdateWait(GameState gstate)
         {
             // On attend le nombre de frame présent dans le wait
             deltaFrame += 1;
-            if (deltaFrame == Int32.Parse(action.Content))
+            if (deltaFrame == Int32.Parse(action.Content) || Util.JustPressed(gstate, Keys.A))
             {
                 deltaFrame = 0;
                 action = actions.Dequeue();

@@ -119,7 +119,7 @@ namespace mono
             switch (state)
             {
                 case State.SplashScreen:
-                    state = SplashScreen.Update(gameTime, GameState);
+                    state = SplashScreen.Update(player, gameTime, GameState);
                     break;
                 case State.Loading:
                     break;
@@ -129,7 +129,7 @@ namespace mono
                     state = Main.Update(player, gameTime, GameState);
                     break;
                 case State.Textbox:
-                    Main.Update(player, gameTime, GameState, true);
+                    Main.Update(player, gameTime, GameState);
                     state = Textbox.Update(GameState, GraphicsDevice);
                     break;
                 case State.Pause:

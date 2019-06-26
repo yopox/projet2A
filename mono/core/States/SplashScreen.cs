@@ -19,7 +19,7 @@ namespace mono.core.States
             animation = new Animation(new[] { 0, 1, 2}, 5, true);
         }
 
-        public static State Update(GameTime gameTime, GameState gameState)
+        public static State Update(Player player, GameTime gameTime, GameState gameState)
         {
             if (Util.NewState)
             {
@@ -36,7 +36,7 @@ namespace mono.core.States
                 {
                     Util.NewState = true;
                     SoundManager.PlayBGM(gameState.map.song);
-                    return State.Main;
+                    return Main.Update(player, gameTime, gameState);
                 }
             }
 

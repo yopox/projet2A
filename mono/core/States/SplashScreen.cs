@@ -19,8 +19,14 @@ namespace mono.core.States
             animation = new Animation(new[] { 0, 1, 2}, 5, true);
         }
 
-        public static State Update(GameTime gameTime)
+        public static State Update(GameTime gameTime, GameState gameState)
         {
+            if (Util.NewState)
+            {
+                Util.NewState = false;
+                SoundManager.PlayBGM("0_menuchargement_done");
+            }
+
             animation.UpdateFrame();
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (time > duration)

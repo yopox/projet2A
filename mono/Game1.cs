@@ -29,7 +29,7 @@ namespace mono
         SpriteBatch spriteBatch;
         Player player;
         GameState GameState;
-        State state = State.Cutscene;
+        State state = State.SplashScreen;
         readonly AssetManager am;
 
         public Game1()
@@ -68,7 +68,7 @@ namespace mono
             // Rendering
             Rendering.setZoom(1f);
 
-            SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
+            //SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
 
             base.Initialize();
         }
@@ -119,7 +119,7 @@ namespace mono
             switch (state)
             {
                 case State.SplashScreen:
-                    state = SplashScreen.Update(gameTime);
+                    state = SplashScreen.Update(gameTime, GameState);
                     break;
                 case State.Loading:
                     break;

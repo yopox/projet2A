@@ -103,7 +103,7 @@ namespace mono.core
         static private int maxFadingOpacity = 255;
         static public bool FadingOut = false;
         static public bool FadingIn = false;
-        static public bool NewState = false;
+        static public bool NewState = true;
 
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier

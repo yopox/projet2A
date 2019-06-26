@@ -49,7 +49,6 @@ namespace mono.core.States
 
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
-            Rendering.BeginDraw(spriteBatch);
             map.DrawParallax(spriteBatch, am);
             map.DrawLayer(spriteBatch, am, "decorB3");
             map.DrawLayer(spriteBatch, am, "decorB2");

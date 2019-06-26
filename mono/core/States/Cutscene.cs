@@ -100,8 +100,6 @@ namespace mono.core.States
         /// <param name="GraphicsDevice"></param>
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice)
         {
-            Rendering.BeginDraw(spriteBatch);
-
             // Dessin d'un fond noir
             spriteBatch.Draw(Util.GetTexture(GraphicsDevice, BackgroundTexture, Color.Black),
                 Vector2.Zero, Color.Black);

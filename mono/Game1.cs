@@ -115,6 +115,7 @@ namespace mono
 
             SoundManager.Update();
 
+            State oldState = state;
             switch (state)
             {
                 case State.SplashScreen:
@@ -157,7 +158,7 @@ namespace mono
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());
-
+            Rendering.BeginDraw(spriteBatch);
             switch (state)
             {
                 case State.SplashScreen:
@@ -187,7 +188,7 @@ namespace mono
                 Util.DrawFading(spriteBatch, GraphicsDevice);
 
             spriteBatch.End();
-            //base.Draw(gameTime);
+            base.Draw(gameTime);
         }
     }
 }

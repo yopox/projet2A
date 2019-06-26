@@ -11,6 +11,7 @@ namespace mono.core.States
         private static float time;
         private static Animation animation;
         private static AtlasName terrain;
+        private static int duration = 3;
 
         public static void Initialize()
         {
@@ -22,10 +23,16 @@ namespace mono.core.States
         {
             animation.UpdateFrame();
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (time > 5)
+            if (time > duration)
             {
-                return State.Main;
+                var over = Util.FadeOut();
+                if (over)
+                {
+                    Util.NewState = true;
+                    return State.Main;
+                }
             }
+
             return State.SplashScreen;
         }
 

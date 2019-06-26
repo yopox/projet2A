@@ -97,14 +97,6 @@ namespace mono.core
         static public SpriteFont Font;
         static public float scale = 4f;
 
-        // Fading et changement d'état
-        static public readonly int FadingSpeed = 4;
-        static private int fadingOpacity = 0;
-        static private int maxFadingOpacity = 255;
-        static public bool FadingOut = false;
-        static public bool FadingIn = false;
-        static public bool NewState = true;
-
         /// <summary>
         /// Convertit un vecteur 2 de float en vecteur 2 d'entier
         /// </summary>
@@ -326,88 +318,6 @@ namespace mono.core
                     (int)(Rendering.VirtualHeight / Rendering.ZoomFactor));
             }
             return texture;
-        }
-
-        /// <summary>
-        /// Fondu au blanc général sur toute l'image affichée
-        /// </summary>
-        /// <returns></returns>
-        public static bool FadeOut()
-        {
-            if (!FadingOut)
-            {
-                FadingOut = true;
-                fadingOpacity = 0;
-            }
-
-            if (fadingOpacity >= maxFadingOpacity)
-            {
-                FadingOut = false;
-            }
-            return !FadingOut;
-        }
-
-        /// <summary>
-        /// Fondu au noir général sur toute l'image affichée
-        /// </summary>
-        /// <returns></returns>
-        public static bool FadeIn()
-        {
-            if (!FadingIn)
-            {
-                FadingIn = true;
-                fadingOpacity = maxFadingOpacity;
-            }
-
-            if (fadingOpacity <= 0)
-            {
-                FadingIn = false;
-            }
-            return !FadingIn;
-        }
-        
-        /// <summary>
-        /// Fondu au noir sans passer par la variable globale fadingIn
-        /// </summary>
-        /// <param name="localFading">booléen de l'état du fade in local</param>
-        public static void FadeIn(ref bool localFading)
-        {
-            if (!localFading)
-            {
-                localFading = true;
-                fadingOpacity = maxFadingOpacity;
-            }
-
-            if (fadingOpacity <= 0)
-            {
-                localFading = false;
-            }
-        }
-
-        /// <summary>
-        /// Affichage du fondu au noir
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-        /// <param name="GraphicsDevice"></param>
-        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice)
-        {
-            if (FadingIn)
-            {
-                DrawFading(spriteBatch, GraphicsDevice, -1 * FadingSpeed);
-            }
-            else
-            {
-                DrawFading(spriteBatch, GraphicsDevice, FadingSpeed);
-            }
-        }
-
-        public static void DrawFading(SpriteBatch spriteBatch, GraphicsDevice GraphicsDevice, int fadingSpeed)
-        {
-            spriteBatch.Draw(Util.GetRectangleTexture(GraphicsDevice, new Color(0, 0, 0, fadingOpacity), Rendering.VirtualWidth, Rendering.VirtualHeight),
-                Vector2.Zero,
-                Color.Black);
-
-            fadingOpacity += fadingSpeed;
         }
 
         public static bool JustPressed(GameState gameState, Keys key)

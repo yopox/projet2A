@@ -6,6 +6,8 @@ using mono.PhysicsEngine;
 using mono.RenderEngine;
 using mono.core.States;
 using mono.core.Definitions;
+using System;
+using mono.core.RenderEngine;
 
 namespace mono
 {
@@ -54,6 +56,8 @@ namespace mono
         /// </summary>
         protected override void Initialize()
         {
+            FadeObjectInOut.StartFadeIn();
+            SoundManager.PlayBGM("0_menuchargement_done");
             //On initialise la pause
             Pause.Initialize();
             SplashScreen.Initialize();
@@ -113,9 +117,9 @@ namespace mono
             GameState.ksn = Keyboard.GetState();
             GameState.gsn = GamePad.GetState(PlayerIndex.One);
 
+            FadeObjectInOut.UpdateFadeObject();
             SoundManager.Update();
 
-            State oldState = state;
             switch (state)
             {
                 case State.SplashScreen:
@@ -143,6 +147,7 @@ namespace mono
                     break;
             }
 
+
             base.Update(gameTime);
 
             GameState.kso = GameState.ksn;
@@ -159,6 +164,7 @@ namespace mono
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, Rendering.GetScaleMatrix());
             Rendering.BeginDraw(spriteBatch);
+
             switch (state)
             {
                 case State.SplashScreen:
@@ -184,8 +190,7 @@ namespace mono
                     break;
             }
 
-            if (Util.FadingOut || Util.FadingIn)
-                Util.DrawFading(spriteBatch, GraphicsDevice);
+            FadeObjectInOut.DrawFading(spriteBatch, GraphicsDevice);
 
             spriteBatch.End();
             base.Draw(gameTime);

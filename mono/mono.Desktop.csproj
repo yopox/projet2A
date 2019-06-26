@@ -49,6 +49,7 @@
     <Compile Include="core\PlayerControl.cs" />
     <Compile Include="core\RenderEngine\Animation.cs" />
     <Compile Include="core\RenderEngine\BackgroundImage.cs" />
+    <Compile Include="core\RenderEngine\FadeObjectInOut.cs" />
     <Compile Include="core\States\Cutscene.cs" />
     <Compile Include="core\States\Main.cs" />
     <Compile Include="core\States\Pause.cs" />

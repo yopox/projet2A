@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using mono.core.Definitions;
+using mono.core.RenderEngine;
 using mono.RenderEngine;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace mono.core.States
         static private int frameRefresh = 2; // Vitesse d'affichage des lettres en frame
         static private bool calculusSize = false; // état de finition du calcul de taille du texte
         static private bool newText = true; // nouveau texte à afficher
+
+        static private bool leaving = false;
 
         // Temps d'attente pour le wait
         static private int deltaFrame = 0;
@@ -55,14 +58,14 @@ namespace mono.core.States
         {
             // On update le fondu au blanc local si on a une nouvelle image
             if (bgImageFading)
-                Util.FadeIn(ref bgImageFading);
+                FadeObjectInOut.FadeIn(ref bgImageFading);
 
             switch (action.Type)
             {
                 // Récupération de l'image de fond
                 case CutsceneActionType.Background:
                     BGImage = Util.ParseEnum<AtlasName>(action.Content);
-                    Util.FadeIn(ref bgImageFading);
+                    FadeObjectInOut.FadeIn(ref bgImageFading);
                     action = actions.Dequeue();
                     break;
                 // Récupération du texte à afficher
@@ -116,7 +119,7 @@ namespace mono.core.States
 
             // On fait un fondu au noir si une nouvelle image est affichée
             if (bgImageFading)
-                Util.DrawFading(spriteBatch, GraphicsDevice, -1 * Util.FadingSpeed);
+                FadeObjectInOut.DrawFading(spriteBatch, GraphicsDevice, -1 * FadeObjectInOut.FadingSpeed);
 
             // On affiche un texte si il y en a
             if (text != null && text.Count != 0)
@@ -201,7 +204,9 @@ namespace mono.core.States
             newText = true;
             size = Vector2.Zero;
 
-            Util.FadeIn();
+            leaving = false;
+
+            FadeObjectInOut.StartFadeIn();
         }
 
         /// <summary>
@@ -295,12 +300,16 @@ namespace mono.core.States
         private static State UpdateState()
         {
             // On lance le fading
-            bool over = Util.FadeOut();
+            if (!leaving)
+            {
+                leaving = true;
+                FadeObjectInOut.StartFadeOut();
+            }
+
             // Lorsque le fading est fini, on change d'état
-            if (over)
+            if (FadeObjectInOut.IsFadingOver())
             {
                 Reset();
-                Util.NewState = true;
                 return Util.ParseEnum<State>(action.Content);
             }
 

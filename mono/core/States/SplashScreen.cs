@@ -12,6 +12,7 @@ namespace mono.core.States
         private static Animation animation;
         private static AtlasName terrain;
         private static int duration = 3;
+        private static bool leaving = false;
 
         public static void Initialize()
         {
@@ -21,22 +22,22 @@ namespace mono.core.States
 
         public static State Update(Player player, GameTime gameTime, GameState gameState)
         {
-            if (Util.NewState)
-            {
-                Util.NewState = false;
-                SoundManager.PlayBGM("0_menuchargement_done");
-            }
-
             animation.UpdateFrame();
             time += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (time > duration)
             {
-                var over = Util.FadeOut();
-                if (over)
+                if (!leaving)
                 {
-                    Util.NewState = true;
-                    SoundManager.PlayBGM(gameState.map.song);
-                    return Main.Update(player, gameTime, gameState);
+                    leaving = true;
+                    FadeObjectInOut.StartFadeOut();
+                }
+
+                if (FadeObjectInOut.IsFadingOver())
+                {
+                    leaving = false;
+                    FadeObjectInOut.StartFadeIn();
+                    return Cutscene.Update(gameState, gameTime);
                 }
             }
 

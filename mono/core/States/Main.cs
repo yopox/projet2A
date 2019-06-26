@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using mono.core.RenderEngine;
 using mono.PhysicsEngine;
 using mono.RenderEngine;
 
@@ -10,16 +11,12 @@ namespace mono.core.States
     {
         public static State Update(Player player, GameTime gameTime, GameState gameState, bool block = false)
         {
-            if (Util.NewState)
-            {
-                Util.NewState = !Util.FadeIn();
-                SoundManager.PlayBGM(gameState.map.song);
-            }
-            else
+            if (FadeObjectInOut.IsFadingOver())
             {
                 Physics.UpdateAll(gameTime);
                 player.Update(gameState, gameTime, block);
             }
+
             Camera.Update(player, gameState.map.width * Util.TileSize);
             gameState.map.UpdateSources(player.Position);
 
@@ -44,6 +41,7 @@ namespace mono.core.States
                     return State.Textbox;
                 }
             }
+
             return State.Main;
         }
 

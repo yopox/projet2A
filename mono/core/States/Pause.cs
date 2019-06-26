@@ -32,23 +32,23 @@ namespace mono.core.States
         public static State Update(GameState GameState)
         {
             State newState;
-            if (GameState.ksn.IsKeyDown(Keys.Tab) && GameState.kso.IsKeyUp(Keys.Tab))
+            if (Util.JustPressed(GameState, Keys.Tab))
             {
                 // Retour à la state main
                 SoundManager.PlayBGM("3_REMINISCENCE_OBJET_done");
                 newState = State.Main;
             }
-            else if (GameState.ksn.IsKeyDown(Keys.S) && GameState.kso.IsKeyUp(Keys.S))
+            else if (Util.JustPressed(GameState, Keys.S))
             {
                 activatedButton = (activatedButton + 1) % listButton.NumberButton;
                 newState = State.Pause;
             }
-            else if (GameState.ksn.IsKeyDown(Keys.Z) && GameState.kso.IsKeyUp(Keys.Z))
+            else if (Util.JustPressed(GameState, Keys.Z))
             {
                 activatedButton = Util.Mod(activatedButton - 1, listButton.NumberButton);
                 newState = State.Pause;
             }
-            else if (GameState.ksn.IsKeyDown(Keys.Enter) && GameState.kso.IsKeyUp(Keys.Enter))
+            else if (Util.JustPressed(GameState, Keys.Enter))
             {
                 newState = listButton.Buttons[activatedButton].Action();
             }
@@ -61,7 +61,6 @@ namespace mono.core.States
 
         public static void Draw(SpriteBatch spriteBatch, AssetManager am, GraphicsDevice GraphicsDevice, Player player, Tilemap map)
         {
-            Rendering.BeginDraw(spriteBatch);
             map.DrawParallax(spriteBatch, am);
             map.DrawLayer(spriteBatch, am, "decorB3");
             map.DrawLayer(spriteBatch, am, "decorB2");

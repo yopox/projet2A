@@ -35,6 +35,7 @@ namespace mono.core.States
                 if (over)
                 {
                     Util.NewState = true;
+                    SoundManager.PlayBGM(gameState.map.song);
                     return State.Main;
                 }
             }

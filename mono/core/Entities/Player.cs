@@ -12,13 +12,13 @@ namespace mono.core
         public PlayerState NewState;
         public Face NewFacing = Face.Right;
 
-        public Player(Vector2 size) : base(AtlasName.Player, Vector2.Zero, size)
+        public Player(Vector2 size, AssetManager am) : base(AtlasName.Player, Vector2.Zero, size)
         {
             Facing = Face.Right;
-            AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, 12, true);
-            AddAnimation(PlayerState.Walking, new[] { 5, 6, 7, 8, 9, 10, 11 }, 8, true);
-            AddAnimation(PlayerState.Jumping, new[] { 12, 13, 14, 15 }, 2, false);
-            AddAnimation(PlayerState.Landing, new[] { 16, 17, 18 }, 3, false);
+            AddAnimation(PlayerState.Idle, new[] { 0, 1, 2, 3, 4 }, am.GetAtlas(AtlasName), 12, true);
+            AddAnimation(PlayerState.Walking, new[] { 5, 6, 7, 8, 9, 10, 11 }, am.GetAtlas(AtlasName), 8, true);
+            AddAnimation(PlayerState.Jumping, new[] { 12, 13, 14, 15 }, am.GetAtlas(AtlasName), 2, false);
+            AddAnimation(PlayerState.Landing, new[] { 16, 17, 18 }, am.GetAtlas(AtlasName), 3, false);
 
         }
 

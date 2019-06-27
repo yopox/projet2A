@@ -13,11 +13,12 @@ namespace mono.core
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="atlas">Atlas de l'animation</param>
         /// <param name="state">Etat de l'acteur</param>
         /// <param name="frames">Frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
         /// <param name="duration">durée de l'affichage des animations en frame</param>
-        public PlayerAnimation(PlayerState state, int[] frames, int duration, bool isLooping) : base(frames, duration, isLooping)
+        public PlayerAnimation(PlayerState state, int[] frames, Atlas atlas, int duration, bool isLooping) : base(frames, atlas, duration, isLooping)
         {
             State = state;
         }
@@ -30,7 +31,7 @@ namespace mono.core
         /// <param name=""
         /// <param name="position">position de l'acteur</param>
         /// <param name="facing">Direction dans laquelle regarde l'acteur</param>
-        public void Draw(SpriteBatch spriteBatch, Atlas atlas, Vector2 position, Face facing)
+        public void Draw(SpriteBatch spriteBatch, Vector2 position, Face facing)
         {
             Rectangle sourceRectangle = atlas.GetSourceRectangle(Frames[currentFrame]);
 

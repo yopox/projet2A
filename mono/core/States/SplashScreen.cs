@@ -14,10 +14,10 @@ namespace mono.core.States
         private static int duration = 3;
         private static bool leaving = false;
 
-        public static void Initialize()
+        public static void Initialize(AssetManager am)
         {
             terrain = Util.ParseEnum<AtlasName>("SplashScreen");
-            animation = new Animation(new[] { 0, 1, 2}, 5, true);
+            animation = new Animation(new[] { 0, 1, 2}, am.GetAtlas(terrain), 5, true);
         }
 
         public static State Update(Player player, GameTime gameTime, GameState gameState)
@@ -46,7 +46,7 @@ namespace mono.core.States
 
         public static void Draw(SpriteBatch spritebatch, AssetManager am)
         {
-            animation.Draw(spritebatch, am.GetAtlas(terrain));
+            animation.Draw(spritebatch);
         }
     }
 }

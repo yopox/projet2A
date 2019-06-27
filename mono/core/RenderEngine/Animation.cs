@@ -17,14 +17,16 @@ namespace mono.core.RenderEngine
         protected readonly int FrameDuration;
         protected int currentDuration;
         public bool IsOver = false;
+        protected Atlas atlas;
 
-        public Animation(int[] frames, int duration, bool isLooping)
+        public Animation(int[] frames, Atlas atlas, int duration, bool isLooping)
         {
             Frames = frames;
             IsLooping = isLooping;
             FrameDuration = duration;
             currentFrame = 0;
             currentDuration = 0;
+            this.atlas = atlas;
         }
 
         /// <summary>
@@ -78,7 +80,7 @@ namespace mono.core.RenderEngine
                 return IsOver;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Atlas atlas)
+        public void Draw(SpriteBatch spriteBatch)
         {
             Rectangle sourceRectangle = atlas.GetSourceRectangle(Frames[currentFrame]);
             spriteBatch.Draw(atlas.Texture, Rendering.ZoomOffset, sourceRectangle, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);

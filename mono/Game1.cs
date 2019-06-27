@@ -60,10 +60,10 @@ namespace mono
             SoundManager.PlayBGM("0_menuchargement_done");
             //On initialise la pause
             Pause.Initialize();
-            SplashScreen.Initialize();
+            SplashScreen.Initialize(am);
 
             // Création du joueur
-            player = new Player(new Vector2(64, 128));
+            player = new Player(new Vector2(64, 128), am);
 
             // Gravité
             Physics.Gravity = Util.Gravity;

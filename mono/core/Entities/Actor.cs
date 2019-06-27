@@ -58,9 +58,9 @@ namespace mono.core
         /// <param name="state">Etat de l'animation</param>
         /// <param name="frames">Nombre de frames de l'animation</param>
         /// <param name="isLooping">condition de répétition de l'animation</param>
-        public void AddAnimation(PlayerState state, int[] frames,int duration, bool isLooping)
+        public void AddAnimation(PlayerState state, int[] frames, Atlas atlas, int duration, bool isLooping)
         {
-            animations.Add(state, new PlayerAnimation(state, frames, duration, isLooping));
+            animations.Add(state, new PlayerAnimation(state, frames, atlas, duration, isLooping));
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace mono.core
         public void Draw(SpriteBatch spriteBatch, AssetManager am)
         {
             var displayPos = Camera.GetScreenPosition(Position);
-            animations[State].Draw(spriteBatch, am.GetAtlas(AtlasName), displayPos, Facing);
+            animations[State].Draw(spriteBatch, displayPos, Facing);
         }
 
         public Rect GetHitbox()

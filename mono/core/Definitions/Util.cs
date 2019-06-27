@@ -46,7 +46,8 @@ namespace mono.core
         Wait,
         Sfx,
         Bgm,
-        State
+        State,
+        Anim
     }
 
     public struct CutsceneAction
@@ -240,7 +241,6 @@ namespace mono.core
                     pos++;
                 }
 
-
                 else if (script[pos].Contains("bgm"))
                 {
                     string regex = "<bgm ([a-zA-Z_0-9]*)>";
@@ -254,6 +254,14 @@ namespace mono.core
                     string regex = "<state ([a-zA-Z]*)>";
                     var matches = Regex.Split(script[pos], regex);
                     queue.Enqueue(new CutsceneAction(CutsceneActionType.State, matches[1]));
+                    pos++;
+                }
+
+                else if (script[pos].Contains("anim"))
+                {
+                    string regex = "<anim ([a-zA-Z]*)>";
+                    var matches = Regex.Split(script[pos], regex);
+                    queue.Enqueue(new CutsceneAction(CutsceneActionType.Anim, matches[1]));
                     pos++;
                 }
             }
